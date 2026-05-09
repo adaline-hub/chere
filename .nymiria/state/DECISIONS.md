@@ -15,3 +15,13 @@
 - Step crossfades take 350ms (gentle, n
 
 ---
+## 2026-05-09 — flow (9/10/11 steps).
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** Committed 5 files / Pushed. Zero TypeScript errors.
+
+**What's working:**
+
+Full wizard flow is wired: tribute (type → relationship → interview → photos → format), gift_reveal (type → relationship → gift → photos → clues → format), combined (all 7 steps). Back button navigates correctly through each p
+
+---
