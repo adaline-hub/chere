@@ -3,33 +3,40 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
 import type { WizardStep } from "@/stores/creation-store";
+import type { CreationType } from "@/lib/supabase/types";
 import TypeSelector from "@/components/creation/TypeSelector";
 import RelationshipPicker from "@/components/creation/RelationshipPicker";
 import InterviewFlow from "@/components/creation/InterviewFlow";
+import PhotoUploader from "@/components/creation/PhotoUploader";
+import GiftDescriber from "@/components/creation/GiftDescriber";
+import ClueBuilder from "@/components/creation/ClueBuilder";
+import FormatPicker from "@/components/creation/FormatPicker";
 
-const STEP_ORDER: WizardStep[] = [
-  "type", "relationship", "interview", "gift", "photos",
-  "clues", "format", "customize", "preview", "payment", "deliver",
-];
+// ─── Flow Logic ──────────────────────────────────────────
 
-const PREV_STEP: Partial<Record<WizardStep, WizardStep>> = {
-  relationship: "type",
-  interview: "relationship",
-  gift: "interview",
-  photos: "interview",
-  clues: "photos",
-  format: "clues",
-  customize: "format",
-  preview: "customize",
-  payment: "preview",
-};
+function getStepFlow(creationType: CreationType | null): WizardStep[] {
+  const base: WizardStep[] = ["type", "relationship"];
+  const tail: WizardStep[] = ["customize", "preview", "payment", "deliver"];
+
+  if (creationType === "gift_reveal") {
+    return [...base, "gift", "photos", "clues", "format", ...tail];
+  }
+  if (creationType === "combined") {
+    return [...base, "interview", "gift", "photos", "clues", "format", ...tail];
+  }
+  // tribute or null (default to tribute path)
+  return [...base, "interview", "photos", "format", ...tail];
+}
+
+// ─── Page ────────────────────────────────────────────────
 
 export default function CreatePage() {
-  const { currentStep, setStep } = useCreationStore();
+  const { currentStep, setStep, creationType } = useCreationStore();
 
-  const stepIndex = STEP_ORDER.indexOf(currentStep);
-  const progress = ((stepIndex + 1) / STEP_ORDER.length) * 100;
-  const prevStep = PREV_STEP[currentStep];
+  const flow = getStepFlow(creationType);
+  const stepIndex = flow.indexOf(currentStep);
+  const progress = ((stepIndex + 1) / flow.length) * 100;
+  const prevStep = stepIndex > 0 ? flow[stepIndex - 1] : undefined;
 
   function renderStep() {
     switch (currentStep) {
@@ -39,6 +46,14 @@ export default function CreatePage() {
         return <RelationshipPicker />;
       case "interview":
         return <InterviewFlow />;
+      case "gift":
+        return <GiftDescriber />;
+      case "photos":
+        return <PhotoUploader />;
+      case "clues":
+        return <ClueBuilder />;
+      case "format":
+        return <FormatPicker />;
       default:
         return (
           <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
@@ -60,7 +75,7 @@ export default function CreatePage() {
           className="h-full"
           style={{ backgroundColor: "var(--color-muted-gold)" }}
           initial={false}
-          animate={{ width: `${progress}%` }}
+          animate={{ width: `${Math.max(0, progress)}%` }}
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
         />
       </div>
