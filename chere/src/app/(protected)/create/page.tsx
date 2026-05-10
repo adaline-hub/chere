@@ -11,6 +11,10 @@ import PhotoUploader from "@/components/creation/PhotoUploader";
 import GiftDescriber from "@/components/creation/GiftDescriber";
 import ClueBuilder from "@/components/creation/ClueBuilder";
 import FormatPicker from "@/components/creation/FormatPicker";
+import CustomizeStep from "@/components/creation/CustomizeStep";
+import PreviewStep from "@/components/creation/PreviewStep";
+import PaymentStep from "@/components/creation/PaymentStep";
+import DeliveryStep from "@/components/creation/DeliveryStep";
 
 // ─── Flow Logic ──────────────────────────────────────────
 
@@ -54,6 +58,14 @@ export default function CreatePage() {
         return <ClueBuilder />;
       case "format":
         return <FormatPicker />;
+      case "customize":
+        return <CustomizeStep />;
+      case "preview":
+        return <PreviewStep />;
+      case "payment":
+        return <PaymentStep />;
+      case "deliver":
+        return <DeliveryStep />;
       default:
         return (
           <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
