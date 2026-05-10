@@ -8,8 +8,23 @@ import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
 import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 
-export default function TributeExperience({ creation }: { creation: TributeCreation }) {
+export default function TributeExperience({
+  creation,
+  creationId,
+}: {
+  creation: TributeCreation;
+  creationId: string;
+}) {
   const [opened, setOpened] = useState(false);
+
+  function handleOpen() {
+    setOpened(true);
+    fetch("/api/interactions/opened", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ creationId }),
+    }).catch(() => {});
+  }
 
   function renderTribute() {
     switch (creation.outputFormat) {
@@ -31,7 +46,7 @@ export default function TributeExperience({ creation }: { creation: TributeCreat
           recipientName={creation.recipientName}
           creatorName={creation.creatorName}
           templateId={creation.templateId}
-          onOpen={() => setOpened(true)}
+          onOpen={handleOpen}
         />
       ) : (
         <motion.div

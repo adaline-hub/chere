@@ -30,6 +30,18 @@ export default function DeliveryStep() {
   }
 
   async function handleSend() {
+    // Call deliver API (fire and mostly forget — UX doesn't block on it)
+    if (creationId) {
+      fetch("/api/deliver", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          creationId,
+          method,
+          recipientEmail: method === "email" ? recipientEmail : undefined,
+        }),
+      }).catch(() => {});
+    }
     setSent(true);
     setSendPhase(1);
     await delay(1000);

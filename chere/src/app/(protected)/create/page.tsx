@@ -15,6 +15,7 @@ import CustomizeStep from "@/components/creation/CustomizeStep";
 import PreviewStep from "@/components/creation/PreviewStep";
 import PaymentStep from "@/components/creation/PaymentStep";
 import DeliveryStep from "@/components/creation/DeliveryStep";
+import { useAutoSave } from "@/hooks/useAutoSave";
 
 // ─── Flow Logic ──────────────────────────────────────────
 
@@ -35,6 +36,7 @@ function getStepFlow(creationType: CreationType | null): WizardStep[] {
 // ─── Page ────────────────────────────────────────────────
 
 export default function CreatePage() {
+  useAutoSave();
   const { currentStep, setStep, creationType } = useCreationStore();
 
   const flow = getStepFlow(creationType);

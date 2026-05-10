@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useCreationStore } from "@/stores/creation-store";
+import { uploadPhoto } from "@/lib/supabase/storage";
 
 export default function PhotoUploader() {
   const {
@@ -14,12 +15,15 @@ export default function PhotoUploader() {
     reorderPhotos,
     tier,
     creationType,
+    creationId,
     setStep,
   } = useCreationStore();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const dragIndexRef = useRef(-1);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+  // Upload state per photo: 'uploading' | 'done' | 'error'
+  const [uploadState, setUploadState] = useState<Record<string, "uploading" | "done" | "error">>({});
 
   const isGiftOnly = creationType === "gift_reveal";
 
@@ -34,6 +38,16 @@ export default function PhotoUploader() {
       sortOrder: base + i,
     }));
     addPhotos(newPhotos);
+
+    // Upload each photo to Supabase Storage in the background
+    if (creationId) {
+      newPhotos.forEach((photo) => {
+        setUploadState((s) => ({ ...s, [photo.id]: "uploading" }));
+        uploadPhoto(creationId, photo.file, photo.id)
+          .then(() => setUploadState((s) => ({ ...s, [photo.id]: "done" })))
+          .catch(() => setUploadState((s) => ({ ...s, [photo.id]: "error" })));
+      });
+    }
   }
 
   function handleDrop(e: React.DragEvent) {
@@ -157,6 +171,27 @@ export default function PhotoUploader() {
                   >
                     ×
                   </button>
+
+                  {/* Upload progress bar */}
+                  {uploadState[photo.id] === "uploading" && (
+                    <div className="absolute bottom-0 left-0 right-0" style={{ height: "3px", backgroundColor: "rgba(0,0,0,0.2)" }}>
+                      <div
+                        className="h-full"
+                        style={{
+                          backgroundColor: "var(--color-muted-gold)",
+                          animation: "pulse 1.2s ease-in-out infinite",
+                          width: "60%",
+                        }}
+                      />
+                    </div>
+                  )}
+                  {uploadState[photo.id] === "error" && (
+                    <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center pb-1">
+                      <span className="text-xs px-1 rounded" style={{ backgroundColor: "rgba(192,57,43,0.85)", color: "white" }}>
+                        Upload failed
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <input
                   type="text"
