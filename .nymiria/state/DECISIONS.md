@@ -25,3 +25,12 @@
 Full wizard flow is wired: tribute (type → relationship → interview → photos → format), gift_reveal (type → relationship → gift → photos → clues → format), combined (all 7 steps). Back button navigates correctly through each p
 
 ---
+## 2026-05-10 — template (photos grid, tribute text, gift card, dedication, watermark), with "Th
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** Clean build. All four Phase 4 additions are in place:
+
+- **`/api/ai/generate-text`** — POST route calling `generateTributeText()`, returns `{ text }`, handles validation and errors
+- **`CustomizeStep`** — auto-triggers generation on mount if no text exists, shows the scanning gold-line loader with r
+
+---
