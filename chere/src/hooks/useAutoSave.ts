@@ -47,6 +47,7 @@ export function useAutoSave() {
           relationshipType: relationshipType!,
           recipientName,
         });
+        console.log("AUTO-SAVE: creation saved, share_token:", row.share_token);
         setCreationId(row.id);
         if (row.share_token) setShareToken(row.share_token as string);
       } catch {
