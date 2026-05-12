@@ -34,3 +34,14 @@ Full wizard flow is wired: tribute (type → relationship → interview → phot
 - **`CustomizeStep`** — auto-triggers generation on mount if no text exists, shows the scanning gold-line loader with r
 
 ---
+## 2026-05-12 — try again.`
+**Provider:** codex
+**Rationale:** (auto-detected)
+**Source:** Implemented and validated the requested polish/QA items.
+
+Updated files:
+- [FormatPicker.tsx](/Users/lindsaylynn/Developer/Chère/chere/src/components/creation/FormatPicker.tsx)
+- [PhotoUploader.tsx](/Users/lindsaylynn/Developer/Chère/chere/src/components/creation/PhotoUploader.tsx)
+- [CustomizeSte
+
+---
