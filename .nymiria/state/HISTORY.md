@@ -25,3 +25,10 @@
 **Decisions:** keep going." completion screen auto-advances after 2.2s, try again.") with a "Try again" button, all those places — I know that's what you always wanted to do. You just chose me, state: golden border + lifted, state: golden border, lifted shadow, state: golden ring around swatch, flow (9/10/11 steps)., state: golden border, in format step, but allow changing here), template (photos grid, tribute text, gift card, dedication, watermark), with "Th
 
 ---
+## 2026-05-12T04:46:18.047Z — claude
+**Summary:** Discussed: # Chère — Phase 5 Task: Payment, Delivery & Auth (Steps 10–1…; # Chère — Phase 6 Task: Tribute Renderers & First Open Exper…; # Chère — Phase 7 Task: Infrastructure Wiring (Supabase Pers…; # Chère — Phase 8 Task: Living Hub Dashboard, Occasions & La…; # Chère — Launch Readiness & What's Next
+**Duration:** 15 min
+**Files Changed:** src/app/(auth)/login/page.tsx, src/app/(auth)/callback/route.ts, src/middleware.ts, src/components/creation/PaymentStep.tsx, src/app/api/stripe/create-checkout/route.ts, src/components/creation/DeliveryStep.tsx, src/app/page.tsx, src/app/(protected)/dashboard/page.tsx, src/app/(protected)/create/page.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/FirstOpenExperience.tsx, src/components/tribute/ScrollytellingRenderer.tsx, src/components/tribute/MemoryWrappedRenderer.tsx, src/components/tribute/LoveLetterRenderer.tsx, src/lib/supabase/creations.ts
+**Decisions:** all those places — I know that's what you always wanted to do. You just chose me, state: golden border, lifted shadow, subtle glow, - If URL has `?name=Sarah`, pre-set `recipientName`
+
+---

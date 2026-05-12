@@ -320,3 +320,38 @@ Discussed: # Chère — Phase 1 Task: Project Setup & First Run; Ch√®re ‚Ä
 - feel playful but optional ‚Äî no pressure to use it. The toggle defaults OFF.
 
 ---
+
+## May 11, 2026
+
+Discussed: # Chère — Phase 5 Task: Payment, Delivery & Auth (Steps 10–1…; # Chère — Phase 6 Task: Tribute Renderers & First Open Exper…; # Chère — Phase 7 Task: Infrastructure Wiring (Supabase Pers…; # Chère — Phase 8 Task: Living Hub Dashboard, Occasions & La…; # Chère — Launch Readiness & What's Next
+
+**Decisions:**
+- all those places — I know that's what you always wanted to do. You just chose me
+- state: golden border, lifted shadow, subtle glow
+- - If URL has `?name=Sarah`, pre-set `recipientName`
+
+**Files touched:**
+- `src/app/(auth)/login/page.tsx`
+- `src/app/(auth)/callback/route.ts`
+- `src/middleware.ts`
+- `src/components/creation/PaymentStep.tsx`
+- `src/app/api/stripe/create-checkout/route.ts`
+- `src/components/creation/DeliveryStep.tsx`
+- `src/app/page.tsx`
+- `src/app/(protected)/dashboard/page.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/lib/mock/tribute-data.ts`
+
+**Next steps:**
+- feel like choosing a beautiful gift wrapping option, not a SaaS checkout. The de
+- feel like sealing an envelope and handing it to someone.
+- redirect to the stored redirect path (or `/dashboard` as default)
+- advance the wizard to the delivery step.
+- they receive it?"
+- feel like a deep breath — quiet, satisfying, final.
+- compile without them.
+- temporarily comment out the middleware redirect — note this in your report if yo
+- feel like choosing gift wrapping,** not buying software. The tier names, descrip
+- feel premium and warm.
+
+---
