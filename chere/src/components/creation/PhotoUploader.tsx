@@ -104,12 +104,11 @@ export default function PhotoUploader() {
             transition: "background-color 300ms var(--ease-elegant), border-color 300ms var(--ease-elegant)",
           }}
         >
-          <span
-            className="block mb-3 text-3xl"
-            style={{ color: "var(--color-warm-gray)" }}
-          >
-            ◻
-          </span>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" className="mb-3" style={{ color: "var(--color-warm-gray)" }}>
+            <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+            <circle cx="8.5" cy="10.5" r="1.5" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M3 16l4.5-4.5 3 3 3-3 4.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+          </svg>
           <p className="text-sm text-center" style={{ color: "var(--color-warm-gray)" }}>
             Drop photos here or{" "}
             <span style={{ color: "var(--color-muted-gold)" }}>tap to browse</span>
