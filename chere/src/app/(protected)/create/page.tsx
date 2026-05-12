@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
 import type { WizardStep } from "@/stores/creation-store";
-import type { CreationType } from "@/lib/supabase/types";
+import type { CreationType, RelationshipType } from "@/lib/supabase/types";
 import TypeSelector from "@/components/creation/TypeSelector";
 import RelationshipPicker from "@/components/creation/RelationshipPicker";
 import InterviewFlow from "@/components/creation/InterviewFlow";
@@ -16,6 +17,11 @@ import PreviewStep from "@/components/creation/PreviewStep";
 import PaymentStep from "@/components/creation/PaymentStep";
 import DeliveryStep from "@/components/creation/DeliveryStep";
 import { useAutoSave } from "@/hooks/useAutoSave";
+
+const VALID_CREATION_TYPES: CreationType[] = ["tribute", "gift_reveal", "combined"];
+const VALID_RELATIONSHIP_TYPES: RelationshipType[] = [
+  "mom", "dad", "partner", "pet", "pet_memorial", "friend", "grandparent", "sibling", "child", "custom",
+];
 
 // ─── Flow Logic ──────────────────────────────────────────
 
@@ -37,7 +43,25 @@ function getStepFlow(creationType: CreationType | null): WizardStep[] {
 
 export default function CreatePage() {
   useAutoSave();
-  const { currentStep, setStep, creationType } = useCreationStore();
+  const { currentStep, setStep, creationType, setCreationType, setRelationshipType, setRecipientName } = useCreationStore();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const forParam = params.get("for");
+    const nameParam = params.get("name");
+    const typeParam = params.get("type");
+
+    if (nameParam) setRecipientName(nameParam);
+    if (typeParam && VALID_CREATION_TYPES.includes(typeParam as CreationType)) {
+      setCreationType(typeParam as CreationType);
+    }
+    if (forParam && VALID_RELATIONSHIP_TYPES.includes(forParam as RelationshipType)) {
+      setRelationshipType(forParam as RelationshipType);
+      setCreationType("tribute");
+      setStep("relationship");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const flow = getStepFlow(creationType);
   const stepIndex = flow.indexOf(currentStep);

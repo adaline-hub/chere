@@ -22,6 +22,7 @@ export default function PhotoUploader() {
   const inputRef = useRef<HTMLInputElement>(null);
   const dragIndexRef = useRef(-1);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+  const [uploadHint, setUploadHint] = useState<string | null>(null);
   // Upload state per photo: 'uploading' | 'done' | 'error'
   const [uploadState, setUploadState] = useState<Record<string, "uploading" | "done" | "error">>({});
 
@@ -29,8 +30,23 @@ export default function PhotoUploader() {
 
   function handleFiles(fileList: FileList | null) {
     if (!fileList || fileList.length === 0) return;
+    const limit = tier === "free" ? 5 : Number.POSITIVE_INFINITY;
+    const remaining = Math.max(0, limit - photos.length);
+    if (remaining === 0) {
+      setUploadHint("Free tier allows up to 5 photos. Upgrade for more.");
+      return;
+    }
+
+    const incoming = Array.from(fileList);
+    const accepted = incoming.slice(0, remaining);
+    if (accepted.length < incoming.length) {
+      setUploadHint("Some photos were skipped. Free tier allows up to 5 photos.");
+    } else {
+      setUploadHint(null);
+    }
+
     const base = photos.length;
-    const newPhotos = Array.from(fileList).map((file, i) => ({
+    const newPhotos = accepted.map((file, i) => ({
       id: crypto.randomUUID(),
       file,
       preview: URL.createObjectURL(file),
@@ -213,6 +229,24 @@ export default function PhotoUploader() {
           <p className="text-xs text-center mb-6" style={{ color: "var(--color-warm-gray)" }}>
             Free tier: up to 5 photos
           </p>
+        )}
+
+        {uploadHint && (
+          <p className="text-xs text-center mb-6" style={{ color: "var(--color-warm-gray)" }}>
+            {uploadHint}
+          </p>
+        )}
+
+        {photos.length >= 3 && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="text-sm text-center mb-6"
+            style={{ color: "var(--color-muted-gold)" }}
+          >
+            Want more photos and no watermark? See upgrade options →
+          </motion.p>
         )}
 
         {/* Continue */}

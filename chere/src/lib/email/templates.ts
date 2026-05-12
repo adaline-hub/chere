@@ -28,7 +28,7 @@ export function deliveryEmailHtml({
                 ${creatorName} made something for you.
               </p>
               <p style="margin:16px 0 32px;font-size:0.9375rem;color:#8B7D72;line-height:1.6;">
-                Someone took the time to turn their love into something you can open.
+                ${recipientName}, someone took the time to turn their love into something you can open.
               </p>
               <!-- Button -->
               <table cellpadding="0" cellspacing="0" style="margin:0 auto;">

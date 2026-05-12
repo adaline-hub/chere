@@ -16,7 +16,7 @@ interface Props {
   onOpen: () => void;
 }
 
-export default function FirstOpenExperience({ recipientName: _recipientName, creatorName, templateId, onOpen }: Props) {
+export default function FirstOpenExperience({ recipientName, creatorName, templateId, onOpen }: Props) {
   const [opening, setOpening] = useState(false);
   const tmpl = TEMPLATE_STYLES[templateId] ?? TEMPLATE_STYLES["warm-linen"];
 
@@ -68,7 +68,7 @@ export default function FirstOpenExperience({ recipientName: _recipientName, cre
               marginTop: "0.5rem",
             }}
           >
-            A gift for you
+            A gift for {recipientName || "you"}
           </motion.p>
 
           {/* "from {creatorName}" */}

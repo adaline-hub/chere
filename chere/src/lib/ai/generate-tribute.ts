@@ -104,7 +104,6 @@ export async function generateTributeText(
     recipientName,
     interviewAnswers,
     photoDescriptions,
-    tier = "standard",
   } = options;
 
   // Build the user message from interview answers
@@ -119,11 +118,8 @@ export async function generateTributeText(
     userMessage += `\n\nPHOTO CONTEXT (AI-analyzed descriptions of uploaded photos):\n${photoDescriptions.join("\n")}`;
   }
 
-  // Use Opus for premium/deluxe, Sonnet for others
-  const model =
-    tier === "premium" || tier === "deluxe"
-      ? "claude-sonnet-4-20250514" // Upgrade to Opus when available
-      : "claude-sonnet-4-20250514";
+  // Sonnet for all tiers — tribute generation requires full creative capability
+  const model = "claude-sonnet-4-6";
 
   const response = await anthropic.messages.create({
     model,
@@ -207,7 +203,7 @@ export async function generateGiftCopy(
     options;
 
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 500,
     temperature: 0.6,
     system: `You write short, elegant gift reveal copy for Chère, a luxury digital gift platform. 
@@ -245,7 +241,7 @@ export async function generateClueRiddle(
   totalClues: number
 ): Promise<string> {
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 200,
     temperature: 0.8,
     system: `You write playful, cryptic one-line clues for Chère gift reveals. Each clue should hint at the gift without giving it away. Be poetic and warm, never cheesy. One sentence only.`,

@@ -17,22 +17,29 @@ interface FormatDef {
 
 function ScrollPreview() {
   return (
-    <div
-      className="rounded-md h-16 w-full"
-      style={{ background: "linear-gradient(to bottom, var(--color-linen), var(--color-parchment))" }}
-    />
+    <div className="h-full w-full p-4" style={{ background: "linear-gradient(to bottom, var(--color-linen), var(--color-cream))" }}>
+      <div className="h-full w-full rounded-lg px-3 py-3" style={{ backgroundColor: "rgba(255,255,255,0.35)" }}>
+        <div className="h-2 w-full rounded-full mb-3" style={{ backgroundColor: "rgba(42,36,32,0.22)" }} />
+        <div className="h-8 w-16 rounded-md mb-3" style={{ backgroundColor: "rgba(196,169,125,0.45)" }} />
+        <div className="h-2 w-4/5 rounded-full" style={{ backgroundColor: "rgba(42,36,32,0.22)" }} />
+      </div>
+    </div>
   );
 }
 
 function MemoryPreview() {
   return (
-    <div className="relative h-16 w-full overflow-hidden rounded-md">
+    <div className="relative h-full w-full overflow-hidden">
       <div
-        className="absolute inset-x-4 top-3 bottom-0 rounded-md"
+        className="absolute left-8 right-8 top-8 bottom-6 rounded-xl"
+        style={{ backgroundColor: "#D8C6AC", transform: "rotate(-6deg)" }}
+      />
+      <div
+        className="absolute left-10 right-6 top-6 bottom-4 rounded-xl"
         style={{ backgroundColor: "var(--color-parchment)", transform: "rotate(-2.5deg)" }}
       />
       <div
-        className="absolute inset-x-2 top-1.5 bottom-0 rounded-md"
+        className="absolute left-12 right-4 top-4 bottom-2 rounded-xl"
         style={{ backgroundColor: "var(--color-cream)", boxShadow: "var(--shadow-subtle)" }}
       />
     </div>
@@ -41,30 +48,24 @@ function MemoryPreview() {
 
 function LetterPreview() {
   return (
-    <div
-      className="h-16 w-full rounded-md flex items-center justify-center text-2xl"
-      style={{
-        backgroundColor: "var(--color-cream)",
-        border: "1px solid var(--color-parchment)",
-        color: "var(--color-warm-gray)",
-      }}
-    >
-      ✉
+    <div className="h-full w-full flex items-center justify-center px-4">
+      <div className="relative w-full max-w-[190px] h-[110px] rounded-md" style={{ backgroundColor: "var(--color-cream)", border: "1px solid #E0D0BC" }}>
+        <div className="absolute inset-x-0 top-0 h-0 border-l-[95px] border-r-[95px] border-t-[56px] border-l-transparent border-r-transparent" style={{ borderTopColor: "#E4D4C2" }} />
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-3 w-4 h-4 rounded-full" style={{ backgroundColor: "var(--color-muted-gold)" }} />
+      </div>
     </div>
   );
 }
 
 function GiftPreview() {
   return (
-    <div
-      className="h-16 w-full rounded-md flex items-center justify-center text-2xl"
-      style={{
-        backgroundColor: "var(--color-cream)",
-        border: "1px solid var(--color-parchment)",
-        color: "var(--color-muted-gold)",
-      }}
-    >
-      ◇
+    <div className="h-full w-full flex items-center justify-center">
+      <div className="relative w-[110px] h-[92px] rounded-md" style={{ border: "2px solid var(--color-muted-gold)", backgroundColor: "var(--color-cream)" }}>
+        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t-2" style={{ borderColor: "var(--color-muted-gold)" }} />
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-[2px] h-4" style={{ backgroundColor: "var(--color-muted-gold)" }} />
+        <div className="absolute -top-4 left-1/2 -translate-x-[10px] w-4 h-3 rounded-t-full border-t-2 border-l-2" style={{ borderColor: "var(--color-muted-gold)" }} />
+        <div className="absolute -top-4 left-1/2 -translate-x-[2px] w-4 h-3 rounded-t-full border-t-2 border-r-2" style={{ borderColor: "var(--color-muted-gold)" }} />
+      </div>
     </div>
   );
 }
@@ -72,7 +73,7 @@ function GiftPreview() {
 function ComingSoonPreview() {
   return (
     <div
-      className="h-16 w-full rounded-md"
+      className="h-full w-full"
       style={{ backgroundColor: "var(--color-parchment)" }}
     />
   );
@@ -124,10 +125,10 @@ const ALL_FORMATS: FormatDef[] = [
 
 // ─── Template Swatches ────────────────────────────────────
 
-const TEMPLATES: { id: string; label: string; bg: string; dot: string }[] = [
-  { id: "warm-linen", label: "Warm Linen", bg: "#F5F0EB", dot: "#C4A97D" },
-  { id: "soft-sage", label: "Soft Sage", bg: "#F2F5F0", dot: "#A8B5A0" },
-  { id: "midnight-gold", label: "Midnight Gold", bg: "#1A1714", dot: "#C4A97D" },
+const TEMPLATES: { id: string; label: string; gradient: string; border: string }[] = [
+  { id: "warm-linen", label: "Warm Linen", gradient: "linear-gradient(135deg, #F5F0EB, #FAF7F2)", border: "#C4A97D" },
+  { id: "soft-sage", label: "Soft Sage", gradient: "linear-gradient(135deg, #F2F5F0, #F8FAF6)", border: "#A8B5A0" },
+  { id: "midnight-gold", label: "Midnight", gradient: "linear-gradient(135deg, #1A1714, #242018)", border: "#C4A97D" },
 ];
 
 // ─── Component ────────────────────────────────────────────
@@ -140,7 +141,7 @@ export default function FormatPicker() {
     (f) => !(f.giftOnly && creationType === "tribute")
   );
 
-  const canContinue = outputFormat !== null;
+  const canContinue = Boolean(outputFormat && templateId);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
@@ -160,7 +161,7 @@ export default function FormatPicker() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-stone text-center mb-12 leading-relaxed"
         >
-          How should {recipientName || "their"}&apos;s gift look and feel?
+          How should {recipientName ? `${recipientName}&apos;s` : "their"} gift look and feel?
         </motion.p>
 
         {/* Format grid */}
@@ -168,7 +169,7 @@ export default function FormatPicker() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-12"
         >
           {visibleFormats.map((format, i) => {
             const selected = outputFormat === format.value;
@@ -182,7 +183,7 @@ export default function FormatPicker() {
                 transition={{ duration: 0.4, delay: 0.1 + i * 0.06 }}
                 onClick={() => { if (!disabled) setOutputFormat(format.value); }}
                 disabled={disabled}
-                className="text-left p-4 rounded-xl relative"
+                className="text-left rounded-xl relative overflow-hidden"
                 style={{
                   backgroundColor: "var(--color-cream)",
                   border: "2px solid",
@@ -194,7 +195,7 @@ export default function FormatPicker() {
                 }}
               >
                 {/* Preview area */}
-                <div className="mb-4">{format.preview}</div>
+                <div className="h-40 border-b" style={{ borderColor: "var(--color-parchment)" }}>{format.preview}</div>
 
                 {/* Coming soon badge */}
                 {format.comingSoon && (
@@ -209,6 +210,7 @@ export default function FormatPicker() {
                   </span>
                 )}
 
+                <div className="p-4">
                 <h3
                   className="font-serif mb-1"
                   style={{ fontSize: "1rem", color: "var(--color-espresso)" }}
@@ -218,6 +220,7 @@ export default function FormatPicker() {
                 <p className="text-xs leading-relaxed" style={{ color: "var(--color-stone)" }}>
                   {format.description}
                 </p>
+                </div>
               </motion.button>
             );
           })}
@@ -231,7 +234,7 @@ export default function FormatPicker() {
             transition={{ duration: 0.5 }}
             className="mb-12"
           >
-            <p className="text-sm text-stone text-center mb-5">Choose a look</p>
+            <p className="text-sm text-stone text-center mb-5 font-serif">Choose a look</p>
             <div className="flex justify-center gap-6">
               {TEMPLATES.map((tmpl) => {
                 const active = templateId === tmpl.id;
@@ -244,12 +247,13 @@ export default function FormatPicker() {
                     <div
                       className="rounded-full transition-all duration-300"
                       style={{
-                        width: "40px",
-                        height: "40px",
-                        backgroundColor: tmpl.bg,
-                        border: "3px solid",
-                        borderColor: active ? "var(--color-muted-gold)" : "transparent",
-                        boxShadow: active ? "0 0 0 1px var(--color-muted-gold)" : "var(--shadow-card)",
+                        width: "48px",
+                        height: "48px",
+                        background: tmpl.gradient,
+                        border: "2px solid",
+                        borderColor: active ? tmpl.border : "transparent",
+                        boxShadow: active ? "var(--shadow-subtle)" : "var(--shadow-card)",
+                        opacity: active ? 1 : 0.92,
                       }}
                     />
                     <span
@@ -267,17 +271,18 @@ export default function FormatPicker() {
 
         {/* Continue */}
         <div className="flex justify-center">
-          {canContinue && (
-            <motion.button
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              onClick={() => setStep("customize")}
-              className="btn-gold text-base px-10 py-4"
-            >
-              Continue
-            </motion.button>
-          )}
+          <motion.button
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            onClick={() => { if (canContinue) setStep("customize"); }}
+            disabled={!canContinue}
+            aria-disabled={!canContinue}
+            className="btn-gold text-base px-10 py-4"
+            style={{ opacity: canContinue ? 1 : 0.55, cursor: canContinue ? "pointer" : "not-allowed" }}
+          >
+            Continue
+          </motion.button>
         </div>
       </div>
     </div>

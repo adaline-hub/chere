@@ -35,10 +35,10 @@ export default function ResumeCreationPage({
   const store = useCreationStore();
   useAutoSave();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(store.creationId !== id);
 
   useEffect(() => {
-    if (store.creationId === id) { setLoading(false); return; }
+    if (store.creationId === id) return;
 
     getCreationById(id).then((creation) => {
       if (creation) {

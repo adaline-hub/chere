@@ -61,7 +61,7 @@ export default function CustomizeStep() {
       setGeneratedText(data.text);
       setEditedText(null);
     } catch {
-      setError("Something went wrong. Want to try again?");
+      setError("Something went wrong. Let's try again.");
     } finally {
       setIsGenerating(false);
     }
