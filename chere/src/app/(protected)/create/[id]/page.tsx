@@ -46,6 +46,7 @@ export default function ResumeCreationPage({
         store.setCreationType(creation.type);
         store.setRelationshipType(creation.relationship_type);
         store.setRecipientName(creation.recipient_name);
+        if (creation.share_token) store.setShareToken(creation.share_token);
         if (creation.interview_answers) {
           Object.entries(creation.interview_answers).forEach(([k, v]) =>
             store.setInterviewAnswer(k, v as string)

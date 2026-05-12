@@ -245,7 +245,7 @@ export default function PhotoUploader() {
             className="text-sm text-center mb-6"
             style={{ color: "var(--color-muted-gold)" }}
           >
-            Want more photos and no watermark? See upgrade options →
+            Want more photos and no watermark? You'll see upgrade options before you send.
           </motion.p>
         )}
 

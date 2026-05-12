@@ -13,12 +13,14 @@ export default function DeliveryStep() {
   const [sent, setSent] = useState(false);
   const [sendPhase, setSendPhase] = useState<0 | 1 | 2 | 3>(0);
   const router = useRouter();
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-  const token = shareToken ?? (creationId ? creationId.slice(0, 8) : null);
-  const shareUrl = token ? `https://chere.app/g/${token}` : "https://chere.app/g/...";
-  const displayUrl = token ? `chere.app/g/${token}` : "chere.app/g/...";
+  const shareUrl = shareToken ? `${appUrl}/g/${shareToken}` : null;
+  const displayBase = appUrl.replace(/^https?:\/\//, "");
+  const displayUrl = shareToken ? `${displayBase}/g/${shareToken}` : "Saving your creation...";
 
   async function handleCopy() {
+    if (!shareUrl) return;
     await navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -137,7 +139,9 @@ export default function DeliveryStep() {
             />
             <button
               onClick={handleCopy}
+              disabled={!shareUrl}
               className="btn-gold text-sm px-5 py-2.5 flex-shrink-0"
+              style={{ opacity: shareUrl ? 1 : 0.5 }}
             >
               {copied ? "Copied!" : "Copy link"}
             </button>
