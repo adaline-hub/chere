@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="600" height="160">
+  <defs>
+    <linearGradient id="goldSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C4A97D"/>
+      <stop offset="50%" stop-color="#D4BC94"/>
+      <stop offset="100%" stop-color="#B89A6E"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Dark background -->
+  <rect width="600" height="160" fill="#1A1714" rx="8"/>
+  
+  <!-- Wordmark in cream -->
+  <text
+    x="300"
+    y="100"
+    text-anchor="middle"
+    font-family="'Cormorant Garamond', 'Didot', 'Bodoni MT', 'Georgia', serif"
+    font-weight="400"
+    font-size="96"
+    letter-spacing="6"
+    fill="#F5F0EB"
+  >Chère</text>
+  
+  <!-- Golden thread -->
+  <line
+    x1="220"
+    y1="122"
+    x2="380"
+    y2="122"
+    stroke="url(#goldSheen)"
+    stroke-width="1"
+    stroke-linecap="round"
+    opacity="0.6"
+  />
+</svg>
