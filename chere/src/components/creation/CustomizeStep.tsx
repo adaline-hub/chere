@@ -17,6 +17,15 @@ const TEMPLATES = [
   { id: "midnight-gold", label: "Midnight Gold", bg: "#1A1714" },
 ];
 
+const TONE_OPTIONS = [
+  { value: "default", label: "As written" },
+  { value: "playful", label: "More playful" },
+  { value: "poetic", label: "More poetic" },
+  { value: "concise", label: "Shorter & sweeter" },
+] as const;
+
+type Tone = (typeof TONE_OPTIONS)[number]["value"];
+
 export default function CustomizeStep() {
   const {
     relationshipType,
@@ -39,9 +48,11 @@ export default function CustomizeStep() {
 
   const [error, setError] = useState<string | null>(null);
   const [messageIndex, setMessageIndex] = useState(0);
+  const [selectedTone, setSelectedTone] = useState<Tone>("default");
+  const [pendingTone, setPendingTone] = useState<Tone | null>(null);
   const hasGenerated = useRef(false);
 
-  async function generate() {
+  async function generate(tone: Tone = "default") {
     setIsGenerating(true);
     setError(null);
     try {
@@ -54,16 +65,34 @@ export default function CustomizeStep() {
           interviewAnswers,
           photoDescriptions: photos.map((p) => p.caption).filter(Boolean),
           tier,
+          tone,
         }),
       });
       if (!res.ok) throw new Error("Generation failed");
       const data = (await res.json()) as { text: string };
       setGeneratedText(data.text);
       setEditedText(null);
+      setSelectedTone(tone);
     } catch {
       setError("Something went wrong. Let's try again.");
     } finally {
       setIsGenerating(false);
+    }
+  }
+
+  function handleToneSelect(tone: Tone) {
+    if (tone === selectedTone) return;
+    if (editedText) {
+      setPendingTone(tone);
+    } else {
+      generate(tone);
+    }
+  }
+
+  function confirmRegenerate() {
+    if (pendingTone) {
+      generate(pendingTone);
+      setPendingTone(null);
     }
   }
 
@@ -98,6 +127,23 @@ export default function CustomizeStep() {
           {isGenerating ? "Writing your tribute..." : "Here's what we wrote"}
         </motion.h1>
 
+        {!isGenerating && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="flex justify-center mb-6"
+          >
+            <button
+              onClick={() => setStep("format")}
+              className="text-sm transition-colors duration-200"
+              style={{ color: "var(--color-stone)" }}
+            >
+              ← Change format or template
+            </button>
+          </motion.div>
+        )}
+
         <AnimatePresence mode="wait">
           {isGenerating ? (
             <motion.div
@@ -108,7 +154,6 @@ export default function CustomizeStep() {
               transition={{ duration: 0.4 }}
               className="flex flex-col items-center mt-16 gap-10"
             >
-              {/* Animated gold scanning line */}
               <div
                 className="relative w-48 overflow-hidden"
                 style={{ height: "1px", backgroundColor: "var(--color-parchment)" }}
@@ -121,7 +166,6 @@ export default function CustomizeStep() {
                 />
               </div>
 
-              {/* Rotating message */}
               <div style={{ height: "24px" }} className="overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.p
@@ -150,7 +194,7 @@ export default function CustomizeStep() {
                   <p className="text-sm text-center" style={{ color: "var(--color-warm-gray)" }}>
                     {error}
                   </p>
-                  <button onClick={generate} className="btn-secondary text-sm">
+                  <button onClick={() => generate(selectedTone)} className="btn-secondary text-sm">
                     Try again
                   </button>
                 </div>
@@ -165,7 +209,6 @@ export default function CustomizeStep() {
                     Edit it until it sounds like you.
                   </motion.p>
 
-                  {/* Text editor */}
                   <textarea
                     value={displayText}
                     onChange={(e) => setEditedText(e.target.value)}
@@ -181,13 +224,46 @@ export default function CustomizeStep() {
                     <span className="text-xs" style={{ color: "var(--color-warm-gray)" }}>
                       {wordCount} words
                     </span>
-                    <button
-                      onClick={generate}
-                      className="text-xs transition-colors duration-200"
-                      style={{ color: "var(--color-stone)" }}
+                  </div>
+
+                  {/* Tone selection */}
+                  <div className="mb-8">
+                    <p
+                      className="font-serif text-sm text-center mb-4"
+                      style={{ color: "var(--color-espresso)" }}
                     >
-                      Regenerate ↺
-                    </button>
+                      Try a different tone
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-2">
+                      {TONE_OPTIONS.map((opt) => {
+                        const active = selectedTone === opt.value;
+                        return (
+                          <button
+                            key={opt.value}
+                            onClick={() => handleToneSelect(opt.value)}
+                            className="text-sm px-4 py-2 rounded-full transition-all duration-200"
+                            style={{
+                              backgroundColor: active ? "var(--color-espresso)" : "var(--color-parchment)",
+                              color: active ? "var(--color-cream)" : "var(--color-espresso)",
+                              border: "1px solid",
+                              borderColor: active ? "var(--color-espresso)" : "var(--color-parchment)",
+                            }}
+                            onMouseEnter={(e) => {
+                              if (!active) {
+                                e.currentTarget.style.borderColor = "var(--color-warm-gray)";
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!active) {
+                                e.currentTarget.style.borderColor = "var(--color-parchment)";
+                              }
+                            }}
+                          >
+                            {opt.label}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
 
                   {/* Dedication */}
@@ -256,7 +332,6 @@ export default function CustomizeStep() {
                     </div>
                   </div>
 
-                  {/* Continue */}
                   {displayText.trim().length > 0 && (
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -278,6 +353,54 @@ export default function CustomizeStep() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Confirmation dialog — shown when regenerating over manual edits */}
+      <AnimatePresence>
+        {pendingTone && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 flex items-center justify-center z-50 px-6"
+            style={{ backgroundColor: "rgba(42,36,32,0.5)" }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 8 }}
+              transition={{ duration: 0.2 }}
+              className="w-full max-w-sm rounded-2xl p-8"
+              style={{ backgroundColor: "var(--color-cream)", boxShadow: "var(--shadow-card)" }}
+            >
+              <p
+                className="font-serif text-lg text-center mb-2"
+                style={{ color: "var(--color-espresso)" }}
+              >
+                Replace your edits?
+              </p>
+              <p
+                className="text-sm text-center mb-8"
+                style={{ color: "var(--color-stone)" }}
+              >
+                You&apos;ve made edits. Regenerating will replace them.
+              </p>
+              <div className="flex flex-col gap-3">
+                <button onClick={confirmRegenerate} className="btn-gold w-full">
+                  Regenerate
+                </button>
+                <button
+                  onClick={() => setPendingTone(null)}
+                  className="text-sm text-center transition-colors duration-200"
+                  style={{ color: "var(--color-stone)" }}
+                >
+                  Keep my edits
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -248,6 +248,13 @@ export default function PreviewStep() {
           >
             Go back and edit
           </button>
+          <button
+            onClick={() => setStep("format")}
+            className="text-sm transition-colors duration-200"
+            style={{ color: "var(--color-stone)" }}
+          >
+            ← Change format
+          </button>
         </motion.div>
       </div>
     </div>

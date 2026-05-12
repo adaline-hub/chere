@@ -86,6 +86,33 @@ ${goldenExample}
 Write the tribute letter now based on the Creator's interview answers below. Do not add a title, header, or sign-off.`;
 }
 
+// ─── Tone Instructions ───────────────────────────────────
+
+const TONE_INSTRUCTIONS: Record<string, string> = {
+  default: "",
+  playful: `
+TONE ADJUSTMENT — MORE PLAYFUL:
+- Lead with humor and lightness before going deep
+- Use more casual language, contractions, and conversational rhythm
+- Include more funny specific details and inside-joke energy
+- The emotional hits still land, but they're surrounded by warmth and laughter
+- Think: roast-that-turns-into-a-toast energy`,
+  poetic: `
+TONE ADJUSTMENT — MORE POETIC:
+- Elevate the language slightly — more lyrical, more imagery
+- Use metaphor and sensory detail more freely
+- Longer, more flowing sentences with rhythm and cadence
+- The emotional moments should feel like the best line in a novel
+- Still grounded in specific details — poetry without pretension`,
+  concise: `
+TONE ADJUSTMENT — SHORTER & SWEETER:
+- Cut the tribute to 150-200 words maximum
+- Every sentence must earn its place — no filler, no elaboration
+- One memory. One realization. One emotional beat.
+- Short paragraphs. Short sentences. Let white space do the work.
+- The power is in what you DON'T say.`,
+};
+
 // ─── Generate Tribute Text ──────────────────────────────
 
 interface GenerateTributeOptions {
@@ -94,6 +121,7 @@ interface GenerateTributeOptions {
   interviewAnswers: Record<string, string>;
   photoDescriptions?: string[];
   tier?: "free" | "standard" | "premium" | "deluxe";
+  tone?: "default" | "playful" | "poetic" | "concise";
 }
 
 export async function generateTributeText(
@@ -104,6 +132,7 @@ export async function generateTributeText(
     recipientName,
     interviewAnswers,
     photoDescriptions,
+    tone = "default",
   } = options;
 
   // Build the user message from interview answers
@@ -121,11 +150,18 @@ export async function generateTributeText(
   // Sonnet for all tiers — tribute generation requires full creative capability
   const model = "claude-sonnet-4-6";
 
+  const toneInstruction = TONE_INSTRUCTIONS[tone] ?? "";
+  const finalLine = "Write the tribute letter now based on the Creator's interview answers below. Do not add a title, header, or sign-off.";
+  const basePrompt = buildSystemPrompt(relationshipType);
+  const systemPrompt = toneInstruction
+    ? basePrompt.replace(finalLine, toneInstruction + "\n\n" + finalLine)
+    : basePrompt;
+
   const response = await anthropic.messages.create({
     model,
     max_tokens: 1500,
     temperature: 0.7,
-    system: buildSystemPrompt(relationshipType),
+    system: systemPrompt,
     messages: [
       {
         role: "user",

@@ -60,6 +60,13 @@ export function useAutoSave() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [creationType, relationshipType, recipientName]);
 
+  // Save output_format immediately whenever it changes — never let stale closures default it
+  useEffect(() => {
+    if (!creationId || !outputFormat) return;
+    updateCreation(creationId, { output_format: outputFormat, template_id: templateId }).catch(() => {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [creationId, outputFormat, templateId]);
+
   // Save on step advancement
   useEffect(() => {
     if (!creationId || currentStep === prevStep.current) return;
@@ -67,7 +74,7 @@ export function useAutoSave() {
 
     updateCreation(creationId, {
       interview_answers: interviewAnswers,
-      output_format: outputFormat ?? "scrollytelling",
+      ...(outputFormat ? { output_format: outputFormat } : {}),
       template_id: templateId,
       generated_text: generatedText || null,
       generated_text_edited: editedText,
