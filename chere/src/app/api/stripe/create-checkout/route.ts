@@ -2,7 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import type { Tier } from "@/lib/supabase/types";
 
-const TIER_PRICES: Record<string, { amount: number; name: string }> = {
+const TIER_PRICE_IDS: Record<string, string | undefined> = {
+  standard: process.env.STRIPE_PRICE_STANDARD,
+  premium: process.env.STRIPE_PRICE_PREMIUM,
+  deluxe: process.env.STRIPE_PRICE_DELUXE,
+};
+
+const TIER_FALLBACK: Record<string, { amount: number; name: string }> = {
   standard: { amount: 999, name: "Chère Standard" },
   premium: { amount: 2499, name: "Chère Premium" },
   deluxe: { amount: 4499, name: "Chère Deluxe" },
@@ -26,26 +32,29 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid tier" }, { status: 400 });
     }
 
-    const price = TIER_PRICES[tier];
-    if (!price) {
+    const priceId = TIER_PRICE_IDS[tier];
+    const fallback = TIER_FALLBACK[tier];
+    if (!fallback) {
       return NextResponse.json({ error: "Unknown tier" }, { status: 400 });
     }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const origin = req.headers.get("origin") ?? "https://chere.app";
 
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      line_items: [
-        {
+    const lineItem = priceId
+      ? { price: priceId, quantity: 1 }
+      : {
           price_data: {
             currency: "usd",
-            product_data: { name: price.name },
-            unit_amount: price.amount,
+            product_data: { name: fallback.name },
+            unit_amount: fallback.amount,
           },
           quantity: 1,
-        },
-      ],
+        };
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      line_items: [lineItem],
       metadata: { creationId: creationId ?? "", tier },
       success_url: `${origin}/create?payment=success`,
       cancel_url: `${origin}/create?payment=cancelled`,
