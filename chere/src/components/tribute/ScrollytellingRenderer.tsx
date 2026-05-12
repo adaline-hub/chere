@@ -138,7 +138,7 @@ export default function ScrollytellingRenderer({ creation }: { creation: Tribute
   let photoIndex = 0;
   paragraphs.forEach((para, i) => {
     sections.push({ kind: "text", content: para });
-    if ((i + 1) % 2 === 0 && photoIndex < photos.length) {
+    if (photoIndex < photos.length) {
       sections.push({ kind: "photo", photo: photos[photoIndex++] });
     }
   });

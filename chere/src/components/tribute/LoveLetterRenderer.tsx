@@ -24,7 +24,13 @@ export default function LoveLetterRenderer({
 
   const creatorInitial = creation.creatorName.charAt(0).toUpperCase();
   const paragraphs = creation.generatedText.split(/\n\n+/).filter((p) => p.trim());
-  const previewPhotos = creation.photos.slice(0, 3);
+  const photoCount = Math.min(creation.photos.length, 4);
+  // Distribute photos evenly through paragraphs
+  const photoInsertions = new Map<number, number>();
+  for (let k = 0; k < photoCount; k++) {
+    const paraIdx = Math.floor(((k + 1) * paragraphs.length) / (photoCount + 1));
+    photoInsertions.set(paraIdx, k);
+  }
 
   async function handleOpen() {
     if (phase !== "sealed") return;
@@ -171,20 +177,32 @@ export default function LoveLetterRenderer({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
             className="min-h-screen pb-24 texture-linen"
-            style={{ backgroundColor: "#FAF7F4" }}
+            style={{ backgroundColor: "#FAF7F4", position: "relative" }}
           >
+            {/* Notebook margin line */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: "60px",
+                width: "1px",
+                backgroundColor: "var(--color-soft-rose, #D4B8AE)",
+                opacity: 0.3,
+                pointerEvents: "none",
+              }}
+            />
             <div
               className="mx-auto pt-16 pb-8"
               style={{
                 maxWidth: "620px",
                 paddingLeft: "max(2rem, calc(2rem + 24px))",
                 paddingRight: "2rem",
-                borderLeft: "3px solid #E8DDD2",
                 marginLeft: "max(2rem, 10vw)",
                 marginRight: "auto",
               }}
             >
-              {/* Paragraphs + photos interleaved */}
+              {/* Paragraphs + photos interleaved evenly */}
               {paragraphs.map((para, i) => (
                 <div key={i}>
                   <p
@@ -198,22 +216,15 @@ export default function LoveLetterRenderer({
                   >
                     {para}
                   </p>
-
-                  {/* Polaroid photo after 2nd and 5th paragraphs */}
-                  {(i === 1 || i === 4) && previewPhotos[i === 1 ? 0 : 1] && (
+                  {photoInsertions.has(i) && creation.photos[photoInsertions.get(i)!] && (
                     <PolaroidPhoto
-                      photo={previewPhotos[i === 1 ? 0 : 1]}
-                      rotation={i === 1 ? -2 : 1.5}
+                      photo={creation.photos[photoInsertions.get(i)!]}
+                      rotation={[-2, 1.5, -1.5, 2][photoInsertions.get(i)! % 4]}
                       tmpl={tmpl}
                     />
                   )}
                 </div>
               ))}
-
-              {/* Third photo at end */}
-              {previewPhotos[2] && (
-                <PolaroidPhoto photo={previewPhotos[2]} rotation={-1.5} tmpl={tmpl} />
-              )}
 
               {/* Gift moment */}
               {creation.giftMoment && (
