@@ -75,7 +75,8 @@ export async function updateCreation(
   patch: Partial<Creation>
 ): Promise<void> {
   const supabase = createBrowserClient();
-  await supabase.from("creations").update(patch).eq("id", creationId);
+  const { error } = await supabase.from("creations").update(patch).eq("id", creationId);
+  if (error) throw new Error(error.message);
 }
 
 export function tierExpiresAt(tier: string): string | null {

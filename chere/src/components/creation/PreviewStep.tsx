@@ -1,13 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { motion, MotionConfig } from "framer-motion";
+import { useState } from "react";
 import { useCreationStore } from "@/stores/creation-store";
+import ScrollytellingRenderer from "@/components/tribute/ScrollytellingRenderer";
+import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
+import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
+import type { TributeCreation } from "@/lib/mock/tribute-data";
 
-const TEMPLATE_STYLES: Record<string, { bg: string; text: string; accent: string }> = {
-  "warm-linen": { bg: "#F5F0EB", text: "#2A2420", accent: "#C4A97D" },
-  "soft-sage": { bg: "#F2F5F0", text: "#2A2420", accent: "#A8B5A0" },
-  "midnight-gold": { bg: "#1A1714", text: "#F5F0EB", accent: "#C4A97D" },
+const TEMPLATE_STYLES: Record<string, { bg: string; accent: string }> = {
+  "warm-linen": { bg: "#F5F0EB", accent: "#C4A97D" },
+  "soft-sage": { bg: "#F2F5F0", accent: "#A8B5A0" },
+  "midnight-gold": { bg: "#1A1714", accent: "#C4A97D" },
 };
 
 export default function PreviewStep() {
@@ -20,12 +24,50 @@ export default function PreviewStep() {
     giftMoments,
     templateId,
     outputFormat,
+    creationId,
+    creationType,
+    relationshipType,
+    shareToken,
     setStep,
   } = useCreationStore();
 
   const displayText = editedText ?? generatedText;
-  const tmpl = TEMPLATE_STYLES[templateId] ?? TEMPLATE_STYLES["warm-linen"];
-  const previewPhotos = photos.slice(0, 3);
+  const tmpl = TEMPLATE_STYLES[templateId ?? "warm-linen"] ?? TEMPLATE_STYLES["warm-linen"];
+  const [previewMode, setPreviewMode] = useState<"mobile" | "desktop">("mobile");
+
+  const previewCreation: TributeCreation = {
+    id: creationId ?? "preview",
+    recipientName: recipientName ?? "",
+    creatorName: "",
+    type: (creationType ?? "tribute") as TributeCreation["type"],
+    relationshipType: relationshipType ?? "",
+    outputFormat: (outputFormat ?? "scrollytelling") as TributeCreation["outputFormat"],
+    templateId: (templateId ?? "warm-linen") as TributeCreation["templateId"],
+    tier: "standard",
+    generatedText: displayText ?? "",
+    dedicationMessage: dedicationMessage ?? "",
+    photos: photos.map((p) => ({ id: p.id, url: p.preview, caption: p.caption ?? "" })),
+    giftMoment:
+      giftMoments.length > 0
+        ? {
+            description: giftMoments[0].description,
+            message: giftMoments[0].message ?? "",
+            revealStyle: "standard",
+          }
+        : null,
+    musicTrackId: null,
+  };
+
+  function renderFormat() {
+    switch (outputFormat) {
+      case "memory_wrapped":
+        return <MemoryWrappedRenderer creation={previewCreation} />;
+      case "love_letter":
+        return <LoveLetterRenderer creation={previewCreation} />;
+      default:
+        return <ScrollytellingRenderer creation={previewCreation} />;
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
@@ -48,187 +90,156 @@ export default function PreviewStep() {
           This is what {recipientName || "they"} will see when they open it.
         </motion.p>
 
-        {/* Phone frame */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.12 }}
+          className="mb-5 flex justify-center"
+        >
+          <div
+            className="inline-flex items-center rounded-full p-1 gap-1"
+            style={{ border: "1px solid var(--color-parchment)" }}
+          >
+            <button
+              type="button"
+              onClick={() => setPreviewMode("mobile")}
+              className="px-4 py-1.5 rounded-full text-sm transition-all duration-200"
+              style={
+                previewMode === "mobile"
+                  ? { backgroundColor: "var(--color-espresso)", color: "var(--color-cream)" }
+                  : {
+                      backgroundColor: "transparent",
+                      border: "1px solid var(--color-parchment)",
+                      color: "var(--color-stone)",
+                    }
+              }
+            >
+              Mobile
+            </button>
+            <button
+              type="button"
+              onClick={() => setPreviewMode("desktop")}
+              className="px-4 py-1.5 rounded-full text-sm transition-all duration-200"
+              style={
+                previewMode === "desktop"
+                  ? { backgroundColor: "var(--color-espresso)", color: "var(--color-cream)" }
+                  : {
+                      backgroundColor: "transparent",
+                      border: "1px solid var(--color-parchment)",
+                      color: "var(--color-stone)",
+                    }
+              }
+            >
+              Desktop
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Preview frame */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="relative mx-auto mb-10"
-          style={{ width: "300px" }}
+          className="relative mx-auto mb-4"
+          style={
+            previewMode === "mobile"
+              ? { width: "300px" }
+              : { width: "720px", maxWidth: "90vw" }
+          }
         >
-          <div
-            className="rounded-[2.5rem] overflow-hidden"
-            style={{
-              padding: "3px",
-              background: "linear-gradient(135deg, #D4B896 0%, #C4A97D 50%, #A08060 100%)",
-              boxShadow:
-                "0 32px 64px rgba(42,36,32,0.25), 0 8px 16px rgba(42,36,32,0.12)",
-            }}
-          >
+          {previewMode === "mobile" ? (
             <div
-              className="rounded-[2.25rem] overflow-hidden"
-              style={{ backgroundColor: tmpl.bg }}
+              className="rounded-[2.5rem] overflow-hidden"
+              style={{
+                padding: "3px",
+                background: "linear-gradient(135deg, #D4B896 0%, #C4A97D 50%, #A08060 100%)",
+                boxShadow:
+                  "0 32px 64px rgba(42,36,32,0.25), 0 8px 16px rgba(42,36,32,0.12)",
+              }}
             >
-              {/* Status bar stub */}
               <div
-                className="flex items-center justify-between px-6 pt-4 pb-2"
+                className="rounded-[2.25rem] overflow-hidden"
                 style={{ backgroundColor: tmpl.bg }}
               >
-                <span style={{ fontSize: "10px", color: tmpl.accent, fontVariantNumeric: "tabular-nums" }}>
-                  9:41
-                </span>
+                {/* Status bar stub */}
                 <div
-                  className="rounded-full"
-                  style={{ width: "80px", height: "18px", backgroundColor: `${tmpl.text}15` }}
-                />
-                <div className="flex gap-0.5 items-end">
-                  {[3, 5, 7].map((h, i) => (
-                    <div
-                      key={i}
-                      className="rounded-sm"
-                      style={{ width: "3px", height: `${h}px`, backgroundColor: tmpl.accent }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Scrollable content */}
-              <div className="overflow-y-auto px-6 pb-10" style={{ maxHeight: "520px" }}>
-                {/* Header */}
-                <div className="text-center pt-4 pb-5">
-                  <p
-                    className="tracking-[0.25em] uppercase mb-2"
-                    style={{ fontSize: "8px", color: tmpl.accent }}
-                  >
-                    chère
-                  </p>
-                  {recipientName && (
-                    <p
-                      className="font-serif leading-tight"
-                      style={{ fontSize: "18px", color: tmpl.text }}
-                    >
-                      For {recipientName}
-                    </p>
-                  )}
-                </div>
-
-                {/* Photos */}
-                {previewPhotos.length > 0 && (
+                  className="flex items-center justify-between px-6 pt-4 pb-2"
+                  style={{ backgroundColor: tmpl.bg }}
+                >
+                  <span style={{ fontSize: "10px", color: tmpl.accent, fontVariantNumeric: "tabular-nums" }}>
+                    9:41
+                  </span>
                   <div
-                    className="mb-5 rounded-xl overflow-hidden"
-                    style={{
-                      display: "grid",
-                      gap: "2px",
-                      gridTemplateColumns:
-                        previewPhotos.length === 1
-                          ? "1fr"
-                          : previewPhotos.length === 2
-                          ? "1fr 1fr"
-                          : "2fr 1fr",
-                      gridTemplateRows:
-                        previewPhotos.length === 3 ? "1fr 1fr" : undefined,
-                    }}
-                  >
-                    {previewPhotos.map((photo, i) => (
+                    className="rounded-full"
+                    style={{ width: "80px", height: "18px", backgroundColor: `${tmpl.accent}15` }}
+                  />
+                  <div className="flex gap-0.5 items-end">
+                    {[3, 5, 7].map((h, i) => (
                       <div
-                        key={photo.id}
-                        className="relative"
-                        style={{
-                          aspectRatio: "1",
-                          gridRow:
-                            i === 0 && previewPhotos.length === 3 ? "span 2" : undefined,
-                        }}
-                      >
-                        <Image
-                          src={photo.preview}
-                          alt={photo.caption || `Photo ${i + 1}`}
-                          fill
-                          unoptimized
-                          className="object-cover"
-                        />
-                      </div>
+                        key={i}
+                        className="rounded-sm"
+                        style={{ width: "3px", height: `${h}px`, backgroundColor: tmpl.accent }}
+                      />
                     ))}
                   </div>
-                )}
+                </div>
 
-                {/* Tribute text */}
-                {displayText && (
-                  <p
-                    className="whitespace-pre-wrap mb-5"
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: "11px",
-                      lineHeight: "1.85",
-                      color: tmpl.text,
-                      opacity: 0.88,
-                    }}
-                  >
-                    {displayText}
-                  </p>
-                )}
-
-                {/* Gift moment card */}
-                {giftMoments.length > 0 && (
-                  <div
-                    className="rounded-xl p-4 mb-5"
-                    style={{
-                      border: `1px solid ${tmpl.accent}50`,
-                      backgroundColor: `${tmpl.accent}12`,
-                    }}
-                  >
-                    <p
-                      className="tracking-widest uppercase mb-1"
-                      style={{ fontSize: "8px", color: tmpl.accent }}
-                    >
-                      Your gift
-                    </p>
-                    <p
-                      className="font-serif"
-                      style={{ fontSize: "11px", color: tmpl.text }}
-                    >
-                      {giftMoments[0].description}
-                    </p>
-                    {giftMoments[0].message && (
-                      <p
-                        className="mt-1"
-                        style={{ fontSize: "10px", color: tmpl.text, opacity: 0.65 }}
-                      >
-                        {giftMoments[0].message}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Dedication */}
-                {dedicationMessage && (
-                  <p
-                    className="text-center italic mb-5"
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: "10px",
-                      color: tmpl.accent,
-                    }}
-                  >
-                    {dedicationMessage}
-                  </p>
-                )}
-
-                {/* Watermark */}
-                <p
-                  className="text-center tracking-[0.2em] uppercase"
-                  style={{ fontSize: "7px", color: `${tmpl.text}25` }}
-                >
-                  made with chère
-                </p>
+                {/* Format-specific renderer */}
+                <div style={{ overflowY: "auto", maxHeight: "520px" }}>
+                  <MotionConfig reducedMotion="always">
+                    {renderFormat()}
+                  </MotionConfig>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div
+              className="rounded-2xl overflow-hidden"
+              style={{
+                border: "1px solid var(--color-parchment)",
+                backgroundColor: tmpl.bg,
+                boxShadow:
+                  "0 24px 52px rgba(42,36,32,0.18), 0 6px 14px rgba(42,36,32,0.10)",
+              }}
+            >
+              <div
+                className="h-7 px-4 flex items-center justify-center relative"
+                style={{ backgroundColor: "var(--color-parchment)" }}
+              >
+                <div className="absolute left-4 flex gap-2">
+                  <span
+                    className="rounded-full"
+                    style={{ width: "12px", height: "12px", backgroundColor: "var(--color-error)" }}
+                  />
+                  <span
+                    className="rounded-full"
+                    style={{ width: "12px", height: "12px", backgroundColor: "var(--color-muted-gold)" }}
+                  />
+                  <span
+                    className="rounded-full"
+                    style={{ width: "12px", height: "12px", backgroundColor: "var(--color-sage-green)" }}
+                  />
+                </div>
+                <span style={{ fontSize: "11px", color: "var(--color-warm-gray)" }}>
+                  {shareToken ? `chere.app/g/${shareToken}` : "chere.app/g/..."}
+                </span>
+              </div>
 
-          {outputFormat && (
-            <p className="text-center text-xs mt-4" style={{ color: "var(--color-warm-gray)" }}>
-              {outputFormat.replace(/_/g, " ")}
-            </p>
+              {/* Format-specific renderer */}
+              <div style={{ overflowY: "auto", maxHeight: "560px" }}>
+                <MotionConfig reducedMotion="always">
+                  {renderFormat()}
+                </MotionConfig>
+              </div>
+            </div>
           )}
+
+          <p
+            className="text-center mt-3"
+            style={{ fontSize: "0.75rem", color: "var(--color-warm-gray)" }}
+          >
+            This is a preview. Your recipient&apos;s experience will adapt to their screen.
+          </p>
         </motion.div>
 
         {/* Actions */}
@@ -241,20 +252,46 @@ export default function PreviewStep() {
           <button onClick={() => setStep("payment")} className="btn-gold text-base px-10 py-4">
             This is perfect
           </button>
-          <button
-            onClick={() => setStep("customize")}
-            className="text-sm transition-colors duration-200"
-            style={{ color: "var(--color-stone)" }}
-          >
-            Go back and edit
-          </button>
-          <button
-            onClick={() => setStep("format")}
-            className="text-sm transition-colors duration-200"
-            style={{ color: "var(--color-stone)" }}
-          >
-            ← Change format
-          </button>
+          <div className="w-full flex gap-3">
+            <button
+              onClick={() => setStep("customize")}
+              className="flex-1 text-left rounded-xl p-4 transition-all duration-200 hover:shadow-md"
+              style={{
+                backgroundColor: "#F5F0EB",
+                border: "1px solid #D4B896",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#C4A97D";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#D4B896";
+              }}
+            >
+              <p className="font-serif text-espresso text-base mb-1">✎ Edit writing</p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--color-stone)" }}>
+                Change the tone, wording, or add your own edits
+              </p>
+            </button>
+            <button
+              onClick={() => setStep("format")}
+              className="flex-1 text-left rounded-xl p-4 transition-all duration-200 hover:shadow-md"
+              style={{
+                backgroundColor: "#F5F0EB",
+                border: "1px solid #D4B896",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#C4A97D";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#D4B896";
+              }}
+            >
+              <p className="font-serif text-espresso text-base mb-1">◐ Change style</p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--color-stone)" }}>
+                Try a different format or template
+              </p>
+            </button>
+          </div>
         </motion.div>
       </div>
     </div>
