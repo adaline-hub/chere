@@ -49,7 +49,7 @@ export default function HomePage() {
           transition={{ duration: 1, ease: "easeOut" }}
           className="text-sm text-muted-gold font-sans tracking-[0.2em] uppercase mb-6"
         >
-          A gift they&apos;ll never forget
+          A gift they&apos;ll cherish forever
         </motion.p>
 
         <motion.h1
