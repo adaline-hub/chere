@@ -51,8 +51,19 @@ export default function CustomizeStep() {
   const [selectedTone, setSelectedTone] = useState<Tone>("default");
   const [pendingTone, setPendingTone] = useState<Tone | null>(null);
   const hasGenerated = useRef(false);
+  const toneCacheRef = useRef<Record<string, string>>({});
 
-  async function generate(tone: Tone = "default") {
+  function hydrateFromCache(tone: Tone) {
+    const cachedText = toneCacheRef.current[tone];
+    if (!cachedText) return false;
+    setGeneratedText(cachedText);
+    setEditedText(null);
+    setSelectedTone(tone);
+    return true;
+  }
+
+  async function generate(tone: Tone = "default", options?: { force?: boolean }) {
+    if (!options?.force && hydrateFromCache(tone)) return;
     setIsGenerating(true);
     setError(null);
     try {
@@ -70,6 +81,7 @@ export default function CustomizeStep() {
       });
       if (!res.ok) throw new Error("Generation failed");
       const data = (await res.json()) as { text: string };
+      toneCacheRef.current[tone] = data.text;
       setGeneratedText(data.text);
       setEditedText(null);
       setSelectedTone(tone);
@@ -82,6 +94,7 @@ export default function CustomizeStep() {
 
   function handleToneSelect(tone: Tone) {
     if (tone === selectedTone) return;
+    if (hydrateFromCache(tone)) return;
     if (editedText) {
       setPendingTone(tone);
     } else {
@@ -89,9 +102,20 @@ export default function CustomizeStep() {
     }
   }
 
+  function handleRegenerateCurrentTone() {
+    if (editedText) {
+      setPendingTone(selectedTone);
+      return;
+    }
+    generate(selectedTone, { force: true });
+  }
+
   function confirmRegenerate() {
     if (pendingTone) {
-      generate(pendingTone);
+      // Force a fresh generation only when re-generating the current tone.
+      // Switching to a different tone should still use the cache if available.
+      const forceFresh = pendingTone === selectedTone;
+      generate(pendingTone, forceFresh ? { force: true } : undefined);
       setPendingTone(null);
     }
   }
@@ -114,6 +138,7 @@ export default function CustomizeStep() {
 
   const displayText = editedText ?? generatedText;
   const wordCount = displayText.split(/\s+/).filter(Boolean).length;
+  const hasCachedSelectedTone = Boolean(toneCacheRef.current[selectedTone]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
@@ -211,7 +236,11 @@ export default function CustomizeStep() {
 
                   <textarea
                     value={displayText}
-                    onChange={(e) => setEditedText(e.target.value)}
+                    onChange={(e) => {
+                      const nextValue = e.target.value;
+                      toneCacheRef.current[selectedTone] = nextValue;
+                      setEditedText(nextValue);
+                    }}
                     className="textarea w-full mb-2"
                     style={{
                       minHeight: "280px",
@@ -234,6 +263,17 @@ export default function CustomizeStep() {
                     >
                       Try a different tone
                     </p>
+                    {!hasCachedSelectedTone && (
+                      <div className="flex justify-center mb-3">
+                        <button
+                          onClick={handleRegenerateCurrentTone}
+                          disabled={hasCachedSelectedTone}
+                          className="btn-secondary text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          Regenerate
+                        </button>
+                      </div>
+                    )}
                     <div className="flex flex-wrap justify-center gap-2">
                       {TONE_OPTIONS.map((opt) => {
                         const active = selectedTone === opt.value;
