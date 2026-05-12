@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
+import { updateCreation } from "@/lib/supabase/creations";
 import type { OutputFormat } from "@/lib/supabase/types";
 
 // ─── Format Definitions ───────────────────────────────────
@@ -134,7 +135,7 @@ const TEMPLATES: { id: string; label: string; gradient: string; border: string }
 // ─── Component ────────────────────────────────────────────
 
 export default function FormatPicker() {
-  const { creationType, outputFormat, setOutputFormat, templateId, setTemplateId, recipientName, setStep } =
+  const { creationType, outputFormat, setOutputFormat, templateId, setTemplateId, recipientName, setStep, creationId } =
     useCreationStore();
 
   const visibleFormats = ALL_FORMATS.filter(
@@ -275,7 +276,16 @@ export default function FormatPicker() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            onClick={() => { if (canContinue) setStep("customize"); }}
+            onClick={() => {
+              if (!canContinue) return;
+              if (creationId && outputFormat) {
+                updateCreation(creationId, {
+                  output_format: outputFormat,
+                  template_id: templateId,
+                }).catch(() => {});
+              }
+              setStep("customize");
+            }}
             disabled={!canContinue}
             aria-disabled={!canContinue}
             className="btn-gold text-base px-10 py-4"

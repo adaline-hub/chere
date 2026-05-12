@@ -83,12 +83,18 @@ export default async function TributePage({
     const raw = creation as unknown as { expires_at?: string | null };
     if (raw.expires_at && new Date(raw.expires_at) < new Date()) {
       return (
-        <main className="min-h-screen flex flex-col items-center justify-center px-6" style={{ backgroundColor: "#F5F0EB" }}>
-          <p className="font-serif text-2xl text-center" style={{ color: "#2A2420" }}>
+        <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center" style={{ backgroundColor: "#F5F0EB" }}>
+          <p className="font-serif text-2xl" style={{ color: "#2A2420" }}>
             This gift has expired.
           </p>
-          <p className="text-sm mt-3 text-center" style={{ color: "#8B7D72" }}>
-            The creator can upgrade to keep it forever.
+          <p className="text-sm mt-3 max-w-xs leading-relaxed" style={{ color: "#8B7D72" }}>
+            The person who made this can restore it by upgrading.
+          </p>
+          <p className="text-sm mt-5" style={{ color: "#8B7D72" }}>
+            Were you the creator?{" "}
+            <a href="/login" style={{ color: "#C4A97D", textDecoration: "underline" }}>
+              Sign in to restore this gift →
+            </a>
           </p>
         </main>
       );

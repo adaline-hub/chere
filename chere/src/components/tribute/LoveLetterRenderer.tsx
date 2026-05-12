@@ -164,15 +164,25 @@ export default function LoveLetterRenderer({ creation }: { creation: TributeCrea
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-            className="min-h-screen pb-24"
+            className="min-h-screen pb-24 texture-linen"
             style={{ backgroundColor: "#FAF7F4" }}
           >
-            <div className="mx-auto px-8 pt-16" style={{ maxWidth: "620px" }}>
+            <div
+              className="mx-auto pt-16 pb-8"
+              style={{
+                maxWidth: "620px",
+                paddingLeft: "max(2rem, calc(2rem + 24px))",
+                paddingRight: "2rem",
+                borderLeft: "3px solid #E8DDD2",
+                marginLeft: "max(2rem, 10vw)",
+                marginRight: "auto",
+              }}
+            >
               {/* Paragraphs + photos interleaved */}
               {paragraphs.map((para, i) => (
                 <div key={i}>
                   <p
-                    className="mb-6"
+                    className="mb-6 text-left"
                     style={{
                       fontFamily: "var(--font-hand)",
                       fontSize: "1.375rem",

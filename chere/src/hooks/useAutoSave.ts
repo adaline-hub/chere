@@ -12,6 +12,7 @@ export function useAutoSave() {
   const {
     creationId,
     setCreationId,
+    setShareToken,
     currentStep,
     creationType,
     relationshipType,
@@ -47,6 +48,7 @@ export function useAutoSave() {
           recipientName,
         });
         setCreationId(row.id);
+        if (row.share_token) setShareToken(row.share_token as string);
       } catch {
         // Silently fail — wizard continues with local state
       } finally {

@@ -61,6 +61,8 @@ interface CreationStore {
   // Creation ID (set after first save to Supabase)
   creationId: string | null;
   setCreationId: (id: string) => void;
+  shareToken: string | null;
+  setShareToken: (token: string) => void;
 
   // Step 1: Type
   creationType: CreationType | null;
@@ -128,6 +130,7 @@ interface CreationStore {
 const initialState = {
   currentStep: "type" as WizardStep,
   creationId: null,
+  shareToken: null,
   creationType: null,
   relationshipType: null,
   recipientName: "",
@@ -152,6 +155,7 @@ export const useCreationStore = create<CreationStore>((set) => ({
 
   setStep: (step) => set({ currentStep: step }),
   setCreationId: (id) => set({ creationId: id }),
+  setShareToken: (token) => set({ shareToken: token }),
   setCreationType: (type) => set({ creationType: type }),
   setRelationshipType: (type) => set({ relationshipType: type }),
   setRecipientName: (name) => set({ recipientName: name }),

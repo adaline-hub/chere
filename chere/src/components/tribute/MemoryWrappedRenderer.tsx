@@ -12,6 +12,7 @@ const TEMPLATES = {
 
 type Card =
   | { kind: "title" }
+  | { kind: "stat"; count: number }
   | { kind: "text"; content: string }
   | { kind: "quote"; content: string }
   | { kind: "photo"; url: string; caption: string }
@@ -19,7 +20,8 @@ type Card =
   | { kind: "cta" };
 
 function buildCards(creation: TributeCreation): Card[] {
-  const cards: Card[] = [{ kind: "title" }];
+  const memoryCount = Object.keys(creation).length; // rough proxy
+  const cards: Card[] = [{ kind: "title" }, { kind: "stat", count: memoryCount }];
   const paras = creation.generatedText.split(/\n\n+/).filter((p) => p.trim());
   const photos = [...creation.photos];
   let photoIndex = 0;
@@ -62,12 +64,30 @@ function CardContent({
   switch (card.kind) {
     case "title":
       return (
-        <div className="flex flex-col items-center justify-center h-full text-center px-8">
-          <p style={{ fontFamily: "var(--font-serif)", fontSize: "2.5rem", color: tmpl.text, lineHeight: 1.2 }}>
+        <div
+          className="flex flex-col items-center justify-center h-full text-center px-8"
+          style={{ background: `radial-gradient(ellipse at center, ${tmpl.card} 60%, ${tmpl.surface} 100%)` }}
+        >
+          <p style={{ fontFamily: "var(--font-serif)", fontSize: "2.5rem", color: tmpl.accent, lineHeight: 1.2 }}>
             {creation.recipientName}
           </p>
           <p className="mt-3" style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", color: tmpl.stone }}>
             from {creation.creatorName}
+          </p>
+        </div>
+      );
+
+    case "stat":
+      return (
+        <div
+          className="flex flex-col items-center justify-center h-full text-center px-8"
+          style={{ background: `radial-gradient(ellipse at center, ${tmpl.card} 60%, ${tmpl.surface} 100%)` }}
+        >
+          <p style={{ fontFamily: "var(--font-serif)", fontSize: "3.5rem", color: tmpl.accent, lineHeight: 1 }}>
+            {creation.photos.length + 1}
+          </p>
+          <p className="mt-2" style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", color: tmpl.stone }}>
+            memories shared
           </p>
         </div>
       );

@@ -46,6 +46,9 @@ export async function createCreation(data: {
   const supabase = createBrowserClient();
   const shareToken = generateShareToken();
 
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 7);
+
   const { data: row, error } = await supabase
     .from("creations")
     .insert({
@@ -58,6 +61,7 @@ export async function createCreation(data: {
       output_format: "scrollytelling",
       template_id: "warm-linen",
       tier: "free",
+      expires_at: expiresAt.toISOString(),
     })
     .select()
     .single();
@@ -72,6 +76,20 @@ export async function updateCreation(
 ): Promise<void> {
   const supabase = createBrowserClient();
   await supabase.from("creations").update(patch).eq("id", creationId);
+}
+
+export function tierExpiresAt(tier: string): string | null {
+  if (tier === "free") {
+    const d = new Date();
+    d.setDate(d.getDate() + 7);
+    return d.toISOString();
+  }
+  if (tier === "standard") {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() + 1);
+    return d.toISOString();
+  }
+  return null; // premium / deluxe = permanent
 }
 
 export async function getUserCreations(userId: string): Promise<Creation[]> {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { adminUpdateCreation } from "@/lib/supabase/creations";
+import { adminUpdateCreation, tierExpiresAt } from "@/lib/supabase/creations";
 
 export const runtime = "nodejs";
 
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         stripe_payment_id: typeof session.payment_intent === "string"
           ? session.payment_intent
           : null,
-        expires_at: null, // paid = permanent
+        expires_at: tierExpiresAt(tier),
       }).catch((e) => console.error("[stripe/webhook] DB update failed:", e));
     }
   }

@@ -21,10 +21,10 @@ const TIERS: TierDef[] = [
     price: "$0",
     muted: true,
     features: [
-      "1 format",
+      "Scrolling Story format only",
       "Up to 5 photos",
       "\"Made with Chère\" watermark",
-      "Link expires after 30 days",
+      "Shareable for 7 days",
     ],
   },
   {
@@ -33,10 +33,10 @@ const TIERS: TierDef[] = [
     price: "$9.99",
     badge: "Most popular",
     features: [
-      "All base formats",
+      "All formats",
       "Up to 15 photos",
       "No watermark",
-      "Permanent link",
+      "Link active for 1 year",
       "Email delivery",
     ],
   },
@@ -46,8 +46,8 @@ const TIERS: TierDef[] = [
     price: "$24.99",
     features: [
       "Everything in Standard",
-      "Watercolor photo gallery",
-      "AI gift illustrations",
+      "Permanent link — forever",
+      "Downloadable PDF keepsake",
       "Background music",
     ],
   },
@@ -57,9 +57,9 @@ const TIERS: TierDef[] = [
     price: "$44.99",
     features: [
       "Everything in Premium",
-      "Priority AI (Opus)",
-      "Printed QR card mailed to you",
-      "Reaction cam",
+      "Custom URL (chere.app/for-dad)",
+      "Priority AI generation",
+      "Permanent + custom link",
     ],
   },
 ];
