@@ -2,8 +2,23 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 const PROTECTED_PREFIXES = ["/create", "/dashboard"];
+const UNLOCK_SKIP = ["/unlock", "/api/unlock", "/icon.svg"];
 
 export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  const siteUser = process.env.SITE_USERNAME;
+  const sitePass = process.env.SITE_PASSWORD;
+  if (siteUser && sitePass && !UNLOCK_SKIP.some((p) => pathname.startsWith(p))) {
+    const unlocked = request.cookies.get("site_unlocked")?.value;
+    if (unlocked !== `${siteUser}:${sitePass}`) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/unlock";
+      url.searchParams.set("from", pathname);
+      return NextResponse.redirect(url);
+    }
+  }
+
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -31,7 +46,6 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { pathname } = request.nextUrl;
   const isProtected = PROTECTED_PREFIXES.some((prefix) =>
     pathname.startsWith(prefix)
   );
