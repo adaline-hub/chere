@@ -12,9 +12,15 @@ const TEMPLATES = {
 
 type Phase = "sealed" | "opening" | "letter";
 
-export default function LoveLetterRenderer({ creation }: { creation: TributeCreation }) {
+export default function LoveLetterRenderer({
+  creation,
+  preview,
+}: {
+  creation: TributeCreation;
+  preview?: boolean;
+}) {
   const tmpl = TEMPLATES[creation.templateId] ?? TEMPLATES["warm-linen"];
-  const [phase, setPhase] = useState<Phase>("sealed");
+  const [phase, setPhase] = useState<Phase>(preview ? "letter" : "sealed");
 
   const creatorInitial = creation.creatorName.charAt(0).toUpperCase();
   const paragraphs = creation.generatedText.split(/\n\n+/).filter((p) => p.trim());

@@ -58,12 +58,12 @@ export default function PreviewStep() {
     musicTrackId: null,
   };
 
-  function renderFormat() {
+  function renderFormat(preview = false) {
     switch (outputFormat) {
       case "memory_wrapped":
         return <MemoryWrappedRenderer creation={previewCreation} />;
       case "love_letter":
-        return <LoveLetterRenderer creation={previewCreation} />;
+        return <LoveLetterRenderer creation={previewCreation} preview={preview} />;
       default:
         return <ScrollytellingRenderer creation={previewCreation} />;
     }
@@ -184,10 +184,21 @@ export default function PreviewStep() {
                   </div>
                 </div>
 
-                {/* Format-specific renderer */}
-                <div style={{ overflowY: "auto", maxHeight: "520px" }}>
+                {/* Format-specific renderer — scaled to fit phone frame */}
+                <div style={{ overflow: "hidden", height: "520px", position: "relative" }}>
                   <MotionConfig reducedMotion="always">
-                    {renderFormat()}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "154%",
+                        transform: "scale(0.65)",
+                        transformOrigin: "top left",
+                      }}
+                    >
+                      {renderFormat(true)}
+                    </div>
                   </MotionConfig>
                 </div>
               </div>
@@ -228,7 +239,7 @@ export default function PreviewStep() {
               {/* Format-specific renderer */}
               <div style={{ overflowY: "auto", maxHeight: "560px" }}>
                 <MotionConfig reducedMotion="always">
-                  {renderFormat()}
+                  {renderFormat(true)}
                 </MotionConfig>
               </div>
             </div>
