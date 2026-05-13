@@ -41,6 +41,13 @@ export function useAutoSave() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return; // not logged in yet — will create after auth
 
+        // Ensure profile exists before inserting creation (FK constraint)
+        await supabase.from("profiles").upsert({
+          id: user.id,
+          email: user.email ?? "",
+          display_name: user.user_metadata?.full_name ?? user.user_metadata?.name ?? (user.email?.split("@")[0] ?? "User"),
+        }, { onConflict: "id", ignoreDuplicates: true });
+
         console.log("AUTO-SAVE: attempting to create creation...");
         console.log("AUTO-SAVE: user id:", user.id);
         const creation = await createCreation({
