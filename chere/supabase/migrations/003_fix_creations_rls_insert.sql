@@ -2,6 +2,7 @@
 -- Previous policy used FOR ALL ... USING only, which does not authorize INSERT.
 
 grant select, insert, update, delete on public.creations to authenticated;
+grant select, insert, update, delete on public.creations to service_role;
 
 drop policy if exists "Creators see own creations" on creations;
 
