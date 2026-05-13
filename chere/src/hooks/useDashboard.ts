@@ -10,18 +10,42 @@ export function useCreations() {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) { setLoading(false); return; }
-      supabase
+
+    async function fetchCreations() {
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      if (authError) {
+        console.error("DASHBOARD: auth.getUser failed:", authError);
+        setLoading(false);
+        return;
+      }
+      if (!user) {
+        console.warn("DASHBOARD: no authenticated user — skipping fetch");
+        setLoading(false);
+        return;
+      }
+      console.log("DASHBOARD: fetching creations for user:", user.id);
+      const { data: rows, error } = await supabase
         .from("creations")
         .select("*")
-        .eq("creator_id", data.user.id)
-        .order("created_at", { ascending: false })
-        .then(({ data: rows }) => {
-          setCreations((rows as Creation[]) ?? []);
-          setLoading(false);
-        });
+        .eq("creator_id", user.id)
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.error("DASHBOARD: creations query failed:", error);
+      } else {
+        console.log("DASHBOARD: fetched", rows?.length ?? 0, "creations");
+      }
+      setCreations((rows as Creation[]) ?? []);
+      setLoading(false);
+    }
+
+    fetchCreations();
+
+    // Re-fetch when auth state changes (e.g. session resolves after mount)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      fetchCreations();
     });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   return { creations, loading };
