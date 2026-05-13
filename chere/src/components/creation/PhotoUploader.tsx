@@ -57,9 +57,9 @@ export default function PhotoUploader() {
 
     // Upload each photo to Supabase Storage in the background
     if (creationId) {
-      newPhotos.forEach((photo) => {
+      newPhotos.forEach((photo, i) => {
         setUploadState((s) => ({ ...s, [photo.id]: "uploading" }));
-        uploadPhoto(creationId, photo.file, photo.id)
+        uploadPhoto(creationId, photo.file, photo.id, photos.length + i)
           .then(() => setUploadState((s) => ({ ...s, [photo.id]: "done" })))
           .catch(() => setUploadState((s) => ({ ...s, [photo.id]: "error" })));
       });

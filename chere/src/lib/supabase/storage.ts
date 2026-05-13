@@ -8,17 +8,29 @@ const BUCKET = "creations";
 export async function uploadPhoto(
   creationId: string,
   file: File,
-  photoId: string
+  photoId: string,
+  sortOrder = 0
 ): Promise<{ storagePath: string }> {
   const supabase = createBrowserClient();
   const ext = file.name.split(".").pop() ?? "jpg";
   const storagePath = `${creationId}/originals/${photoId}.${ext}`;
 
-  const { error } = await supabase.storage
+  const { error: storageError } = await supabase.storage
     .from(BUCKET)
     .upload(storagePath, file, { upsert: true });
 
-  if (error) throw new Error(error.message);
+  if (storageError) throw new Error(storageError.message);
+
+  const { error: dbError } = await supabase.from("photos").upsert({
+    id: photoId,
+    creation_id: creationId,
+    storage_path: storagePath,
+    original_filename: file.name,
+    sort_order: sortOrder,
+  }, { onConflict: "id" });
+
+  if (dbError) console.error("[uploadPhoto] photos insert error:", dbError);
+
   return { storagePath };
 }
 
