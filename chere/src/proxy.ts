@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 const PROTECTED_PREFIXES = ["/create", "/dashboard"];
-const UNLOCK_SKIP = ["/unlock", "/api/unlock", "/icon.svg"];
+const UNLOCK_SKIP = ["/unlock", "/api/unlock", "/icon.svg", "/login", "/callback"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

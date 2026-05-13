@@ -10,10 +10,10 @@ export async function POST(req: NextRequest) {
   const validPass = process.env.SITE_PASSWORD;
 
   if (username !== validUser || password !== validPass) {
-    return NextResponse.redirect(new URL(`/unlock?from=${encodeURIComponent(from)}&error=1`, req.url));
+    return NextResponse.redirect(new URL(`/unlock?from=${encodeURIComponent(from)}&error=1`, req.url), 303);
   }
 
-  const res = NextResponse.redirect(new URL(from, req.url));
+  const res = NextResponse.redirect(new URL(from, req.url), 303);
   res.cookies.set("site_unlocked", `${validUser}:${validPass}`, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
