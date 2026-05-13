@@ -10,28 +10,32 @@ const SUPABASE_CONFIGURED =
   !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 async function loadCreation(shareToken: string): Promise<TributeCreation | null> {
-  if (!SUPABASE_CONFIGURED) return mockCreation;
+  const configured = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+  console.log(`[tribute] loadCreation token="${shareToken}" configured=${configured}`);
+  if (!configured) return mockCreation;
 
-  const creation = await getCreationByShareToken(shareToken);
-  if (!creation) return null;
+  try {
+    const creation = await getCreationByShareToken(shareToken);
+    console.log(`[tribute] getCreationByShareToken result=${creation ? creation.id : "null"}`);
+    if (!creation) return null;
 
-  // Fetch photos from Supabase Storage
-  const admin = createAdminClient();
-  const { data: photoRows } = await admin
-    .from("photos")
-    .select("*")
-    .eq("creation_id", creation.id)
-    .order("sort_order");
+    const admin = createAdminClient();
+    const { data: photoRows, error: photoError } = await admin
+      .from("photos")
+      .select("*")
+      .eq("creation_id", creation.id)
+      .order("sort_order");
+    if (photoError) console.error("[tribute] photos query error:", photoError);
 
-  const photos = await Promise.all(
-    (photoRows ?? []).map(async (p) => ({
-      id: p.id as string,
-      url: p.storage_path ? await getPhotoUrl(p.storage_path as string) : "",
-      caption: (p.caption as string) ?? "",
-    }))
-  );
+    const photos = await Promise.all(
+      (photoRows ?? []).map(async (p) => ({
+        id: p.id as string,
+        url: p.storage_path ? await getPhotoUrl(p.storage_path as string) : "",
+        caption: (p.caption as string) ?? "",
+      }))
+    );
 
-  return {
+    return {
     id: creation.id,
     recipientName: creation.recipient_name,
     creatorName: "Someone who loves you", // Phase 8: join profiles
@@ -46,6 +50,10 @@ async function loadCreation(shareToken: string): Promise<TributeCreation | null>
     giftMoment: null, // Phase 8: load from gift_moments table
     musicTrackId: creation.music_track_id,
   };
+  } catch (err) {
+    console.error("[tribute] loadCreation threw:", err);
+    return null;
+  }
 }
 
 export async function generateMetadata({

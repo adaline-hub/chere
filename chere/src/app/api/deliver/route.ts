@@ -23,6 +23,9 @@ export async function POST(req: NextRequest) {
       if (!recipientEmail) {
         return NextResponse.json({ error: "Missing recipientEmail" }, { status: 400 });
       }
+      console.log("[deliver] sending email to:", recipientEmail);
+      console.log("[deliver] RESEND_API_KEY set:", !!process.env.RESEND_API_KEY);
+      console.log("[deliver] EMAIL_FROM:", process.env.EMAIL_FROM);
       await sendDeliveryEmail({
         recipientEmail,
         recipientName: creation.recipient_name,
