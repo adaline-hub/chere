@@ -17,8 +17,8 @@ export async function getCreationByShareToken(shareToken: string): Promise<Creat
 }
 
 export async function getCreationById(creationId: string): Promise<Creation | null> {
-  const admin = createAdminClient();
-  const { data, error } = await admin
+  const client = createBrowserClient();
+  const { data, error } = await client
     .from("creations")
     .select("*")
     .eq("id", creationId)
