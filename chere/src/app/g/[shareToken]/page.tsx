@@ -83,7 +83,15 @@ export default async function TributePage({
   const creation = await loadCreation(shareToken);
 
   if (!creation) {
-    notFound();
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    return (
+      <main style={{ padding: "2rem", fontFamily: "monospace", fontSize: "14px" }}>
+        <p>DEBUG: creation not found for token: {shareToken}</p>
+        <p>SUPABASE_URL: {url ? url.slice(0, 30) + "..." : "MISSING"}</p>
+        <p>SERVICE_ROLE_KEY: {key ? "set (" + key.length + " chars)" : "MISSING"}</p>
+      </main>
+    );
   }
 
   // Expired
