@@ -237,7 +237,7 @@ export default function PreviewStep() {
               </div>
 
               {/* Format-specific renderer */}
-              <div style={{ overflowY: "auto", maxHeight: "560px" }}>
+              <div style={{ overflowY: "auto", maxHeight: "560px", paddingTop: "32px" }}>
                 <MotionConfig reducedMotion="always">
                   {renderFormat(true)}
                 </MotionConfig>
