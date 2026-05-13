@@ -14,6 +14,7 @@ interface FormatDef {
   giftOnly?: boolean;
   comingSoon?: boolean;
   premium?: boolean;
+  deluxe?: boolean;
   preview: React.ReactNode;
 }
 
@@ -78,6 +79,23 @@ function ComingSoonPreview() {
       className="h-full w-full"
       style={{ backgroundColor: "var(--color-parchment)" }}
     />
+  );
+}
+
+function CompanionPreview() {
+  return (
+    <div className="h-full w-full relative overflow-hidden" style={{ backgroundColor: "#F2EDE6" }}>
+      {/* Mini scene */}
+      <div style={{ position: "absolute", left: "10%", top: "15%", width: "30%", height: "22%", backgroundColor: "#C8DCE8", borderRadius: "1px", border: "3px solid #E0D4C8" }} />
+      <div style={{ position: "absolute", left: 0, top: "60%", right: 0, bottom: 0, background: "linear-gradient(to bottom, #C49A70, #A88050)" }} />
+      {/* Hotspot dots */}
+      {[{ x: "30%", y: "66%" }, { x: "55%", y: "64%" }, { x: "75%", y: "40%" }].map((pos, i) => (
+        <div key={i} style={{ position: "absolute", left: pos.x, top: pos.y, transform: "translate(-50%, -50%)" }}>
+          <div style={{ width: "10px", height: "10px", borderRadius: "50%", backgroundColor: "#C4A97D", boxShadow: "0 0 8px rgba(196,169,125,0.6)" }} />
+          <div style={{ position: "absolute", inset: "-4px", borderRadius: "50%", border: "1.5px solid #C4A97D", opacity: 0.4 }} />
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -156,9 +174,9 @@ const ALL_FORMATS: FormatDef[] = [
   {
     value: "companion",
     label: "Memory Companion",
-    description: "An animated scene they can explore and interact with.",
-    comingSoon: true,
-    preview: <ComingSoonPreview />,
+    description: "An interactive scene they can explore. Tap objects to discover hidden memories.",
+    deluxe: true,
+    preview: <CompanionPreview />,
   },
 ];
 
@@ -263,6 +281,14 @@ export default function FormatPicker() {
                     Premium
                   </span>
                 )}
+                {format.deluxe && !format.comingSoon && (
+                  <span
+                    className="absolute top-3 right-3 text-xs px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: "var(--color-espresso)", color: "var(--color-muted-gold)" }}
+                  >
+                    Deluxe
+                  </span>
+                )}
 
                 <div className="p-4">
                   <h3
@@ -333,33 +359,42 @@ export default function FormatPicker() {
           >
             <p className="text-sm text-stone text-center mb-5 font-serif">Illustration style</p>
             <div className="flex justify-center gap-8">
-              {(["photos", "sketches"] as const).map((mode) => {
-                const active = illustrationMode === mode;
+              {([
+                { value: "photos" as const, icon: "📷", label: "Photos only", note: false },
+                { value: "mixed" as const, icon: "📷✏️", label: "Photos & Sketches", note: true },
+                { value: "sketches" as const, icon: "✏️", label: "Sketches only", note: true },
+              ] as const).map((opt) => {
+                const active = illustrationMode === opt.value;
                 return (
                   <button
-                    key={mode}
-                    onClick={() => setIllustrationMode(mode)}
+                    key={opt.value}
+                    onClick={() => setIllustrationMode(opt.value)}
                     className="flex flex-col items-center gap-2 cursor-pointer"
                   >
                     <div
                       className="rounded-xl transition-all duration-300 flex items-center justify-center"
                       style={{
-                        width: "64px",
+                        width: "72px",
                         height: "52px",
                         backgroundColor: active ? "var(--color-cream)" : "transparent",
                         border: "2px solid",
                         borderColor: active ? "var(--color-muted-gold)" : "var(--color-parchment)",
-                        fontSize: "1.375rem",
+                        fontSize: "1.125rem",
                       }}
                     >
-                      {mode === "photos" ? "📷" : "✏️"}
+                      {opt.icon}
                     </div>
                     <span
-                      className="text-xs capitalize transition-colors duration-300"
-                      style={{ color: active ? "var(--color-espresso)" : "var(--color-stone)" }}
+                      className="text-xs text-center transition-colors duration-300"
+                      style={{ color: active ? "var(--color-espresso)" : "var(--color-stone)", maxWidth: "72px" }}
                     >
-                      {mode}
+                      {opt.label}
                     </span>
+                    {opt.note && active && (
+                      <span className="text-xs text-center" style={{ color: "var(--color-warm-gray)", maxWidth: "120px", fontSize: "0.625rem" }}>
+                        AI sketches coming soon — using styled photos for now
+                      </span>
+                    )}
                   </button>
                 );
               })}

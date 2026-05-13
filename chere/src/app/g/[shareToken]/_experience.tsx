@@ -7,6 +7,7 @@ import ScrollytellingRenderer from "@/components/tribute/ScrollytellingRenderer"
 import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
 import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
 import StorybookRenderer from "@/components/tribute/StorybookRenderer";
+import CompanionRenderer from "@/components/tribute/CompanionRenderer";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 
 export default function TributeExperience({
@@ -35,6 +36,8 @@ export default function TributeExperience({
         return <LoveLetterRenderer creation={creation} />;
       case "storybook":
         return <StorybookRenderer creation={creation} />;
+      case "companion":
+        return <CompanionRenderer creation={creation} />;
       case "scrollytelling":
       default:
         return <ScrollytellingRenderer creation={creation} />;

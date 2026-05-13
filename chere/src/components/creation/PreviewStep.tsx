@@ -7,6 +7,7 @@ import ScrollytellingRenderer from "@/components/tribute/ScrollytellingRenderer"
 import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
 import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
 import StorybookRenderer from "@/components/tribute/StorybookRenderer";
+import CompanionRenderer from "@/components/tribute/CompanionRenderer";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 
 const TEMPLATE_STYLES: Record<string, { bg: string; accent: string }> = {
@@ -68,6 +69,8 @@ export default function PreviewStep() {
         return <LoveLetterRenderer creation={previewCreation} preview={preview} />;
       case "storybook":
         return <StorybookRenderer creation={previewCreation} illustrationMode={illustrationMode} />;
+      case "companion":
+        return <CompanionRenderer creation={previewCreation} preview={preview} />;
       default:
         return <ScrollytellingRenderer creation={previewCreation} />;
     }
