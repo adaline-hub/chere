@@ -387,3 +387,36 @@ Discussed: In src/hooks/useAutoSave.ts, after a creation is successfull…; can 
 - see the request payload (specifically whether `interviewAnswers` is populated) a
 
 ---
+
+## May 13, 2026
+
+Discussed: do we need to create supabase/migrations/003_fix_rls_insert.…; you have access to my supabase. please run all thats needed …; commit push deploy; i need you to review or reverse some of the work as you see …; AUTO-SAVE: createCreation FAILED:
+
+**Decisions:**
+- - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha
+
+**Files touched:**
+- `src/app/api/deliver/route.ts`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/app/page.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/stores/creation-store.ts`
+- `middleware.ts`
+- `proxy.ts`
+
+**Next steps:**
+- create supabase/migrations/003_fix_rls_insert.sql and then run it in your Supaba
+- run/apply it (either via Supabase SQL Editor or Supabase CLI migration apply).
+- work. Try creating a new tribute now.
+- work now — no deploy needed (storage is DB-side only). Try uploading again.
+- see the request payload (specifically whether `interviewAnswers` is populated) a
+- be something like `gifts@chere.app` or a verified sender)
+- see a debug page showing the token and whether the env vars are present. Share w
+- commit and deploy or something?
+- always be visible regardless of which preview mode (mobile/desktop) is active.
+- render at approximately 65% of its normal size so the preview looks like a propo
+
+---

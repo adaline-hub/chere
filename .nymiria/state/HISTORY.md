@@ -39,3 +39,10 @@
 **Decisions:** tone does nothing (keeps current cached/edited state).
 
 ---
+## 2026-05-13T20:25:06.114Z — claude
+**Summary:** Discussed: do we need to create supabase/migrations/003_fix_rls_insert.…; you have access to my supabase. please run all thats needed …; commit push deploy; i need you to review or reverse some of the work as you see …; AUTO-SAVE: createCreation FAILED:
+**Duration:** 32 min
+**Files Changed:** src/app/api/deliver/route.ts, src/components/creation/PreviewStep.tsx, src/components/tribute/LoveLetterRenderer.tsx, src/app/page.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/StorybookRenderer.tsx, src/components/creation/FormatPicker.tsx, src/stores/creation-store.ts, middleware.ts, proxy.ts, page.tsx, experience.tsx, Next.js, route.ts, 0yb2wil16uz6h.js
+**Decisions:** - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha
+
+---
