@@ -28,3 +28,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## tone does nothing (keeps current cached/edited state).
+
+**Date:** May 12, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---

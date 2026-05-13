@@ -45,3 +45,13 @@ Updated files:
 - [CustomizeSte
 
 ---
+## 2026-05-13 — tone does nothing (keeps current cached/edited state).
+**Provider:** codex
+**Rationale:** (auto-detected)
+**Source:** Updated as requested in [CustomizeStep.tsx](/Users/lindsaylynn/Developer/Chère/chere/src/components/creation/CustomizeStep.tsx).
+
+Removed the `Regenerate` button and its force-regenerate logic. Tone selection is now the only path to regenerate/switch text.
+
+Caching behavior remains per-tone and now
+
+---
