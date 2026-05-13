@@ -62,8 +62,8 @@ export default function CustomizeStep() {
     return true;
   }
 
-  async function generate(tone: Tone = "default", options?: { force?: boolean }) {
-    if (!options?.force && hydrateFromCache(tone)) return;
+  async function generate(tone: Tone = "default") {
+    if (hydrateFromCache(tone)) return;
     setIsGenerating(true);
     setError(null);
     try {
@@ -102,20 +102,9 @@ export default function CustomizeStep() {
     }
   }
 
-  function handleRegenerateCurrentTone() {
-    if (editedText) {
-      setPendingTone(selectedTone);
-      return;
-    }
-    generate(selectedTone, { force: true });
-  }
-
   function confirmRegenerate() {
     if (pendingTone) {
-      // Force a fresh generation only when re-generating the current tone.
-      // Switching to a different tone should still use the cache if available.
-      const forceFresh = pendingTone === selectedTone;
-      generate(pendingTone, forceFresh ? { force: true } : undefined);
+      generate(pendingTone);
       setPendingTone(null);
     }
   }
@@ -138,8 +127,6 @@ export default function CustomizeStep() {
 
   const displayText = editedText ?? generatedText;
   const wordCount = displayText.split(/\s+/).filter(Boolean).length;
-  const hasCachedSelectedTone = Boolean(toneCacheRef.current[selectedTone]);
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl">
@@ -263,17 +250,6 @@ export default function CustomizeStep() {
                     >
                       Try a different tone
                     </p>
-                    {!hasCachedSelectedTone && (
-                      <div className="flex justify-center mb-3">
-                        <button
-                          onClick={handleRegenerateCurrentTone}
-                          disabled={hasCachedSelectedTone}
-                          className="btn-secondary text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          Regenerate
-                        </button>
-                      </div>
-                    )}
                     <div className="flex flex-wrap justify-center gap-2">
                       {TONE_OPTIONS.map((opt) => {
                         const active = selectedTone === opt.value;
@@ -423,11 +399,11 @@ export default function CustomizeStep() {
                 className="text-sm text-center mb-8"
                 style={{ color: "var(--color-stone)" }}
               >
-                You&apos;ve made edits. Regenerating will replace them.
+                You&apos;ve made edits. Switching tones will replace them.
               </p>
               <div className="flex flex-col gap-3">
                 <button onClick={confirmRegenerate} className="btn-gold w-full">
-                  Regenerate
+                  Switch tone
                 </button>
                 <button
                   onClick={() => setPendingTone(null)}

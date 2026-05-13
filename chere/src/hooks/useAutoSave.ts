@@ -41,17 +41,19 @@ export function useAutoSave() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return; // not logged in yet — will create after auth
 
-        const row = await createCreation({
+        console.log("AUTO-SAVE: attempting to create creation...");
+        console.log("AUTO-SAVE: user id:", user.id);
+        const creation = await createCreation({
           creatorId: user.id,
           type: creationType!,
           relationshipType: relationshipType!,
           recipientName,
         });
-        console.log("AUTO-SAVE: creation saved, share_token:", row.share_token);
-        setCreationId(row.id);
-        if (row.share_token) setShareToken(row.share_token as string);
-      } catch {
-        // Silently fail — wizard continues with local state
+        console.log("AUTO-SAVE: success, share_token:", creation.share_token);
+        setCreationId(creation.id);
+        if (creation.share_token) setShareToken(creation.share_token as string);
+      } catch (error) {
+        console.error("AUTO-SAVE: createCreation FAILED:", error);
       } finally {
         creating.current = false;
       }

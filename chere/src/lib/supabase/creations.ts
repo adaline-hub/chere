@@ -49,24 +49,29 @@ export async function createCreation(data: {
   const expiresAt = new Date();
   expiresAt.setDate(expiresAt.getDate() + 7);
 
+  const insertPayload = {
+    creator_id: data.creatorId,
+    type: data.type,
+    relationship_type: data.relationshipType,
+    recipient_name: data.recipientName,
+    share_token: shareToken,
+    status: "draft",
+    output_format: "scrollytelling",
+    template_id: "warm-linen",
+    tier: "free",
+    expires_at: expiresAt.toISOString(),
+  };
+
+  console.log("createCreation: inserting row into Supabase", insertPayload);
   const { data: row, error } = await supabase
     .from("creations")
-    .insert({
-      creator_id: data.creatorId,
-      type: data.type,
-      relationship_type: data.relationshipType,
-      recipient_name: data.recipientName,
-      share_token: shareToken,
-      status: "draft",
-      output_format: "scrollytelling",
-      template_id: "warm-linen",
-      tier: "free",
-      expires_at: expiresAt.toISOString(),
-    })
+    .insert(insertPayload)
     .select()
     .single();
 
-  if (error || !row) throw new Error(error?.message ?? "Failed to create creation");
+  console.log("createCreation: Supabase insert response", { row, error });
+  if (error) throw error;
+  if (!row) throw new Error("Failed to create creation: insert returned no row");
   return row as Creation;
 }
 
