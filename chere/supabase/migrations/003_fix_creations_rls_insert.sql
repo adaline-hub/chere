@@ -1,6 +1,8 @@
 -- Fix RLS for creations inserts/updates from authenticated browser clients.
 -- Previous policy used FOR ALL ... USING only, which does not authorize INSERT.
 
+grant select, insert, update, delete on public.creations to authenticated;
+
 drop policy if exists "Creators see own creations" on creations;
 
 create policy "Creators can select own creations"
