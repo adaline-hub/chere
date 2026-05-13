@@ -46,3 +46,10 @@
 **Decisions:** - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha
 
 ---
+## 2026-05-13T23:18:44.179Z — claude
+**Summary:** Discussed: AUTO-SAVE: createCreation FAILED:; AUTO-SAVE: createCreation FAILED:; commit push deploy; the above auto save creation failed error is gone. i still s…; when i loaded the photos i got 400 errors
+**Duration:** 31 min
+**Files Changed:** src/app/api/deliver/route.ts, src/components/creation/PreviewStep.tsx, src/components/tribute/LoveLetterRenderer.tsx, src/app/page.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/StorybookRenderer.tsx, src/components/creation/FormatPicker.tsx, src/stores/creation-store.ts, src/components/tribute/CompanionRenderer.tsx, page.tsx, experience.tsx, Next.js, route.ts, 0yb2wil16uz6h.js, 10u3y4bw1ayzs.js
+**Decisions:** - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:
+
+---

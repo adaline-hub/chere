@@ -420,3 +420,37 @@ Discussed: do we need to create supabase/migrations/003_fix_rls_insert.…; you 
 - render at approximately 65% of its normal size so the preview looks like a propo
 
 ---
+
+## May 13, 2026
+
+Discussed: AUTO-SAVE: createCreation FAILED:; AUTO-SAVE: createCreation FAILED:; commit push deploy; the above auto save creation failed error is gone. i still s…; when i loaded the photos i got 400 errors
+
+**Decisions:**
+- - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha
+- automatically based on `relationshipType`:
+
+**Files touched:**
+- `src/app/api/deliver/route.ts`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/app/page.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `page.tsx`
+
+**Next steps:**
+- work. Try creating a new tribute now.
+- work now — no deploy needed (storage is DB-side only). Try uploading again.
+- see the request payload (specifically whether `interviewAnswers` is populated) a
+- be something like `gifts@chere.app` or a verified sender)
+- see a debug page showing the token and whether the env vars are present. Share w
+- commit and deploy or something?
+- always be visible regardless of which preview mode (mobile/desktop) is active.
+- render at approximately 65% of its normal size so the preview looks like a propo
+- render at approximately 85% scale.
+- convert visitors for Father's Day. This is what turns traffic into creators.
+
+---
