@@ -83,13 +83,16 @@ export default async function TributePage({
   const creation = await loadCreation(shareToken);
 
   if (!creation) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const admin = createAdminClient();
+    const { data: debugData, error: debugError } = await admin
+      .from("creations").select("id,share_token").eq("share_token", shareToken).maybeSingle();
+    const { data: anyRows } = await admin.from("creations").select("share_token").limit(3);
     return (
       <main style={{ padding: "2rem", fontFamily: "monospace", fontSize: "14px" }}>
-        <p>DEBUG: creation not found for token: {shareToken}</p>
-        <p>SUPABASE_URL: {url ? url.slice(0, 30) + "..." : "MISSING"}</p>
-        <p>SERVICE_ROLE_KEY: {key ? "set (" + key.length + " chars)" : "MISSING"}</p>
+        <p>token: {shareToken}</p>
+        <p>direct query data: {JSON.stringify(debugData)}</p>
+        <p>direct query error: {JSON.stringify(debugError)}</p>
+        <p>sample tokens in DB: {JSON.stringify(anyRows)}</p>
       </main>
     );
   }
