@@ -90,8 +90,9 @@ export default function HomePage() {
     <main className="min-h-screen bg-linen texture-linen">
       {/* Navigation */}
       <nav className="flex items-center justify-between px-6 md:px-12 py-6">
-        <Link href="/" className="font-serif text-2xl text-espresso tracking-wide">
-          Chère
+        <Link href="/" className="flex items-center gap-2.5">
+          <img src="/chere-favicon.svg" alt="" aria-hidden="true" width={32} height={32} className="rounded-full" />
+          <span className="font-serif text-2xl text-espresso tracking-wide">Chère</span>
         </Link>
         <div className="flex items-center gap-6">
           <Link href="#pricing" className="text-sm text-stone hover:text-espresso transition-colors duration-300">
