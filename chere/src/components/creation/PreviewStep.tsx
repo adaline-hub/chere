@@ -6,6 +6,7 @@ import { useCreationStore } from "@/stores/creation-store";
 import ScrollytellingRenderer from "@/components/tribute/ScrollytellingRenderer";
 import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
 import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
+import StorybookRenderer from "@/components/tribute/StorybookRenderer";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 
 const TEMPLATE_STYLES: Record<string, { bg: string; accent: string }> = {
@@ -24,6 +25,7 @@ export default function PreviewStep() {
     giftMoments,
     templateId,
     outputFormat,
+    illustrationMode,
     creationId,
     creationType,
     relationshipType,
@@ -61,9 +63,11 @@ export default function PreviewStep() {
   function renderFormat(preview = false) {
     switch (outputFormat) {
       case "memory_wrapped":
-        return <MemoryWrappedRenderer creation={previewCreation} />;
+        return <MemoryWrappedRenderer creation={previewCreation} preview={preview} />;
       case "love_letter":
         return <LoveLetterRenderer creation={previewCreation} preview={preview} />;
+      case "storybook":
+        return <StorybookRenderer creation={previewCreation} illustrationMode={illustrationMode} />;
       default:
         return <ScrollytellingRenderer creation={previewCreation} />;
     }
@@ -185,7 +189,7 @@ export default function PreviewStep() {
                 </div>
 
                 {/* Format-specific renderer — scaled to fit phone frame */}
-                <div style={{ overflow: "hidden", height: "520px", position: "relative" }}>
+                <div style={{ overflow: "hidden", height: "520px", position: "relative", backgroundColor: "var(--color-cream)" }}>
                   <MotionConfig reducedMotion="always">
                     <div
                       style={{
@@ -237,7 +241,7 @@ export default function PreviewStep() {
               </div>
 
               {/* Format-specific renderer */}
-              <div style={{ overflowY: "auto", maxHeight: "560px", paddingTop: "32px" }}>
+              <div style={{ overflowY: "auto", maxHeight: "560px", paddingTop: "32px", backgroundColor: "var(--color-cream)" }}>
                 <MotionConfig reducedMotion="always">
                   {renderFormat(true)}
                 </MotionConfig>

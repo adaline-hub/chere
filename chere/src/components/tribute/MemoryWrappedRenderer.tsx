@@ -184,7 +184,7 @@ function CardContent({
   }
 }
 
-export default function MemoryWrappedRenderer({ creation }: { creation: TributeCreation }) {
+export default function MemoryWrappedRenderer({ creation, preview }: { creation: TributeCreation; preview?: boolean }) {
   const tmpl = TEMPLATES[creation.templateId] ?? TEMPLATES["warm-linen"];
   const cards = buildCards(creation);
   const [current, setCurrent] = useState(0);
@@ -221,7 +221,7 @@ export default function MemoryWrappedRenderer({ creation }: { creation: TributeC
 
   return (
     <div
-      className="fixed inset-0 flex flex-col items-center justify-center"
+      className={preview ? "min-h-screen flex flex-col items-center justify-center" : "fixed inset-0 flex flex-col items-center justify-center"}
       style={{ backgroundColor: tmpl.bg, userSelect: "none" }}
     >
       {/* Card stack */}

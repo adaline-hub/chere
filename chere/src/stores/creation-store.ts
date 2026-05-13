@@ -102,6 +102,8 @@ interface CreationStore {
   setOutputFormat: (format: OutputFormat) => void;
   templateId: string;
   setTemplateId: (id: string) => void;
+  illustrationMode: "photos" | "sketches";
+  setIllustrationMode: (mode: "photos" | "sketches") => void;
 
   // Step 8: Customize
   generatedText: string;
@@ -141,6 +143,7 @@ const initialState = {
   dripClues: [],
   outputFormat: null,
   templateId: "warm-linen",
+  illustrationMode: "photos" as "photos" | "sketches",
   generatedText: "",
   editedText: null,
   dedicationMessage: "",
@@ -210,6 +213,7 @@ export const useCreationStore = create<CreationStore>((set) => ({
 
   setOutputFormat: (format) => set({ outputFormat: format }),
   setTemplateId: (id) => set({ templateId: id }),
+  setIllustrationMode: (mode) => set({ illustrationMode: mode }),
   setGeneratedText: (text) => set({ generatedText: text }),
   setEditedText: (text) => set({ editedText: text }),
   setDedicationMessage: (message) => set({ dedicationMessage: message }),

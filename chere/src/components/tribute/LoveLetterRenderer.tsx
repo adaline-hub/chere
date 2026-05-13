@@ -208,8 +208,9 @@ export default function LoveLetterRenderer({
                   <p
                     className="mb-6 text-left"
                     style={{
-                      fontFamily: "var(--font-hand)",
-                      fontSize: "1.375rem",
+                      fontFamily: "var(--font-serif)",
+                      fontStyle: "italic",
+                      fontSize: "1.125rem",
                       lineHeight: 1.7,
                       color: "#2A2420",
                     }}

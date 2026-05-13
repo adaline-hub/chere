@@ -13,6 +13,7 @@ interface FormatDef {
   description: string;
   giftOnly?: boolean;
   comingSoon?: boolean;
+  premium?: boolean;
   preview: React.ReactNode;
 }
 
@@ -80,6 +81,43 @@ function ComingSoonPreview() {
   );
 }
 
+function StorybookPreview() {
+  return (
+    <div className="h-full w-full flex items-center justify-center" style={{ backgroundColor: "var(--color-linen)" }}>
+      <div
+        style={{
+          position: "relative",
+          width: "90px",
+          height: "110px",
+        }}
+      >
+        {/* Page stack depth */}
+        <div style={{ position: "absolute", inset: 0, right: "-4px", backgroundColor: "#D4B896", borderRadius: "0 6px 6px 0" }} />
+        <div style={{ position: "absolute", inset: 0, right: "-2px", backgroundColor: "#DCC4A8", borderRadius: "0 6px 6px 0" }} />
+        {/* Page */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundColor: "#FAF7F4",
+            borderRadius: "0 6px 6px 0",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ position: "absolute", inset: "0 auto 0 0", width: "4px", background: "linear-gradient(to right, #D4B89640, transparent)" }} />
+          <div className="px-2.5 pt-3 pb-2 flex flex-col h-full justify-center gap-1.5">
+            <div style={{ height: "2px", backgroundColor: "var(--color-muted-gold)", width: "20px", marginLeft: "auto", marginRight: "auto" }} />
+            <div style={{ height: "36px", backgroundColor: "var(--color-parchment)", borderRadius: "2px" }} />
+            <div style={{ height: "2px", backgroundColor: "rgba(42,36,32,0.12)", borderRadius: "1px" }} />
+            <div style={{ height: "2px", backgroundColor: "rgba(42,36,32,0.12)", borderRadius: "1px", width: "70%" }} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const ALL_FORMATS: FormatDef[] = [
   {
     value: "scrollytelling",
@@ -111,9 +149,9 @@ const ALL_FORMATS: FormatDef[] = [
   {
     value: "storybook",
     label: "Digital Storybook",
-    description: "A page-turning picture book of your memories together.",
-    comingSoon: true,
-    preview: <ComingSoonPreview />,
+    description: "A page-turning picture book of your memories together. Photos or pencil sketches.",
+    premium: true,
+    preview: <StorybookPreview />,
   },
   {
     value: "companion",
@@ -135,8 +173,18 @@ const TEMPLATES: { id: string; label: string; gradient: string; border: string }
 // ─── Component ────────────────────────────────────────────
 
 export default function FormatPicker() {
-  const { creationType, outputFormat, setOutputFormat, templateId, setTemplateId, recipientName, setStep, creationId } =
-    useCreationStore();
+  const {
+    creationType,
+    outputFormat,
+    setOutputFormat,
+    templateId,
+    setTemplateId,
+    illustrationMode,
+    setIllustrationMode,
+    recipientName,
+    setStep,
+    creationId,
+  } = useCreationStore();
 
   const visibleFormats = ALL_FORMATS.filter(
     (f) => !(f.giftOnly && creationType === "tribute")
@@ -198,29 +246,34 @@ export default function FormatPicker() {
                 {/* Preview area */}
                 <div className="h-40 border-b" style={{ borderColor: "var(--color-parchment)" }}>{format.preview}</div>
 
-                {/* Coming soon badge */}
+                {/* Badges */}
                 {format.comingSoon && (
                   <span
                     className="absolute top-3 right-3 text-xs px-2 py-0.5 rounded-full"
-                    style={{
-                      backgroundColor: "var(--color-parchment)",
-                      color: "var(--color-warm-gray)",
-                    }}
+                    style={{ backgroundColor: "var(--color-parchment)", color: "var(--color-warm-gray)" }}
                   >
                     Coming soon
                   </span>
                 )}
+                {format.premium && !format.comingSoon && (
+                  <span
+                    className="absolute top-3 right-3 text-xs px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: "var(--color-muted-gold)", color: "white" }}
+                  >
+                    Premium
+                  </span>
+                )}
 
                 <div className="p-4">
-                <h3
-                  className="font-serif mb-1"
-                  style={{ fontSize: "1rem", color: "var(--color-espresso)" }}
-                >
-                  {format.label}
-                </h3>
-                <p className="text-xs leading-relaxed" style={{ color: "var(--color-stone)" }}>
-                  {format.description}
-                </p>
+                  <h3
+                    className="font-serif mb-1"
+                    style={{ fontSize: "1rem", color: "var(--color-espresso)" }}
+                  >
+                    {format.label}
+                  </h3>
+                  <p className="text-xs leading-relaxed" style={{ color: "var(--color-stone)" }}>
+                    {format.description}
+                  </p>
                 </div>
               </motion.button>
             );
@@ -262,6 +315,50 @@ export default function FormatPicker() {
                       style={{ color: active ? "var(--color-espresso)" : "var(--color-stone)" }}
                     >
                       {tmpl.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Illustration mode selector — Storybook only */}
+        {outputFormat === "storybook" && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-12"
+          >
+            <p className="text-sm text-stone text-center mb-5 font-serif">Illustration style</p>
+            <div className="flex justify-center gap-8">
+              {(["photos", "sketches"] as const).map((mode) => {
+                const active = illustrationMode === mode;
+                return (
+                  <button
+                    key={mode}
+                    onClick={() => setIllustrationMode(mode)}
+                    className="flex flex-col items-center gap-2 cursor-pointer"
+                  >
+                    <div
+                      className="rounded-xl transition-all duration-300 flex items-center justify-center"
+                      style={{
+                        width: "64px",
+                        height: "52px",
+                        backgroundColor: active ? "var(--color-cream)" : "transparent",
+                        border: "2px solid",
+                        borderColor: active ? "var(--color-muted-gold)" : "var(--color-parchment)",
+                        fontSize: "1.375rem",
+                      }}
+                    >
+                      {mode === "photos" ? "📷" : "✏️"}
+                    </div>
+                    <span
+                      className="text-xs capitalize transition-colors duration-300"
+                      style={{ color: active ? "var(--color-espresso)" : "var(--color-stone)" }}
+                    >
+                      {mode}
                     </span>
                   </button>
                 );
