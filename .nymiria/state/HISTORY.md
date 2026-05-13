@@ -32,3 +32,10 @@
 **Decisions:** all those places — I know that's what you always wanted to do. You just chose me, state: golden border, lifted shadow, subtle glow, - If URL has `?name=Sarah`, pre-set `recipientName`
 
 ---
+## 2026-05-13T05:50:49.586Z — claude
+**Summary:** Discussed: In src/hooks/useAutoSave.ts, after a creation is successfull…; can you commit push and deploy everything from today?; In src/hooks/useAutoSave.ts, after a creation is successfull…; your tribute link still says "Saving your creation..." inste…; option A
+**Duration:** 5 min
+**Files Changed:** src/hooks/useAutoSave.ts, src/stores/creation-store.ts, src/middleware.ts, src/lib/supabase/creations.ts, src/components/creation/CustomizeStep.tsx, useAutoSave.ts, creation-store.ts, middleware.ts, creations.ts, CustomizeStep.tsx, proxy.ts
+**Decisions:** tone does nothing (keeps current cached/edited state).
+
+---

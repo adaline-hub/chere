@@ -355,3 +355,35 @@ Discussed: # Chère — Phase 5 Task: Payment, Delivery & Auth (Steps 10–1…;
 - feel premium and warm.
 
 ---
+
+## May 12, 2026
+
+Discussed: In src/hooks/useAutoSave.ts, after a creation is successfull…; can you commit push and deploy everything from today?; In src/hooks/useAutoSave.ts, after a creation is successfull…; your tribute link still says "Saving your creation..." inste…; option A
+
+**Decisions:**
+- tone does nothing (keeps current cached/edited state).
+
+**Files touched:**
+- `src/hooks/useAutoSave.ts`
+- `src/stores/creation-store.ts`
+- `src/middleware.ts`
+- `src/lib/supabase/creations.ts`
+- `src/components/creation/CustomizeStep.tsx`
+- `useAutoSave.ts`
+- `creation-store.ts`
+- `middleware.ts`
+- `creations.ts`
+- `CustomizeStep.tsx`
+
+**Next steps:**
+- be in your .env.local
+- redirect unauthenticated users, but if it's not wired up correctly, you'd reach
+- watch auth state in the effect and retry creation when a session appears.
+- create the Supabase row immediately.
+- create supabase/migrations/003_fix_rls_insert.sql and then run it in your Supaba
+- run/apply it (either via Supabase SQL Editor or Supabase CLI migration apply).
+- work. Try creating a new tribute now.
+- work now — no deploy needed (storage is DB-side only). Try uploading again.
+- see the request payload (specifically whether `interviewAnswers` is populated) a
+
+---
