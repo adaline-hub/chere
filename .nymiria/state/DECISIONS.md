@@ -55,3 +55,13 @@ Removed the `Regenerate` button and its force-regenerate logic. Tone selection i
 Caching behavior remains per-tone and now
 
 ---
+## 2026-05-13 — - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** All three workstreams deployed. Here's what shipped:
+
+**Workstream 1 — Design Polish**
+- Preview frames now have a cream background so no checkerboard shows through
+- Memory Wrapped was escaping the phone frame via `position: fixed` — fixed with a `preview` prop that switches to `min-h-screen` flow 
+
+---
