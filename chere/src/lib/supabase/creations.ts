@@ -6,12 +6,16 @@ import type { Creation, CreationType, RelationshipType } from "./types";
 // ─── Server-side (admin / no RLS) ────────────────────────
 
 export async function getCreationByShareToken(shareToken: string): Promise<Creation | null> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  console.log(`[getCreationByShareToken] token="${shareToken}" url=${url ? "set" : "MISSING"} key=${key ? "set" : "MISSING"}`);
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("creations")
     .select("*")
     .eq("share_token", shareToken)
     .single();
+  console.log(`[getCreationByShareToken] data=${data ? data.id : "null"} error=${error ? JSON.stringify(error) : "none"}`);
   if (error || !data) return null;
   return data as Creation;
 }
