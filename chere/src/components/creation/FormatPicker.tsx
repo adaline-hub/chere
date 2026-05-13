@@ -162,7 +162,7 @@ export default function FormatPicker() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-stone text-center mb-12 leading-relaxed"
         >
-          How should {recipientName ? `${recipientName}&apos;s` : "their"} gift look and feel?
+          How should {recipientName ? `${recipientName}'s` : "their"} gift look and feel?
         </motion.p>
 
         {/* Format grid */}
