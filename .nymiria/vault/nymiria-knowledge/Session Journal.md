@@ -454,3 +454,42 @@ Discussed: AUTO-SAVE: createCreation FAILED:; AUTO-SAVE: createCreation FAILED:;
 - convert visitors for Father's Day. This is what turns traffic into creators.
 
 ---
+
+## May 14, 2026
+
+Discussed: minor error on display texts here; preview margin is still off; # Chère — Fix: Tribute Page 404 + Resend Email Debug; where to get this log output; i just did a page error, you can pull them via cli. heres th…
+
+**Decisions:**
+- - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha
+- automatically based on `relationshipType`:
+- relationship type displayed vertically
+- Storybook format AND reaches the interview step (or returns to it), show a speci
+- Storybook — nice choice."
+- 2. Resend sends the email (or returns a clear error)
+- Storybook — nice choice. The more memories you share, the richer your book will
+
+**Files touched:**
+- `src/app/api/deliver/route.ts`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/app/page.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/shared/AppHeader.tsx`
+
+**Next steps:**
+- be something like `gifts@chere.app` or a verified sender)
+- see a debug page showing the token and whether the env vars are present. Share w
+- commit and deploy or something?
+- always be visible regardless of which preview mode (mobile/desktop) is active.
+- render at approximately 65% of its normal size so the preview looks like a propo
+- render at approximately 85% scale.
+- convert visitors for Father's Day. This is what turns traffic into creators.
+- be scrollable within the frame
+- feel like holding a real book.** The page texture, the spine shadow, the page nu
+- feel physical.** The 3D rotation gives weight to each page. Not too fast (600ms
+
+---

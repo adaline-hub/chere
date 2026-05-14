@@ -53,3 +53,10 @@
 **Decisions:** - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:
 
 ---
+## 2026-05-14T21:29:49.612Z — claude
+**Summary:** Discussed: minor error on display texts here; preview margin is still off; # Chère — Fix: Tribute Page 404 + Resend Email Debug; where to get this log output; i just did a page error, you can pull them via cli. heres th…
+**Duration:** 5 min
+**Files Changed:** src/app/api/deliver/route.ts, src/components/creation/PreviewStep.tsx, src/components/tribute/LoveLetterRenderer.tsx, src/app/page.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/StorybookRenderer.tsx, src/components/creation/FormatPicker.tsx, src/stores/creation-store.ts, src/components/tribute/CompanionRenderer.tsx, src/components/shared/AppHeader.tsx, src/app/(protected)/dashboard/layout.tsx, src/app/(protected)/create/page.tsx, src/components/creation/InterviewFlow.tsx, src/components/creation/DeliveryStep.tsx, page.tsx
+**Decisions:** - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will
+
+---
