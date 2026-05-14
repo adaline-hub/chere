@@ -122,6 +122,8 @@ interface CreationStore {
   // Step 10: Delivery
   scheduledRevealAt: string | null;
   setScheduledRevealAt: (date: string | null) => void;
+  reactionCamEnabled: boolean;
+  setReactionCamEnabled: (enabled: boolean) => void;
 
   // Utilities
   isGenerating: boolean;
@@ -152,6 +154,7 @@ const initialState = {
   musicTrackId: null,
   tier: "free" as Tier,
   scheduledRevealAt: null,
+  reactionCamEnabled: false,
   isGenerating: false,
   saveStatus: "idle" as "idle" | "saving" | "saved" | "error",
 };
@@ -223,6 +226,7 @@ export const useCreationStore = create<CreationStore>((set) => ({
   setMusicTrackId: (id) => set({ musicTrackId: id }),
   setTier: (tier) => set({ tier }),
   setScheduledRevealAt: (date) => set({ scheduledRevealAt: date }),
+  setReactionCamEnabled: (enabled) => set({ reactionCamEnabled: enabled }),
   setIsGenerating: (generating) => set({ isGenerating: generating }),
   setSaveStatus: (status) => set({ saveStatus: status }),
 

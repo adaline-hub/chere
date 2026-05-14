@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCreationStore } from "@/stores/creation-store";
 
 export default function DeliveryStep() {
-  const { recipientName, creationId, shareToken, tier } = useCreationStore();
+  const { recipientName, creationId, shareToken, tier, reactionCamEnabled, setReactionCamEnabled } = useCreationStore();
   const [copied, setCopied] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
   const [recipientEmail, setRecipientEmail] = useState("");
@@ -242,6 +242,62 @@ export default function DeliveryStep() {
               </motion.div>
             )}
           </AnimatePresence>
+        </motion.div>
+
+        {/* Reaction Cam toggle — Deluxe only */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.28 }}
+          className="rounded-xl px-5 py-4 mb-4"
+          style={{
+            backgroundColor: "var(--color-cream)",
+            border: "1px solid var(--color-parchment)",
+            opacity: tier === "deluxe" ? 1 : 0.65,
+          }}
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-serif text-base" style={{ color: "var(--color-espresso)" }}>
+                Capture their reaction
+              </p>
+              <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-stone)", maxWidth: "260px" }}>
+                {tier === "deluxe"
+                  ? "We'll ask permission before using their camera. A 15-second clip for your eyes only."
+                  : "Available on Deluxe"}
+              </p>
+            </div>
+            <button
+              disabled={tier !== "deluxe"}
+              onClick={() => tier === "deluxe" && setReactionCamEnabled(!reactionCamEnabled)}
+              aria-label="Toggle reaction cam"
+              style={{
+                width: "44px",
+                height: "24px",
+                borderRadius: "12px",
+                backgroundColor: reactionCamEnabled && tier === "deluxe" ? "var(--color-muted-gold)" : "var(--color-parchment)",
+                border: "none",
+                cursor: tier === "deluxe" ? "pointer" : "default",
+                position: "relative",
+                flexShrink: 0,
+                transition: "background-color 200ms",
+              }}
+            >
+              <span
+                style={{
+                  position: "absolute",
+                  top: "3px",
+                  left: reactionCamEnabled && tier === "deluxe" ? "22px" : "3px",
+                  width: "18px",
+                  height: "18px",
+                  borderRadius: "50%",
+                  backgroundColor: "var(--color-cream)",
+                  transition: "left 200ms",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
+                }}
+              />
+            </button>
+          </div>
         </motion.div>
 
         {/* Tertiary: QR (coming soon) */}

@@ -44,6 +44,7 @@ async function loadCreation(shareToken: string): Promise<TributeCreation | null>
       photos,
       giftMoment: null,
       musicTrackId: creation.music_track_id,
+      reactionCamEnabled: creation.reaction_cam_enabled ?? false,
     };
   } catch (err) {
     console.error("[tribute] loadCreation threw:", err);

@@ -84,6 +84,7 @@ export interface Creation {
   tier: Tier;
   stripe_payment_id: string | null;
   expires_at: string | null;
+  reaction_cam_enabled?: boolean | null;
   created_at: string;
   updated_at: string;
 }

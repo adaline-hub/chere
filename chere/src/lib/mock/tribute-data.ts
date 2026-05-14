@@ -30,6 +30,7 @@ export interface TributeCreation {
   photos: TributePhoto[];
   giftMoment: TributeGiftMoment | null;
   musicTrackId: string | null;
+  reactionCamEnabled?: boolean;
 }
 
 export const mockCreation: TributeCreation = {

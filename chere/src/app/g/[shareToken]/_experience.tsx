@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FirstOpenExperience from "@/components/tribute/FirstOpenExperience";
+import ReactionCam from "@/components/tribute/ReactionCam";
 import ScrollytellingRenderer from "@/components/tribute/ScrollytellingRenderer";
 import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
 import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
@@ -62,6 +63,9 @@ export default function TributeExperience({
           transition={{ duration: 0.6 }}
         >
           {renderTribute()}
+          {creation.reactionCamEnabled && (
+            <ReactionCam creationId={creationId} recipientName={creation.recipientName} />
+          )}
         </motion.div>
       )}
     </AnimatePresence>

@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
+import CharacterPair from "./companion/CharacterPair";
+import AudioNarration from "./companion/AudioNarration";
+import { detectTone, type Reaction } from "./companion/character-animations";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -630,6 +633,9 @@ export default function CompanionRenderer({
   const [hintVisible, setHintVisible] = useState(false);
   const [muted, setMuted] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
+  const [reaction, setReaction] = useState<Reaction>("default");
+
+  const isPet = creation.relationshipType === "pet" || creation.relationshipType === "pet_memorial";
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -658,7 +664,17 @@ export default function CompanionRenderer({
     if (!memories[id]) return;
     setActiveId(id);
     if (!muted) playChime();
-    setDiscovered((prev) => new Set([...prev, id]));
+    setDiscovered((prev) => {
+      const isFirst = prev.size === 0;
+      setReaction(isFirst ? "wave" : detectTone(memories[id].text));
+      return new Set([...prev, id]);
+    });
+  }
+
+  function handleCardClose() {
+    setActiveId(null);
+    const t = setTimeout(() => setReaction("default"), 1200);
+    return () => clearTimeout(t);
   }
 
   return (
@@ -667,6 +683,11 @@ export default function CompanionRenderer({
       <div style={{ position: "absolute", inset: 0 }}>
         <SceneBg tod={tod} />
       </div>
+
+      {/* Animated characters */}
+      {!preview && (
+        <CharacterPair scene={sceneId} reaction={reaction} isPet={isPet} />
+      )}
 
       {/* Hotspots */}
       {hotspots.map((hs, i) => (
@@ -737,6 +758,15 @@ export default function CompanionRenderer({
         </div>
       )}
 
+      {/* Audio narration */}
+      {!preview && (
+        <AudioNarration
+          text={creation.generatedText}
+          tier={creation.tier}
+          paused={activeId !== null}
+        />
+      )}
+
       {/* Memory card */}
       <AnimatePresence>
         {activeId && memories[activeId] && !preview && (
@@ -745,7 +775,7 @@ export default function CompanionRenderer({
             memory={memories[activeId]}
             label={hotspots.find((h) => h.id === activeId)?.label ?? ""}
             isMobile={isMobile}
-            onClose={() => setActiveId(null)}
+            onClose={handleCardClose}
           />
         )}
       </AnimatePresence>
