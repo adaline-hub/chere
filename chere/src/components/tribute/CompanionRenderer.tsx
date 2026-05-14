@@ -54,7 +54,7 @@ function playChime() {
     const gain = ctx.createGain();
     osc.connect(gain);
     gain.connect(ctx.destination);
-    osc.frequency.value = 528;
+    osc.frequency.value = 440;
     osc.type = "sine";
     gain.gain.setValueAtTime(0.22, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
@@ -627,7 +627,7 @@ export default function CompanionRenderer({
   const [discovered, setDiscovered] = useState<Set<string>>(new Set());
   const [activeId, setActiveId] = useState<string | null>(null);
   const [showCompletion, setShowCompletion] = useState(false);
-  const [hintVisible, setHintVisible] = useState(true);
+  const [hintVisible, setHintVisible] = useState(false);
   const [muted, setMuted] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
@@ -638,22 +638,27 @@ export default function CompanionRenderer({
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Auto-dismiss hint after 4s
+  // Show hint after 1.5s, auto-dismiss after 5.5s
   useEffect(() => {
     if (preview) return;
-    const t = setTimeout(() => setHintVisible(false), 4000);
-    return () => clearTimeout(t);
+    const show = setTimeout(() => setHintVisible(true), 1500);
+    const hide = setTimeout(() => setHintVisible(false), 5500);
+    return () => { clearTimeout(show); clearTimeout(hide); };
   }, [preview]);
+
+  // Trigger completion 1s after the last card is closed
+  useEffect(() => {
+    if (activeId === null && discovered.size >= activeHotspots.length && activeHotspots.length > 0 && !showCompletion) {
+      const t = setTimeout(() => setShowCompletion(true), 1000);
+      return () => clearTimeout(t);
+    }
+  }, [activeId, discovered.size, activeHotspots.length, showCompletion]);
 
   function handleTap(id: string) {
     if (!memories[id]) return;
     setActiveId(id);
     if (!muted) playChime();
-    const next = new Set([...discovered, id]);
-    setDiscovered(next);
-    if (next.size >= activeHotspots.length && activeHotspots.length > 0) {
-      setTimeout(() => setShowCompletion(true), 2000);
-    }
+    setDiscovered((prev) => new Set([...prev, id]));
   }
 
   return (
