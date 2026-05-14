@@ -153,7 +153,7 @@ export default function HomePage() {
         >
           Turn your love into
           <br />
-          something they can open
+          something lasting
         </motion.h1>
 
         <motion.p
