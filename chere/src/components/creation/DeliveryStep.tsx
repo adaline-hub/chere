@@ -12,6 +12,8 @@ export default function DeliveryStep() {
   const [recipientEmail, setRecipientEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [sendPhase, setSendPhase] = useState<0 | 1 | 2 | 3>(0);
+  const [sending, setSending] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const router = useRouter();
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -27,19 +29,38 @@ export default function DeliveryStep() {
   }
 
   async function handleSend() {
-    if (creationId) {
-      fetch("/api/deliver", {
+    if (!recipientEmail || !creationId || sending) return;
+    setEmailError(null);
+    setSending(true);
+
+    try {
+      const res = await fetch("/api/deliver", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ creationId, method: "email", recipientEmail }),
-      }).catch(() => {});
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setEmailError(
+          data.details
+            ? `Delivery failed: ${data.details}`
+            : "We couldn't send the email. You can copy the link and share it directly."
+        );
+        setSending(false);
+        return;
+      }
+
+      setSent(true);
+      setSendPhase(1);
+      await delay(1000);
+      setSendPhase(2);
+      await delay(1000);
+      setSendPhase(3);
+    } catch {
+      setEmailError("We couldn't send the email. You can copy the link and share it directly.");
+      setSending(false);
     }
-    setSent(true);
-    setSendPhase(1);
-    await delay(1000);
-    setSendPhase(2);
-    await delay(1000);
-    setSendPhase(3);
   }
 
   function delay(ms: number) {
@@ -150,12 +171,11 @@ export default function DeliveryStep() {
             Text it, DM it, or write it inside a card.
           </p>
 
-          {/* Expiry notice for free tier */}
           {tier === "free" && (
             <p className="text-xs mt-3 pt-3" style={{ color: "var(--color-warm-gray)", borderTop: "1px solid var(--color-parchment)" }}>
               This link expires in 7 days.{" "}
               <button
-                onClick={() => {/* go back to payment — store doesn't support this directly */}}
+                onClick={() => {}}
                 className="underline"
                 style={{ color: "var(--color-muted-gold)" }}
               >
@@ -201,19 +221,24 @@ export default function DeliveryStep() {
                   <input
                     type="email"
                     value={recipientEmail}
-                    onChange={(e) => setRecipientEmail(e.target.value)}
+                    onChange={(e) => { setRecipientEmail(e.target.value); setEmailError(null); }}
                     placeholder={`${recipientName || "Their"}'s email`}
                     className="input flex-1 text-sm"
                   />
                   <button
                     onClick={handleSend}
-                    disabled={!recipientEmail}
+                    disabled={!recipientEmail || sending}
                     className="btn-gold text-sm px-5 flex-shrink-0"
-                    style={{ opacity: recipientEmail ? 1 : 0.5 }}
+                    style={{ opacity: recipientEmail && !sending ? 1 : 0.5 }}
                   >
-                    Send
+                    {sending ? "Sending..." : "Send"}
                   </button>
                 </div>
+                {emailError && (
+                  <p className="text-xs mt-3 leading-relaxed" style={{ color: "var(--color-error)" }}>
+                    {emailError}
+                  </p>
+                )}
               </motion.div>
             )}
           </AnimatePresence>

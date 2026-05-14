@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
 import type { WizardStep } from "@/stores/creation-store";
 import type { CreationType, RelationshipType } from "@/lib/supabase/types";
+import AppHeader from "@/components/shared/AppHeader";
 import TypeSelector from "@/components/creation/TypeSelector";
 import RelationshipPicker from "@/components/creation/RelationshipPicker";
 import InterviewFlow from "@/components/creation/InterviewFlow";
@@ -103,11 +104,13 @@ export default function CreatePage() {
   }
 
   return (
-    <main className="min-h-screen bg-linen">
-      {/* Progress bar */}
+    <main className="min-h-screen bg-linen" style={{ paddingTop: "56px" }}>
+      <AppHeader />
+
+      {/* Progress bar — sits below the 56px AppHeader */}
       <div
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{ height: "2px", backgroundColor: "var(--color-parchment)" }}
+        className="fixed left-0 right-0 z-40"
+        style={{ top: "56px", height: "2px", backgroundColor: "var(--color-parchment)" }}
       >
         <motion.div
           className="h-full"
@@ -118,7 +121,7 @@ export default function CreatePage() {
         />
       </div>
 
-      {/* Back button */}
+      {/* Back button — below AppHeader */}
       <AnimatePresence>
         {prevStep && (
           <motion.button
@@ -128,7 +131,8 @@ export default function CreatePage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setStep(prevStep)}
-            className="fixed top-5 left-6 z-40 flex items-center gap-1.5 text-sm text-stone hover:text-espresso transition-colors duration-300"
+            className="fixed left-6 z-40 flex items-center gap-1.5 text-sm text-stone hover:text-espresso transition-colors duration-300"
+            style={{ top: "72px" }}
           >
             <span aria-hidden="true">←</span>
             <span>Back</span>

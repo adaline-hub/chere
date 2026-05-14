@@ -13,6 +13,7 @@ export function useAutoSave() {
     creationId,
     setCreationId,
     setShareToken,
+    setSaveStatus,
     currentStep,
     creationType,
     relationshipType,
@@ -28,6 +29,19 @@ export function useAutoSave() {
 
   const creating = useRef(false);
   const prevStep = useRef(currentStep);
+  const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function markSaved() {
+    setSaveStatus("saved");
+    if (savedTimer.current) clearTimeout(savedTimer.current);
+    savedTimer.current = setTimeout(() => setSaveStatus("idle"), 2000);
+  }
+
+  useEffect(() => {
+    return () => {
+      if (savedTimer.current) clearTimeout(savedTimer.current);
+    };
+  }, []);
 
   // Create row when we first have the minimum required fields (after relationship step)
   useEffect(() => {
@@ -36,12 +50,12 @@ export function useAutoSave() {
 
     async function create() {
       creating.current = true;
+      setSaveStatus("saving");
       try {
         const supabase = createClient();
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return; // not logged in yet — will create after auth
+        if (!user) return;
 
-        // Ensure profile exists before inserting creation (FK constraint)
         await supabase.from("profiles").upsert({
           id: user.id,
           email: user.email ?? "",
@@ -49,7 +63,6 @@ export function useAutoSave() {
         }, { onConflict: "id", ignoreDuplicates: true });
 
         console.log("AUTO-SAVE: attempting to create creation...");
-        console.log("AUTO-SAVE: user id:", user.id);
         const creation = await createCreation({
           creatorId: user.id,
           type: creationType!,
@@ -59,8 +72,10 @@ export function useAutoSave() {
         console.log("AUTO-SAVE: success, share_token:", creation.share_token);
         setCreationId(creation.id);
         if (creation.share_token) setShareToken(creation.share_token as string);
+        markSaved();
       } catch (error) {
         console.error("AUTO-SAVE: createCreation FAILED:", error);
+        setSaveStatus("error");
       } finally {
         creating.current = false;
       }
@@ -70,10 +85,13 @@ export function useAutoSave() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [creationType, relationshipType, recipientName]);
 
-  // Save output_format immediately whenever it changes — never let stale closures default it
+  // Save output_format immediately whenever it changes
   useEffect(() => {
     if (!creationId || !outputFormat) return;
-    updateCreation(creationId, { output_format: outputFormat, template_id: templateId }).catch(() => {});
+    setSaveStatus("saving");
+    updateCreation(creationId, { output_format: outputFormat, template_id: templateId })
+      .then(markSaved)
+      .catch(() => setSaveStatus("error"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [creationId, outputFormat, templateId]);
 
@@ -82,6 +100,7 @@ export function useAutoSave() {
     if (!creationId || currentStep === prevStep.current) return;
     prevStep.current = currentStep;
 
+    setSaveStatus("saving");
     updateCreation(creationId, {
       interview_answers: interviewAnswers,
       ...(outputFormat ? { output_format: outputFormat } : {}),
@@ -90,7 +109,9 @@ export function useAutoSave() {
       generated_text_edited: editedText,
       dedication_message: dedicationMessage || null,
       tier,
-    }).catch(() => {/* silently fail */});
+    })
+      .then(markSaved)
+      .catch(() => setSaveStatus("error"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep]);
 
@@ -100,11 +121,14 @@ export function useAutoSave() {
     if (!creationId) return;
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     debounceTimer.current = setTimeout(() => {
+      setSaveStatus("saving");
       updateCreation(creationId, {
         interview_answers: interviewAnswers,
         generated_text_edited: editedText,
         dedication_message: dedicationMessage || null,
-      }).catch(() => {});
+      })
+        .then(markSaved)
+        .catch(() => setSaveStatus("error"));
     }, 2000);
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);

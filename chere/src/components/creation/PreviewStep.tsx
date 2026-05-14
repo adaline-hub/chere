@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, MotionConfig } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCreationStore } from "@/stores/creation-store";
 import ScrollytellingRenderer from "@/components/tribute/ScrollytellingRenderer";
 import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
@@ -38,6 +38,11 @@ export default function PreviewStep() {
   const tmpl = TEMPLATE_STYLES[templateId ?? "warm-linen"] ?? TEMPLATE_STYLES["warm-linen"];
   const [previewMode, setPreviewMode] = useState<"mobile" | "desktop">("mobile");
 
+  // Auto-detect creator's device and default to the appropriate view
+  useEffect(() => {
+    setPreviewMode(window.innerWidth <= 768 ? "mobile" : "desktop");
+  }, []);
+
   const previewCreation: TributeCreation = {
     id: creationId ?? "preview",
     recipientName: recipientName ?? "",
@@ -61,6 +66,16 @@ export default function PreviewStep() {
     musicTrackId: null,
   };
 
+  // Debug: log what MemoryWrapped preview receives
+  if (outputFormat === "memory_wrapped") {
+    console.log("[PreviewStep] MemoryWrapped data:", {
+      text: displayText?.substring(0, 80),
+      recipientName,
+      photosCount: photos.length,
+      dedicationMessage: dedicationMessage?.substring(0, 40),
+    });
+  }
+
   function renderFormat(preview = false) {
     switch (outputFormat) {
       case "memory_wrapped":
@@ -77,7 +92,7 @@ export default function PreviewStep() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
+    <div className="min-h-screen flex flex-col items-center px-6 py-24 overflow-y-auto">
       <div className="w-full max-w-xl">
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
@@ -97,6 +112,7 @@ export default function PreviewStep() {
           This is what {recipientName || "they"} will see when they open it.
         </motion.p>
 
+        {/* Mobile / Desktop toggle */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -107,38 +123,25 @@ export default function PreviewStep() {
             className="inline-flex items-center rounded-full p-1 gap-1"
             style={{ border: "1px solid var(--color-parchment)" }}
           >
-            <button
-              type="button"
-              onClick={() => setPreviewMode("mobile")}
-              className="px-4 py-1.5 rounded-full text-sm transition-all duration-200"
-              style={
-                previewMode === "mobile"
-                  ? { backgroundColor: "var(--color-espresso)", color: "var(--color-cream)" }
-                  : {
-                      backgroundColor: "transparent",
-                      border: "1px solid var(--color-parchment)",
-                      color: "var(--color-stone)",
-                    }
-              }
-            >
-              Mobile
-            </button>
-            <button
-              type="button"
-              onClick={() => setPreviewMode("desktop")}
-              className="px-4 py-1.5 rounded-full text-sm transition-all duration-200"
-              style={
-                previewMode === "desktop"
-                  ? { backgroundColor: "var(--color-espresso)", color: "var(--color-cream)" }
-                  : {
-                      backgroundColor: "transparent",
-                      border: "1px solid var(--color-parchment)",
-                      color: "var(--color-stone)",
-                    }
-              }
-            >
-              Desktop
-            </button>
+            {(["mobile", "desktop"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setPreviewMode(mode)}
+                className="px-4 py-1.5 rounded-full text-sm transition-all duration-200 capitalize"
+                style={
+                  previewMode === mode
+                    ? { backgroundColor: "var(--color-espresso)", color: "var(--color-cream)" }
+                    : {
+                        backgroundColor: "transparent",
+                        border: "1px solid var(--color-parchment)",
+                        color: "var(--color-stone)",
+                      }
+                }
+              >
+                {mode}
+              </button>
+            ))}
           </div>
         </motion.div>
 
@@ -147,12 +150,8 @@ export default function PreviewStep() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="relative mx-auto mb-4"
-          style={
-            previewMode === "mobile"
-              ? { width: "300px" }
-              : { width: "720px", maxWidth: "90vw" }
-          }
+          className="relative mx-auto mb-2"
+          style={previewMode === "mobile" ? { width: "300px" } : { width: "720px", maxWidth: "90vw" }}
         >
           {previewMode === "mobile" ? (
             <div
@@ -160,14 +159,10 @@ export default function PreviewStep() {
               style={{
                 padding: "3px",
                 background: "linear-gradient(135deg, #D4B896 0%, #C4A97D 50%, #A08060 100%)",
-                boxShadow:
-                  "0 32px 64px rgba(42,36,32,0.25), 0 8px 16px rgba(42,36,32,0.12)",
+                boxShadow: "0 32px 64px rgba(42,36,32,0.25), 0 8px 16px rgba(42,36,32,0.12)",
               }}
             >
-              <div
-                className="rounded-[2.25rem] overflow-hidden"
-                style={{ backgroundColor: tmpl.bg }}
-              >
+              <div className="rounded-[2.25rem] overflow-hidden" style={{ backgroundColor: tmpl.bg }}>
                 {/* Status bar stub */}
                 <div
                   className="flex items-center justify-between px-6 pt-4 pb-2"
@@ -191,7 +186,7 @@ export default function PreviewStep() {
                   </div>
                 </div>
 
-                {/* Format-specific renderer — scaled to fit phone frame */}
+                {/* Scaled renderer */}
                 <div style={{ overflow: "hidden", height: "520px", position: "relative", backgroundColor: "var(--color-cream)" }}>
                   <MotionConfig reducedMotion="always">
                     <div
@@ -216,34 +211,28 @@ export default function PreviewStep() {
               style={{
                 border: "1px solid var(--color-parchment)",
                 backgroundColor: tmpl.bg,
-                boxShadow:
-                  "0 24px 52px rgba(42,36,32,0.18), 0 6px 14px rgba(42,36,32,0.10)",
+                boxShadow: "0 24px 52px rgba(42,36,32,0.18), 0 6px 14px rgba(42,36,32,0.10)",
               }}
             >
+              {/* Browser chrome */}
               <div
                 className="h-7 px-4 flex items-center justify-center relative"
                 style={{ backgroundColor: "var(--color-parchment)" }}
               >
                 <div className="absolute left-4 flex gap-2">
-                  <span
-                    className="rounded-full"
-                    style={{ width: "12px", height: "12px", backgroundColor: "var(--color-error)" }}
-                  />
-                  <span
-                    className="rounded-full"
-                    style={{ width: "12px", height: "12px", backgroundColor: "var(--color-muted-gold)" }}
-                  />
-                  <span
-                    className="rounded-full"
-                    style={{ width: "12px", height: "12px", backgroundColor: "var(--color-sage-green)" }}
-                  />
+                  {["var(--color-error)", "var(--color-muted-gold)", "var(--color-sage-green)"].map((c, i) => (
+                    <span
+                      key={i}
+                      className="rounded-full"
+                      style={{ width: "12px", height: "12px", backgroundColor: c }}
+                    />
+                  ))}
                 </div>
                 <span style={{ fontSize: "11px", color: "var(--color-warm-gray)" }}>
                   {shareToken ? `chere.app/g/${shareToken}` : "chere.app/g/..."}
                 </span>
               </div>
 
-              {/* Format-specific renderer */}
               <div style={{ overflowY: "auto", maxHeight: "560px", paddingTop: "32px", backgroundColor: "var(--color-cream)" }}>
                 <MotionConfig reducedMotion="always">
                   {renderFormat(true)}
@@ -251,39 +240,36 @@ export default function PreviewStep() {
               </div>
             </div>
           )}
-
-          <p
-            className="text-center mt-3"
-            style={{ fontSize: "0.75rem", color: "var(--color-warm-gray)" }}
-          >
-            This is a preview. Your recipient&apos;s experience will adapt to their screen.
-          </p>
         </motion.div>
 
-        {/* Actions */}
+        <p
+          className="text-center mb-8"
+          style={{ fontSize: "0.75rem", color: "var(--color-warm-gray)" }}
+        >
+          This is a preview. Your recipient&apos;s experience will adapt to their screen.
+        </p>
+
+        {/* Actions — always visible outside the frame */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.3 }}
-          className="flex flex-col items-center gap-4"
+          className="flex flex-col gap-4"
+          style={{ marginTop: "2rem" }}
         >
-          <button onClick={() => setStep("payment")} className="btn-gold text-base px-10 py-4">
+          <button
+            onClick={() => setStep("payment")}
+            className="btn-gold text-base py-4 w-full"
+          >
             This is perfect
           </button>
-          <div className="w-full flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={() => setStep("customize")}
               className="flex-1 text-left rounded-xl p-4 transition-all duration-200 hover:shadow-md"
-              style={{
-                backgroundColor: "#F5F0EB",
-                border: "1px solid #D4B896",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#C4A97D";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "#D4B896";
-              }}
+              style={{ backgroundColor: "#F5F0EB", border: "1px solid #D4B896" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C4A97D"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#D4B896"; }}
             >
               <p className="font-serif text-espresso text-base mb-1">✎ Edit writing</p>
               <p className="text-sm leading-relaxed" style={{ color: "var(--color-stone)" }}>
@@ -293,16 +279,9 @@ export default function PreviewStep() {
             <button
               onClick={() => setStep("format")}
               className="flex-1 text-left rounded-xl p-4 transition-all duration-200 hover:shadow-md"
-              style={{
-                backgroundColor: "#F5F0EB",
-                border: "1px solid #D4B896",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#C4A97D";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "#D4B896";
-              }}
+              style={{ backgroundColor: "#F5F0EB", border: "1px solid #D4B896" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C4A97D"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#D4B896"; }}
             >
               <p className="font-serif text-espresso text-base mb-1">◐ Change style</p>
               <p className="text-sm leading-relaxed" style={{ color: "var(--color-stone)" }}>

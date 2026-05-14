@@ -126,6 +126,8 @@ interface CreationStore {
   // Utilities
   isGenerating: boolean;
   setIsGenerating: (generating: boolean) => void;
+  saveStatus: "idle" | "saving" | "saved" | "error";
+  setSaveStatus: (status: "idle" | "saving" | "saved" | "error") => void;
   reset: () => void;
 }
 
@@ -151,6 +153,7 @@ const initialState = {
   tier: "free" as Tier,
   scheduledRevealAt: null,
   isGenerating: false,
+  saveStatus: "idle" as "idle" | "saving" | "saved" | "error",
 };
 
 export const useCreationStore = create<CreationStore>((set) => ({
@@ -221,6 +224,7 @@ export const useCreationStore = create<CreationStore>((set) => ({
   setTier: (tier) => set({ tier }),
   setScheduledRevealAt: (date) => set({ scheduledRevealAt: date }),
   setIsGenerating: (generating) => set({ isGenerating: generating }),
+  setSaveStatus: (status) => set({ saveStatus: status }),
 
   reset: () => set(initialState),
 }));
