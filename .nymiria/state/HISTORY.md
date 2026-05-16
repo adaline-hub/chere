@@ -66,3 +66,10 @@
 **Files Changed:** utils/share-token.ts, Next.js, _experience.tsx, config.ts, page.tsx, experience.tsx, Howler.js, chere-technical-architecture.md, chere-brand-decisions.md, chere-viability-analysis.md, competitive-analysis.md, product-framework.md, product-framework-v2.md, launch-readiness.md, vercel-deploy-checklist.md
 
 ---
+## 2026-05-16T03:53:46.665Z — claude
+**Summary:** Discussed: # Chère — Fix: Tribute Page 404 + Resend Email Debug; where to get this log output; i just did a page error, you can pull them via cli. heres th…; tried the page and see new error: DEBUG: creation not found …; i refreshed and still see DEBUG: creation not found for toke…
+**Duration:** 5 min
+**Files Changed:** src/app/api/deliver/route.ts, src/components/creation/PreviewStep.tsx, src/components/tribute/LoveLetterRenderer.tsx, src/app/page.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/StorybookRenderer.tsx, src/components/creation/FormatPicker.tsx, src/stores/creation-store.ts, src/components/tribute/CompanionRenderer.tsx, src/components/shared/AppHeader.tsx, src/app/(protected)/dashboard/layout.tsx, src/app/(protected)/create/page.tsx, src/components/creation/InterviewFlow.tsx, src/components/creation/DeliveryStep.tsx, src/components/tribute/companion/CharacterPair.tsx
+**Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s), - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will
+
+---
