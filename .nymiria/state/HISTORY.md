@@ -73,3 +73,9 @@
 **Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s), - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will
 
 ---
+## 2026-05-16T03:31:41.006Z — claude
+**Summary:** Discussed: Hi opus, i have had a previous conversation with you on this…; # Chère — Complete Project Handoff Document; based on the handoff document above, what’s the next step(s)…; ok we are not ready to collect payments yet. like i said, le…; look at the storybook mode mobile preview - portrait is basi…
+**Files Changed:** utils/share-token.ts, src/components/tribute/CompanionRenderer.tsx, src/components/tribute/companion/CharacterPair.tsx, src/components/tribute/companion/character-animations.ts, src/components/tribute/companion/AudioNarration.tsx, src/components/tribute/ReactionCam.tsx, src/components/tribute/StorybookRenderer.tsx, src/components/creation/DeliveryStep.tsx, src/stores/creation-store.ts, Next.js, _experience.tsx, config.ts, page.tsx, experience.tsx, Howler.js
+**Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s)
+
+---
