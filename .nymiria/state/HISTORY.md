@@ -86,3 +86,10 @@
 **Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s)
 
 ---
+## 2026-05-16T22:50:30.045Z — claude
+**Summary:** Discussed: i just did a page error, you can pull them via cli. heres th…; tried the page and see new error: DEBUG: creation not found …; i refreshed and still see DEBUG: creation not found for toke…; token: eULc54-6j5; ok the creation page link worked now. moving onto new issue …
+**Duration:** 5 min
+**Files Changed:** src/components/creation/PreviewStep.tsx, src/components/tribute/LoveLetterRenderer.tsx, src/app/page.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/StorybookRenderer.tsx, src/components/creation/FormatPicker.tsx, src/stores/creation-store.ts, src/components/tribute/CompanionRenderer.tsx, src/components/shared/AppHeader.tsx, src/app/(protected)/dashboard/layout.tsx, src/app/(protected)/create/page.tsx, src/components/creation/InterviewFlow.tsx, src/app/api/deliver/route.ts, src/components/creation/DeliveryStep.tsx, src/components/tribute/companion/CharacterPair.tsx
+**Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s), - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will
+
+---
