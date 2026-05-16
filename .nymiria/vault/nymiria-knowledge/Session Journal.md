@@ -493,3 +493,45 @@ Discussed: minor error on display texts here; preview margin is still off; # Ch�
 - feel physical.** The 3D rotation gives weight to each page. Not too fast (600ms
 
 ---
+
+## May 14, 2026
+
+Discussed: Hi opus, i have had a previous conversation with you on this…; # Chère — Complete Project Handoff Document
+
+**Files touched:**
+- `utils/share-token.ts`
+- `Next.js`
+- `_experience.tsx`
+- `config.ts`
+- `page.tsx`
+- `experience.tsx`
+- `Howler.js`
+- `chere-technical-architecture.md`
+- `chere-brand-decisions.md`
+- `chere-viability-analysis.md`
+
+**Next steps:**
+- inform future development:
+
+---
+
+## May 15, 2026
+
+Discussed: Hi opus, i have had a previous conversation with you on this…; # Chère — Complete Project Handoff Document
+
+**Files touched:**
+- `utils/share-token.ts`
+- `Next.js`
+- `_experience.tsx`
+- `config.ts`
+- `page.tsx`
+- `experience.tsx`
+- `Howler.js`
+- `chere-technical-architecture.md`
+- `chere-brand-decisions.md`
+- `chere-viability-analysis.md`
+
+**Next steps:**
+- inform future development:
+
+---

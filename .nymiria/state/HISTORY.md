@@ -60,3 +60,9 @@
 **Decisions:** - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will
 
 ---
+## 2026-05-16T03:31:41.006Z — claude
+**Summary:** Discussed: Hi opus, i have had a previous conversation with you on this…; # Chère — Complete Project Handoff Document
+**Duration:** 5 min
+**Files Changed:** utils/share-token.ts, Next.js, _experience.tsx, config.ts, page.tsx, experience.tsx, Howler.js, chere-technical-architecture.md, chere-brand-decisions.md, chere-viability-analysis.md, competitive-analysis.md, product-framework.md, product-framework-v2.md, launch-readiness.md, vercel-deploy-checklist.md
+
+---
