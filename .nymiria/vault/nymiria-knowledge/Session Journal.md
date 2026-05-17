@@ -760,3 +760,37 @@ Discussed: tried the page and see new error: DEBUG: creation not found …; i re
 - feel like an illustrated book,** not a photo album. The vignette and styling mak
 
 ---
+
+## May 16, 2026
+
+Discussed: Hi opus, i have had a previous conversation with you on this…; # Chère — Complete Project Handoff Document; based on the handoff document above, what’s the next step(s)…; ok we are not ready to collect payments yet. like i said, le…; look at the storybook mode mobile preview - portrait is basi…
+
+**Decisions:**
+- do it" (btn-gold) / "No thanks" (text link)
+- love it." (fade out after 3s)
+
+**Files touched:**
+- `utils/share-token.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/CharacterPair.tsx`
+- `src/components/tribute/companion/character-animations.ts`
+- `src/components/tribute/companion/AudioNarration.tsx`
+- `src/components/tribute/ReactionCam.tsx`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/DeliveryStep.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/PreviewStep.tsx`
+
+**Next steps:**
+- inform future development:
+- be distinguishable:
+- be roughly 80-100px tall and placed in a natural location within the scene compo
+- feel like friends in a warm illustration, not game sprites. Simple, geometric, e
+- be subtle and gentle ‚Äî a hug that takes 1.2 seconds, not 0.3 seconds. Match th
+- feel like someone reading a bedtime story ‚Äî slow, warm, unhurried.
+- be created via Supabase dashboard for the Reaction Cam to persist across session
+- be warm and friendly, not a harsh error — something like: *"This looks better in
+- the page auto-rotate the content via CSS transform?
+- the rotate prompt be dismissable (user can tap "Continue anyway" and see the por
+
+---
