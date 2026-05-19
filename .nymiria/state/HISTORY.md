@@ -114,3 +114,10 @@
 **Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s)
 
 ---
+## 2026-05-19T06:30:32.307Z — claude
+**Summary:** Discussed: Hi opus, i have had a previous conversation with you on this…; # Chère — Complete Project Handoff Document; based on the handoff document above, what’s the next step(s)…; ok we are not ready to collect payments yet. like i said, le…; look at the storybook mode mobile preview - portrait is basi…
+**Duration:** 19 min
+**Files Changed:** utils/share-token.ts, src/components/tribute/CompanionRenderer.tsx, src/components/tribute/companion/CharacterPair.tsx, src/components/tribute/companion/character-animations.ts, src/components/tribute/companion/AudioNarration.tsx, src/components/tribute/ReactionCam.tsx, src/components/tribute/StorybookRenderer.tsx, src/components/creation/DeliveryStep.tsx, src/stores/creation-store.ts, src/components/creation/PreviewStep.tsx, src/components/tribute/MemoryWrappedRenderer.tsx, src/components/tribute/LoveLetterRenderer.tsx, lib/ai/generate-tribute.ts, lib/ai/admin.ts, Next.js
+**Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s)
+
+---
