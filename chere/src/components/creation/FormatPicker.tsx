@@ -173,8 +173,8 @@ const ALL_FORMATS: FormatDef[] = [
   },
   {
     value: "companion",
-    label: "Memory Companion",
-    description: "An interactive scene they can explore. Tap objects to discover hidden memories.",
+    label: "Interactive Scene",
+    description: "A hand-drawn scene to explore. Tap objects to uncover memories, one at a time.",
     deluxe: true,
     preview: <CompanionPreview />,
   },
