@@ -387,9 +387,9 @@ function HotspotShape({ id, scene }: { id: string; scene: SceneId }) {
 // ─── Hotspot component ────────────────────────────────────────────────────────
 
 function Hotspot({
-  def, index, scene, hasMemory, discovered, preview, onClick,
+  def, index, scene, hasMemory, discovered, preview, burstKey, onClick,
 }: {
-  def: HotspotDef; index: number; scene: SceneId; hasMemory: boolean; discovered: boolean; preview: boolean; onClick: () => void;
+  def: HotspotDef; index: number; scene: SceneId; hasMemory: boolean; discovered: boolean; preview: boolean; burstKey: number; onClick: () => void;
 }) {
   const [pressed, setPressed] = useState(false);
 
@@ -400,55 +400,83 @@ function Hotspot({
     onClick();
   }
 
+  const interactive = hasMemory && !preview;
   return (
-    <div
+    <button
       onClick={handleClick}
+      disabled={!interactive}
+      aria-label={hasMemory ? `Discover memory: ${def.label}` : def.label}
       style={{
         position: "absolute",
         left: `${def.x}%`,
         top: `${def.y}%`,
         transform: `translate(-50%, -50%) scale(${pressed ? 0.92 : 1})`,
-        cursor: hasMemory && !preview ? "pointer" : "default",
+        cursor: interactive ? "pointer" : "default",
         zIndex: 10,
         transition: "transform 0.12s ease",
+        background: "transparent",
+        border: "none",
+        padding: "12px",
+        minWidth: "48px",
+        minHeight: "48px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <HotspotShape id={def.id} scene={scene} />
-      {hasMemory && !discovered && (
-        <>
-          <motion.div
-            animate={{ scale: [1, 1.6, 1], opacity: [0.25, 0.55, 0.25] }}
-            transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.4, ease: "easeInOut" }}
-            style={{
+      <span style={{ position: "relative", display: "inline-flex" }}>
+        <HotspotShape id={def.id} scene={scene} />
+        {hasMemory && !discovered && (
+          <>
+            <motion.span
+              animate={{ scale: [1, 1.7, 1], opacity: [0.35, 0.7, 0.35] }}
+              transition={{ duration: 2.4, repeat: Infinity, delay: index * 0.35, ease: "easeInOut" }}
+              style={{
+                position: "absolute",
+                inset: "-10px",
+                borderRadius: "50%",
+                border: "2px solid #C4A97D",
+                pointerEvents: "none",
+              }}
+            />
+            <span style={{
               position: "absolute",
-              inset: "-10px",
+              top: "-4px",
+              right: "-4px",
+              width: "8px",
+              height: "8px",
               borderRadius: "50%",
-              border: "2px solid #C4A97D",
-              pointerEvents: "none",
-            }}
-          />
-          <div style={{
+              backgroundColor: "#C4A97D",
+              boxShadow: "0 0 8px rgba(196,169,125,0.85)",
+            }} />
+            {burstKey > 0 && (
+              <motion.span
+                key={`burst-${burstKey}`}
+                initial={{ scale: 1, opacity: 0 }}
+                animate={{ scale: [1, 2.4, 1], opacity: [0, 0.9, 0] }}
+                transition={{ duration: 1.4, delay: index * 0.16, ease: "easeOut" }}
+                style={{
+                  position: "absolute",
+                  inset: "-14px",
+                  borderRadius: "50%",
+                  border: "2.5px solid #C4A97D",
+                  pointerEvents: "none",
+                }}
+              />
+            )}
+          </>
+        )}
+        {hasMemory && discovered && (
+          <span style={{
             position: "absolute",
-            top: "-4px",
-            right: "-4px",
-            width: "8px",
-            height: "8px",
+            inset: "-8px",
             borderRadius: "50%",
-            backgroundColor: "#C4A97D",
-            boxShadow: "0 0 6px rgba(196,169,125,0.7)",
+            border: "1px solid rgba(196,169,125,0.2)",
+            pointerEvents: "none",
           }} />
-        </>
-      )}
-      {hasMemory && discovered && (
-        <div style={{
-          position: "absolute",
-          inset: "-8px",
-          borderRadius: "50%",
-          border: "1px solid rgba(196,169,125,0.2)",
-          pointerEvents: "none",
-        }} />
-      )}
-    </div>
+        )}
+      </span>
+    </button>
   );
 }
 
@@ -634,6 +662,8 @@ export default function CompanionRenderer({
   const [muted, setMuted] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
   const [reaction, setReaction] = useState<Reaction>("default");
+  const [burstKey, setBurstKey] = useState(0);
+  const [lastInteractionAt, setLastInteractionAt] = useState<number>(() => Date.now());
 
   const isPet = creation.relationshipType === "pet" || creation.relationshipType === "pet_memorial";
 
@@ -644,13 +674,30 @@ export default function CompanionRenderer({
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Show hint after 1.5s, auto-dismiss after 5.5s
+  // Show hint after 800ms; dismiss once the first discovery happens
   useEffect(() => {
     if (preview) return;
-    const show = setTimeout(() => setHintVisible(true), 1500);
-    const hide = setTimeout(() => setHintVisible(false), 5500);
-    return () => { clearTimeout(show); clearTimeout(hide); };
+    const show = setTimeout(() => setHintVisible(true), 800);
+    return () => clearTimeout(show);
   }, [preview]);
+
+  useEffect(() => {
+    if (discovered.size > 0) setHintVisible(false);
+  }, [discovered.size]);
+
+  // Idle attention wave: bump burstKey when no interaction for 8s
+  useEffect(() => {
+    if (preview) return;
+    if (activeHotspots.length === 0) return;
+    if (discovered.size >= activeHotspots.length) return;
+    const interval = setInterval(() => {
+      if (Date.now() - lastInteractionAt > 8000) {
+        setBurstKey((k) => k + 1);
+        setLastInteractionAt(Date.now());
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [preview, lastInteractionAt, discovered.size, activeHotspots.length]);
 
   // Trigger completion 1s after the last card is closed
   useEffect(() => {
@@ -662,6 +709,7 @@ export default function CompanionRenderer({
 
   function handleTap(id: string) {
     if (!memories[id]) return;
+    setLastInteractionAt(Date.now());
     setActiveId(id);
     if (!muted) playChime();
     setDiscovered((prev) => {
@@ -699,6 +747,7 @@ export default function CompanionRenderer({
           hasMemory={!!memories[hs.id]}
           discovered={discovered.has(hs.id)}
           preview={preview}
+          burstKey={burstKey}
           onClick={() => handleTap(hs.id)}
         />
       ))}
@@ -739,14 +788,27 @@ export default function CompanionRenderer({
               </motion.div>
             )}
           </AnimatePresence>
-          {!hintVisible && (
-            <button
+          {!hintVisible && activeHotspots.length > 0 && discovered.size < activeHotspots.length && (
+            <motion.button
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
               onClick={() => setHintVisible(true)}
-              style={{ width: "28px", height: "28px", borderRadius: "50%", backgroundColor: "rgba(250,247,244,0.88)", border: "none", cursor: "pointer", fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#8B7D72", backdropFilter: "blur(4px)" }}
-              aria-label="Show hint"
+              style={{
+                backgroundColor: "rgba(250,247,244,0.88)",
+                border: "none",
+                borderRadius: "2rem",
+                padding: "0.3rem 0.75rem",
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.7rem",
+                color: "#8B7D72",
+                cursor: "pointer",
+                backdropFilter: "blur(4px)",
+              }}
+              aria-label={`${activeHotspots.length - discovered.size} more memories to find`}
             >
-              ?
-            </button>
+              {activeHotspots.length - discovered.size} more to find
+            </motion.button>
           )}
         </div>
       )}
