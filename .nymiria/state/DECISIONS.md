@@ -65,3 +65,15 @@ Caching behavior remains per-tone and now
 - Memory Wrapped was escaping the phone frame via `position: fixed` — fixed with a `preview` prop that switches to `min-h-screen` flow 
 
 ---
+## 2026-05-20 — one expands the recorder UI below.
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** Let me think through this carefully — this is a meaningful feature, not just an audio toggle. Sharing how I'd design it before building anything.
+
+## Operating principles
+
+A few things I'm holding as true while designing this:
+
+- **Audio is the most emotionally heavy feature you'll ship.** A recipie
+
+---

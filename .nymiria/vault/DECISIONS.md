@@ -37,3 +37,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha
+
+**Date:** May 13, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---
