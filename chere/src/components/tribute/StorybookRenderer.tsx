@@ -222,9 +222,13 @@ const mobileSlide = {
 export default function StorybookRenderer({
   creation,
   illustrationMode = "photos",
+  preview = false,
+  forceMobile = false,
 }: {
   creation: TributeCreation;
   illustrationMode?: IllustrationMode;
+  preview?: boolean;
+  forceMobile?: boolean;
 }) {
   const tmpl = TEMPLATES[creation.templateId] ?? TEMPLATES["warm-linen"];
   const spreads = buildSpreads(creation);
@@ -232,15 +236,23 @@ export default function StorybookRenderer({
 
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(forceMobile);
   const pointerStart = { x: 0 };
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    if (forceMobile) {
+      setIsMobile(true);
+      return;
+    }
+    const check = () => setIsMobile(window.innerWidth < 768 && window.innerHeight < 500);
     check();
     window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+    window.addEventListener("orientationchange", check);
+    return () => {
+      window.removeEventListener("resize", check);
+      window.removeEventListener("orientationchange", check);
+    };
+  }, [forceMobile]);
 
   const total = isMobile ? mobilePages.length : spreads.length;
 
@@ -252,6 +264,7 @@ export default function StorybookRenderer({
 
   function handlePointerDown(e: React.PointerEvent) { pointerStart.x = e.clientX; }
   function handlePointerUp(e: React.PointerEvent) {
+    if (preview) return;
     const dx = e.clientX - pointerStart.x;
     if (Math.abs(dx) > 40) navigate(dx < 0 ? current + 1 : current - 1);
   }
@@ -282,8 +295,8 @@ export default function StorybookRenderer({
             boxShadow: "4px 4px 0 2px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.18)",
             touchAction: "none",
           }}
-          onPointerDown={handlePointerDown}
-          onPointerUp={handlePointerUp}
+          onPointerDown={preview ? undefined : handlePointerDown}
+          onPointerUp={preview ? undefined : handlePointerUp}
         >
           {/* Page edge shadows */}
           <div style={{ position: "absolute", inset: "0 auto 0 0", width: "5px", background: "linear-gradient(to right, rgba(0,0,0,0.1), transparent)", zIndex: 10, pointerEvents: "none" }} />
@@ -328,8 +341,8 @@ export default function StorybookRenderer({
             overflow: "hidden",
             touchAction: "none",
           }}
-          onPointerDown={handlePointerDown}
-          onPointerUp={handlePointerUp}
+          onPointerDown={preview ? undefined : handlePointerDown}
+          onPointerUp={preview ? undefined : handlePointerUp}
         >
           {/* Left page */}
           <div style={{ flex: 1, position: "relative", overflow: "hidden", borderRadius: "4px 0 0 4px" }}>
@@ -369,7 +382,7 @@ export default function StorybookRenderer({
       {/* Navigation */}
       <div style={{ display: "flex", alignItems: "center", gap: "2rem", marginTop: "1.5rem" }}>
         <button
-          onClick={() => navigate(current - 1)}
+          onClick={preview ? undefined : () => navigate(current - 1)}
           disabled={current === 0}
           aria-label="Previous"
           style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", color: current === 0 ? `${tmpl.stone}40` : tmpl.accent, background: "none", border: "none", cursor: current === 0 ? "default" : "pointer", transition: "color 200ms" }}
@@ -378,7 +391,7 @@ export default function StorybookRenderer({
           {current + 1} / {total}
         </p>
         <button
-          onClick={() => navigate(current + 1)}
+          onClick={preview ? undefined : () => navigate(current + 1)}
           disabled={current === total - 1}
           aria-label="Next"
           style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", color: current === total - 1 ? `${tmpl.stone}40` : tmpl.accent, background: "none", border: "none", cursor: current === total - 1 ? "default" : "pointer", transition: "color 200ms" }}

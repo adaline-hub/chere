@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, MotionConfig } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCreationStore } from "@/stores/creation-store";
 import ScrollytellingRenderer from "@/components/tribute/ScrollytellingRenderer";
 import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
@@ -36,12 +36,9 @@ export default function PreviewStep() {
 
   const displayText = editedText ?? generatedText;
   const tmpl = TEMPLATE_STYLES[templateId ?? "warm-linen"] ?? TEMPLATE_STYLES["warm-linen"];
-  const [previewMode, setPreviewMode] = useState<"mobile" | "desktop">("mobile");
-
-  // Auto-detect creator's device and default to the appropriate view
-  useEffect(() => {
-    setPreviewMode(window.innerWidth <= 768 ? "mobile" : "desktop");
-  }, []);
+  const [previewMode, setPreviewMode] = useState<"mobile" | "desktop">(
+    () => (typeof window !== "undefined" && window.innerWidth <= 768 ? "mobile" : "desktop")
+  );
 
   const previewCreation: TributeCreation = {
     id: creationId ?? "preview",
@@ -83,7 +80,7 @@ export default function PreviewStep() {
       case "love_letter":
         return <LoveLetterRenderer creation={previewCreation} preview={preview} />;
       case "storybook":
-        return <StorybookRenderer creation={previewCreation} illustrationMode={illustrationMode} />;
+        return <StorybookRenderer creation={previewCreation} illustrationMode={illustrationMode} preview={preview} forceMobile={previewMode === "mobile"} />;
       case "companion":
         return <CompanionRenderer creation={previewCreation} preview={preview} />;
       default:
