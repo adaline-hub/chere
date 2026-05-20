@@ -77,3 +77,13 @@ A few things I'm holding as true while designing this:
 - **Audio is the most emotionally heavy feature you'll ship.** A recipie
 
 ---
+## 2026-05-20 — also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** Great news — your MiniMax key covers everything we need, and unlocks a bonus upgrade.
+
+## MiniMax does both TTS and STT
+
+MiniMax Speech 2.5 (released mid-2025, refreshed to 2.6 in March 2026) does **speech-to-text** in addition to their well-known TTS. Same key, same provider, real-time transcriptio
+
+---

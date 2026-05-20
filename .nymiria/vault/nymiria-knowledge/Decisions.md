@@ -55,3 +55,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+
+**Date:** May 19, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---

@@ -46,3 +46,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## one expands the recorder UI below.
+
+**Date:** May 19, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---
