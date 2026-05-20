@@ -20,9 +20,9 @@ type Card =
   | { kind: "cta" };
 
 function buildCards(creation: TributeCreation): Card[] {
-  const memoryCount = Object.keys(creation).length; // rough proxy
-  const cards: Card[] = [{ kind: "title" }, { kind: "stat", count: memoryCount }];
   const paras = creation.generatedText.split(/\n\n+/).filter((p) => p.trim());
+  const memoryCount = paras.length + (creation.photos?.length ?? 0);
+  const cards: Card[] = [{ kind: "title" }, { kind: "stat", count: memoryCount }];
   const photos = [...creation.photos];
   let photoIndex = 0;
 
@@ -84,7 +84,7 @@ function CardContent({
           style={{ background: `radial-gradient(ellipse at center, ${tmpl.card} 60%, ${tmpl.surface} 100%)` }}
         >
           <p style={{ fontFamily: "var(--font-serif)", fontSize: "3.5rem", color: tmpl.accent, lineHeight: 1 }}>
-            {creation.photos.length + 1}
+            {card.count}
           </p>
           <p className="mt-2" style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", color: tmpl.stone }}>
             memories shared

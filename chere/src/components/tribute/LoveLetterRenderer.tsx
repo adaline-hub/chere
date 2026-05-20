@@ -221,7 +221,6 @@ export default function LoveLetterRenderer({
                     <PolaroidPhoto
                       photo={creation.photos[photoInsertions.get(i)!]}
                       rotation={[-2, 1.5, -1.5, 2][photoInsertions.get(i)! % 4]}
-                      tmpl={tmpl}
                     />
                   )}
                 </div>
@@ -284,16 +283,12 @@ export default function LoveLetterRenderer({
   );
 }
 
-type TemplateDef = { bg: string; text: string; accent: string; stone: string; envelope: string; flap: string };
-
 function PolaroidPhoto({
   photo,
   rotation,
-  tmpl,
 }: {
   photo: { url: string; caption: string };
   rotation: number;
-  tmpl: TemplateDef;
 }) {
   return (
     <div
@@ -313,7 +308,8 @@ function PolaroidPhoto({
           height: "150px",
           background: photo.url
             ? `url(${photo.url}) center/cover no-repeat`
-            : `linear-gradient(135deg, ${tmpl.envelope}, ${tmpl.accent}40)`,
+            : "linear-gradient(135deg, #FAF7F4, #EDE7DF)",
+          backgroundSize: "cover",
           borderRadius: "1px",
         }}
       />
