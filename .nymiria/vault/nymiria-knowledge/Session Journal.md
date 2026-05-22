@@ -906,3 +906,39 @@ Discussed: ok the creation page link worked now. moving onto new issue …; i re
 - feel like an illustrated book,** not a photo album. The vignette and styling mak
 
 ---
+
+## May 22, 2026
+
+Discussed: i dont see the changes deployed. ccan you confirm the work i…; execute the plans above, do not reply until all the work is …; can you write an implementation plan for all of the above it…; can you write the plan better for codex to execute?; yes proceed to execute
+
+**Decisions:**
+- harden companion. should we rename companion to “interactive animation” or Inter
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- one expands the recorder UI below.
+
+**Files touched:**
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/MemoryWrappedRenderer.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `lib/ai/generate-tribute.ts`
+- `lib/ai/admin.ts`
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+
+**Next steps:**
+- use the cream page color instead.
+- render desktop view):
+- implement next
+- read creation by `share_token`, pick the correct renderer based on `output_forma
+- call `/api/deliver` (which exists but is empty), trigger email delivery, and upd
+- show the user's creations list, status (draft/generating/ready/sent), and quick
+- show aggregated reactions to sent tributes (opened counts, reaction type breakdo
+- be wired into the tribute viewer when a creation is first opened. |
+- see their creations
+- I tackle first?
+
+---

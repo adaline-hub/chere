@@ -135,3 +135,10 @@
 **Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s), - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will
 
 ---
+## 2026-05-22T19:50:50.951Z — claude
+**Summary:** Discussed: i dont see the changes deployed. ccan you confirm the work i…; execute the plans above, do not reply until all the work is …; can you write an implementation plan for all of the above it…; can you write the plan better for codex to execute?; yes proceed to execute
+**Duration:** 5 min
+**Files Changed:** src/components/tribute/StorybookRenderer.tsx, src/components/creation/PreviewStep.tsx, src/components/tribute/MemoryWrappedRenderer.tsx, src/components/tribute/LoveLetterRenderer.tsx, lib/ai/generate-tribute.ts, lib/ai/admin.ts, app/api/audio/upload/route.ts, app/api/audio/tts/route.ts, components/audio/VoiceRecorder.tsx, lib/minimax/tts.ts, lib/groq/stt.ts, StorybookRenderer.tsx, PreviewStep.tsx, MemoryWrappedRenderer.tsx, LoveLetterRenderer.tsx
+**Decisions:** harden companion. should we rename companion to “interactive animation” or Inter, give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a, also use it for **the AI narration mode** (option #3 in the audio feature). Righ, one expands the recorder UI below.
+
+---
