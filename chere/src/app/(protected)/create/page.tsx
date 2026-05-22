@@ -14,6 +14,7 @@ import GiftDescriber from "@/components/creation/GiftDescriber";
 import ClueBuilder from "@/components/creation/ClueBuilder";
 import FormatPicker from "@/components/creation/FormatPicker";
 import CustomizeStep from "@/components/creation/CustomizeStep";
+import RecordMessageStep from "@/components/creation/RecordMessageStep";
 import PreviewStep from "@/components/creation/PreviewStep";
 import PaymentStep from "@/components/creation/PaymentStep";
 import DeliveryStep from "@/components/creation/DeliveryStep";
@@ -28,7 +29,7 @@ const VALID_RELATIONSHIP_TYPES: RelationshipType[] = [
 
 function getStepFlow(creationType: CreationType | null): WizardStep[] {
   const base: WizardStep[] = ["type", "relationship"];
-  const tail: WizardStep[] = ["customize", "preview", "payment", "deliver"];
+  const tail: WizardStep[] = ["customize", "audio", "preview", "payment", "deliver"];
 
   if (creationType === "gift_reveal") {
     return [...base, "gift", "photos", "clues", "format", ...tail];
@@ -87,6 +88,8 @@ export default function CreatePage() {
         return <FormatPicker />;
       case "customize":
         return <CustomizeStep />;
+      case "audio":
+        return <RecordMessageStep />;
       case "preview":
         return <PreviewStep />;
       case "payment":

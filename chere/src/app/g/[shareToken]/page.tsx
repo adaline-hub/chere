@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { mockCreation, type TributeCreation } from "@/lib/mock/tribute-data";
+import { mockCreation, type TributeCreation, type TributeAudio } from "@/lib/mock/tribute-data";
 import { getCreationByShareToken } from "@/lib/supabase/creations";
-import { getPhotoUrl } from "@/lib/supabase/storage";
+import { getPhotoUrl, getSignedAssetUrl } from "@/lib/supabase/storage";
 import { createAdminClient } from "@/lib/supabase/admin";
 import TributeExperience from "./_experience";
 
@@ -30,6 +30,26 @@ async function loadCreation(shareToken: string): Promise<TributeCreation | null>
       }))
     );
 
+    // Audio clips — dedication (creator's voice) + cached TTS narration.
+    const { data: audioRows } = await admin
+      .from("audio_clips")
+      .select("kind, storage_path, transcript")
+      .eq("creation_id", creation.id)
+      .in("kind", ["dedication", "tts"]);
+
+    const dedicationRow = audioRows?.find((r) => r.kind === "dedication");
+    const ttsRow = audioRows?.find((r) => r.kind === "tts");
+
+    const audio: TributeAudio = {
+      dedicationUrl: dedicationRow?.storage_path
+        ? await getSignedAssetUrl(dedicationRow.storage_path as string)
+        : null,
+      dedicationTranscript: (dedicationRow?.transcript as string | null) ?? null,
+      ttsUrl: ttsRow?.storage_path
+        ? await getSignedAssetUrl(ttsRow.storage_path as string)
+        : null,
+    };
+
     return {
       id: creation.id,
       recipientName: creation.recipient_name,
@@ -45,6 +65,7 @@ async function loadCreation(shareToken: string): Promise<TributeCreation | null>
       giftMoment: null,
       musicTrackId: creation.music_track_id,
       reactionCamEnabled: creation.reaction_cam_enabled ?? false,
+      audio,
     };
   } catch (err) {
     console.error("[tribute] loadCreation threw:", err);

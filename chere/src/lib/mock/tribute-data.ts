@@ -10,6 +10,12 @@ export interface TributeGiftMoment {
   revealStyle: string;
 }
 
+export interface TributeAudio {
+  dedicationUrl: string | null;
+  dedicationTranscript: string | null;
+  ttsUrl: string | null;
+}
+
 export interface TributeCreation {
   id: string;
   recipientName: string;
@@ -31,6 +37,7 @@ export interface TributeCreation {
   giftMoment: TributeGiftMoment | null;
   musicTrackId: string | null;
   reactionCamEnabled?: boolean;
+  audio?: TributeAudio;
 }
 
 export const mockCreation: TributeCreation = {

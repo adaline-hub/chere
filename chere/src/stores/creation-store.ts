@@ -47,9 +47,20 @@ export type WizardStep =
   | "clues"          // Drip clues setup (optional)
   | "format"         // Choose output format
   | "customize"      // Edit text, template, music
+  | "audio"          // Record a message / pick narration mode
   | "preview"        // Full preview
   | "payment"        // Tier selection + Stripe
   | "deliver";       // Send it
+
+export type AudioMode = "none" | "dedication" | "tts";
+
+export interface AudioDedicationClip {
+  id: string;
+  storagePath: string;
+  durationMs: number;
+  transcript: string | null;
+  transcriptStatus: "pending" | "completed" | "failed" | "skipped";
+}
 
 // ─── Store ───────────────────────────────────────────────
 
@@ -115,6 +126,12 @@ interface CreationStore {
   musicTrackId: string | null;
   setMusicTrackId: (id: string | null) => void;
 
+  // Step 8.5: Audio (Record a message)
+  audioMode: AudioMode;
+  setAudioMode: (mode: AudioMode) => void;
+  audioDedication: AudioDedicationClip | null;
+  setAudioDedication: (clip: AudioDedicationClip | null) => void;
+
   // Step 9: Payment
   tier: Tier;
   setTier: (tier: Tier) => void;
@@ -152,6 +169,8 @@ const initialState = {
   editedText: null,
   dedicationMessage: "",
   musicTrackId: null,
+  audioMode: "none" as AudioMode,
+  audioDedication: null as AudioDedicationClip | null,
   tier: "free" as Tier,
   scheduledRevealAt: null,
   reactionCamEnabled: false,
@@ -224,6 +243,8 @@ export const useCreationStore = create<CreationStore>((set) => ({
   setEditedText: (text) => set({ editedText: text }),
   setDedicationMessage: (message) => set({ dedicationMessage: message }),
   setMusicTrackId: (id) => set({ musicTrackId: id }),
+  setAudioMode: (mode) => set({ audioMode: mode }),
+  setAudioDedication: (clip) => set({ audioDedication: clip }),
   setTier: (tier) => set({ tier }),
   setScheduledRevealAt: (date) => set({ scheduledRevealAt: date }),
   setReactionCamEnabled: (enabled) => set({ reactionCamEnabled: enabled }),

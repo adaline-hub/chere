@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 import CharacterPair from "./companion/CharacterPair";
@@ -570,6 +570,41 @@ function MemoryCard({
 // ─── Completion screen ────────────────────────────────────────────────────────
 
 function CompletionScreen({ creation, onClose }: { creation: TributeCreation; onClose: () => void }) {
+  const dedicationUrl = creation.audio?.dedicationUrl ?? null;
+  const dedicationTranscript = creation.audio?.dedicationTranscript ?? null;
+  const [dedicationMuted, setDedicationMuted] = useState(false);
+  const [dedicationPlaying, setDedicationPlaying] = useState(false);
+  const dedAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Attempt autoplay when the screen mounts. Browsers may block; the visible
+  // play button below is the fallback.
+  useEffect(() => {
+    const el = dedAudioRef.current;
+    if (!el || !dedicationUrl) return;
+    const t = setTimeout(() => {
+      el.play().then(() => setDedicationPlaying(true)).catch(() => setDedicationPlaying(false));
+    }, 900);
+    return () => clearTimeout(t);
+  }, [dedicationUrl]);
+
+  function toggleDedication() {
+    const el = dedAudioRef.current;
+    if (!el) return;
+    if (dedicationPlaying) {
+      el.pause();
+      setDedicationPlaying(false);
+    } else {
+      el.play().then(() => setDedicationPlaying(true)).catch(() => setDedicationPlaying(false));
+    }
+  }
+
+  function toggleDedicationMuted(e: React.MouseEvent) {
+    e.stopPropagation();
+    const next = !dedicationMuted;
+    setDedicationMuted(next);
+    if (dedAudioRef.current) dedAudioRef.current.muted = next;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -586,6 +621,78 @@ function CompletionScreen({ creation, onClose }: { creation: TributeCreation; on
       }}
       onClick={onClose}
     >
+      {dedicationUrl && (
+        <audio
+          ref={dedAudioRef}
+          src={dedicationUrl}
+          onEnded={() => setDedicationPlaying(false)}
+          preload="auto"
+        />
+      )}
+
+      {dedicationUrl && (
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            display: "flex", alignItems: "center", gap: "0.75rem",
+            backgroundColor: "rgba(250,247,244,0.96)",
+            borderRadius: "2rem",
+            padding: "0.5rem 0.75rem 0.5rem 0.5rem",
+            marginBottom: "1.25rem",
+            boxShadow: "0 6px 24px rgba(0,0,0,0.18)",
+          }}
+        >
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); toggleDedication(); }}
+            aria-label={dedicationPlaying ? "Pause message" : "Play message"}
+            style={{
+              width: 36, height: 36, borderRadius: "50%",
+              backgroundColor: "#C4A97D", color: "#FAF7F4",
+              border: "none", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "0.85rem",
+            }}
+          >
+            {dedicationPlaying ? "❚❚" : "▶"}
+          </button>
+          <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48", margin: 0 }}>
+            A message for you
+          </p>
+          <button
+            type="button"
+            onClick={toggleDedicationMuted}
+            aria-label={dedicationMuted ? "Unmute message" : "Mute message"}
+            style={{
+              width: 28, height: 28, borderRadius: "50%",
+              backgroundColor: "transparent", color: "#8B7D72",
+              border: "none", cursor: "pointer",
+              fontSize: "0.8rem",
+            }}
+          >
+            {dedicationMuted ? "🔇" : "🔊"}
+          </button>
+        </motion.div>
+      )}
+
+      {dedicationTranscript && dedicationPlaying && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          style={{
+            fontFamily: "var(--font-serif)", fontSize: "0.875rem",
+            color: "rgba(250,247,244,0.78)", lineHeight: 1.6, maxWidth: "420px",
+            fontStyle: "italic", marginBottom: "1.5rem",
+          }}
+        >
+          &ldquo;{dedicationTranscript}&rdquo;
+        </motion.p>
+      )}
+
       {creation.dedicationMessage && (
         <motion.p
           initial={{ opacity: 0, y: 12 }}
@@ -823,7 +930,7 @@ export default function CompanionRenderer({
       {/* Audio narration */}
       {!preview && (
         <AudioNarration
-          text={creation.generatedText}
+          audioUrl={creation.audio?.ttsUrl ?? null}
           tier={creation.tier}
           paused={activeId !== null}
         />

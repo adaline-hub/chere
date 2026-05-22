@@ -48,3 +48,12 @@ export async function getPhotoUrl(storagePath: string): Promise<string> {
     .createSignedUrl(storagePath, 3600); // 1-hour expiry
   return data?.signedUrl ?? "";
 }
+
+// Shared signed URL helper for any bucket asset (audio, photos, etc.)
+export async function getSignedAssetUrl(storagePath: string, expiresInSeconds = 3600): Promise<string> {
+  const admin = createAdminClient();
+  const { data } = await admin.storage
+    .from(BUCKET)
+    .createSignedUrl(storagePath, expiresInSeconds);
+  return data?.signedUrl ?? "";
+}
