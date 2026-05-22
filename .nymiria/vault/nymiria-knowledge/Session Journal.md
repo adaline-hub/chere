@@ -865,3 +865,44 @@ Discussed: Hi opus, i have had a previous conversation with you on this…; # Ch
 - the rotate prompt be dismissable (user can tap "Continue anyway" and see the por
 
 ---
+
+## May 22, 2026
+
+Discussed: ok the creation page link worked now. moving onto new issue …; i refreshed the page but im not seeing it. do you need to co…; when i click on a saved chere on the dashboard to add more p…; above errors gone, i can see the chere loaded. new error her…; # Chère — Design Polish + Landing Page + Storybook Renderer
+
+**Decisions:**
+- do it" (btn-gold) / "No thanks" (text link)
+- love it." (fade out after 3s)
+- - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha
+- automatically based on `relationshipType`:
+- relationship type displayed vertically
+- Storybook format AND reaches the interview step (or returns to it), show a speci
+- Storybook — nice choice."
+- 2. Resend sends the email (or returns a clear error)
+- Storybook — nice choice. The more memories you share, the richer your book will
+
+**Files touched:**
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/app/page.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/shared/AppHeader.tsx`
+- `src/app/(protected)/dashboard/layout.tsx`
+
+**Next steps:**
+- commit and deploy or something?
+- always be visible regardless of which preview mode (mobile/desktop) is active.
+- render at approximately 65% of its normal size so the preview looks like a propo
+- render at approximately 85% scale.
+- convert visitors for Father's Day. This is what turns traffic into creators.
+- be scrollable within the frame
+- feel like holding a real book.** The page texture, the spine shadow, the page nu
+- feel physical.** The 3D rotation gives weight to each page. Not too fast (600ms
+- feel like fine typography.** Generous margins, drop cap on the first letter of e
+- feel like an illustrated book,** not a photo album. The vignette and styling mak
+
+---
