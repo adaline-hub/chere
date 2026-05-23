@@ -82,3 +82,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+**Date:** May 23, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---

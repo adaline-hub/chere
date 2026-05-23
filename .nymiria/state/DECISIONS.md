@@ -115,3 +115,15 @@ Working dir: `/Users/lindsaylynn/Developer/Chère`. Code in `chere/` (Next.js 16
 Chère is a tribute-gift app. The "Interactive Scene" outpu
 
 ---
+## 2026-05-23 — scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** Here are all three prompts. Send them one at a time in this order — there are no hard dependencies but #3 will get easier if walkthrough mode is built first since it'll need consistent audio handling.
+
+---
+
+# PROMPT 1 — Walkthrough auto-play mode for all 5 formats
+
+Working dir: `/Users/lindsaylynn/D
+
+---

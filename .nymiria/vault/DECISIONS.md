@@ -73,3 +73,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+
+**Date:** May 23, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---
