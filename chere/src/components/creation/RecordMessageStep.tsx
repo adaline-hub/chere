@@ -52,6 +52,9 @@ export default function RecordMessageStep() {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [promptIdx, setPromptIdx] = useState(0);
   const [activeMemorySlotId, setActiveMemorySlotId] = useState<string | null>(null);
+  const [memorySuggestions, setMemorySuggestions] = useState<Record<string, string>>({});
+  const [memorySuggestionLoading, setMemorySuggestionLoading] = useState<Record<string, boolean>>({});
+  const [memorySuggestionFallbackIdx, setMemorySuggestionFallbackIdx] = useState<Record<string, number>>({});
 
   const isCompanion = outputFormat === "companion";
   const scene = getScene(relationshipType ?? "");
@@ -64,6 +67,44 @@ export default function RecordMessageStep() {
 
   function pickPrompt() {
     setPromptIdx((i) => (i + 1) % RECORDING_PROMPTS.length);
+  }
+
+  function getFallbackPrompt(slotId: string): string {
+    const idx = memorySuggestionFallbackIdx[slotId] ?? Math.abs(slotId.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % RECORDING_PROMPTS.length;
+    return RECORDING_PROMPTS[idx];
+  }
+
+  async function fetchMemorySuggestion(slotId: string, refresh = false) {
+    if (!creationId) return;
+
+    setMemorySuggestionLoading((prev) => ({ ...prev, [slotId]: true }));
+    try {
+      const res = await fetch("/api/ai/recording-suggestion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          creation_id: creationId,
+          hotspot_id: slotId,
+          refresh,
+        }),
+      });
+
+      if (!res.ok) throw new Error(`suggestion failed (${res.status})`);
+
+      const data = (await res.json()) as { suggestion?: string };
+      if (!data.suggestion) throw new Error("missing suggestion");
+
+      setMemorySuggestions((prev) => ({ ...prev, [slotId]: data.suggestion! }));
+    } catch {
+      // Silent fallback to existing static prompts.
+      setMemorySuggestionFallbackIdx((prev) => ({
+        ...prev,
+        [slotId]: ((prev[slotId] ?? 0) + 1) % RECORDING_PROMPTS.length,
+      }));
+      setMemorySuggestions((prev) => ({ ...prev, [slotId]: `Try saying: ${getFallbackPrompt(slotId)}` }));
+    } finally {
+      setMemorySuggestionLoading((prev) => ({ ...prev, [slotId]: false }));
+    }
   }
 
   async function uploadClip(blob: Blob, durationMs: number, kind: "dedication" | "memory", slotId?: string) {
@@ -252,7 +293,14 @@ export default function RecordMessageStep() {
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={() => setActiveMemorySlotId(isOpen ? null : spot.id)}
+                            onClick={() => {
+                              if (isOpen) {
+                                setActiveMemorySlotId(null);
+                                return;
+                              }
+                              setActiveMemorySlotId(spot.id);
+                              void fetchMemorySuggestion(spot.id);
+                            }}
                             className="text-xs px-3 py-2 rounded-lg"
                             style={{ border: "1px solid var(--color-parchment)", backgroundColor: "#fff", color: "var(--color-espresso)" }}
                           >
@@ -282,6 +330,31 @@ export default function RecordMessageStep() {
 
                       {isOpen && (
                         <div className="mt-3">
+                          {memorySuggestionLoading[spot.id] ? (
+                            <p className="text-xs italic mb-3" style={{ color: "var(--color-warm-gray)" }}>
+                              💡 Coming up with an idea...
+                            </p>
+                          ) : (
+                            <div
+                              className="mb-3 rounded-lg px-3 py-3"
+                              style={{
+                                backgroundColor: "var(--color-cream)",
+                                border: "1px solid var(--color-parchment)",
+                              }}
+                            >
+                              <p className="text-sm italic font-serif" style={{ color: "var(--color-stone)" }}>
+                                💡 {memorySuggestions[spot.id] ?? `Try saying: ${getFallbackPrompt(spot.id)}`}
+                              </p>
+                              <button
+                                type="button"
+                                onClick={() => void fetchMemorySuggestion(spot.id, true)}
+                                className="text-xs mt-2 underline"
+                                style={{ background: "none", border: "none", color: "var(--color-warm-gray)", cursor: "pointer" }}
+                              >
+                                Suggest another
+                              </button>
+                            </div>
+                          )}
                           <VoiceRecorder onSave={(blob, ms) => handleSaveMemory(spot.id, blob, ms)} maxDurationMs={60_000} />
                         </div>
                       )}
