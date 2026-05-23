@@ -30,20 +30,31 @@ async function loadCreation(shareToken: string): Promise<TributeCreation | null>
       }))
     );
 
-    // Audio clips — dedication (creator's voice).
+    // Audio clips — dedication + per-memory voice.
     const { data: audioRows } = await admin
       .from("audio_clips")
-      .select("kind, storage_path, transcript")
+      .select("kind, storage_path, transcript, memory_slot_id")
       .eq("creation_id", creation.id)
-      .eq("kind", "dedication");
+      .in("kind", ["dedication", "memory"]);
 
     const dedicationRow = audioRows?.find((r) => r.kind === "dedication");
+    const memoryRows = (audioRows ?? []).filter((r) => r.kind === "memory" && !!r.memory_slot_id && !!r.storage_path);
+    const memoriesEntries = await Promise.all(
+      memoryRows.map(async (row) => [
+        row.memory_slot_id as string,
+        {
+          url: await getSignedAssetUrl(row.storage_path as string),
+          transcript: (row.transcript as string | null) ?? null,
+        },
+      ] as const)
+    );
 
     const audio: TributeAudio = {
       dedicationUrl: dedicationRow?.storage_path
         ? await getSignedAssetUrl(dedicationRow.storage_path as string)
         : null,
       dedicationTranscript: (dedicationRow?.transcript as string | null) ?? null,
+      memories: Object.fromEntries(memoriesEntries),
     };
 
     return {

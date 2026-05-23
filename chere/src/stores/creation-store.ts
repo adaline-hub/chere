@@ -52,9 +52,17 @@ export type WizardStep =
   | "payment"        // Tier selection + Stripe
   | "deliver";       // Send it
 
-export type AudioMode = "none" | "dedication";
+export type AudioMode = "none" | "dedication" | "memories";
 
 export interface AudioDedicationClip {
+  id: string;
+  storagePath: string;
+  durationMs: number;
+  transcript: string | null;
+  transcriptStatus: "pending" | "completed" | "failed" | "skipped";
+}
+
+export interface AudioMemoryClip {
   id: string;
   storagePath: string;
   durationMs: number;
@@ -131,6 +139,9 @@ interface CreationStore {
   setAudioMode: (mode: AudioMode) => void;
   audioDedication: AudioDedicationClip | null;
   setAudioDedication: (clip: AudioDedicationClip | null) => void;
+  audioMemoryClips: Record<string, AudioMemoryClip>;
+  setAudioMemoryClip: (slotId: string, clip: AudioMemoryClip) => void;
+  removeAudioMemoryClip: (slotId: string) => void;
 
   // Step 9: Payment
   tier: Tier;
@@ -171,6 +182,7 @@ const initialState = {
   musicTrackId: null,
   audioMode: "none" as AudioMode,
   audioDedication: null as AudioDedicationClip | null,
+  audioMemoryClips: {} as Record<string, AudioMemoryClip>,
   tier: "free" as Tier,
   scheduledRevealAt: null,
   reactionCamEnabled: false,
@@ -245,6 +257,16 @@ export const useCreationStore = create<CreationStore>((set) => ({
   setMusicTrackId: (id) => set({ musicTrackId: id }),
   setAudioMode: (mode) => set({ audioMode: mode }),
   setAudioDedication: (clip) => set({ audioDedication: clip }),
+  setAudioMemoryClip: (slotId, clip) =>
+    set((state) => ({
+      audioMemoryClips: { ...state.audioMemoryClips, [slotId]: clip },
+    })),
+  removeAudioMemoryClip: (slotId) =>
+    set((state) => {
+      const next = { ...state.audioMemoryClips };
+      delete next[slotId];
+      return { audioMemoryClips: next };
+    }),
   setTier: (tier) => set({ tier }),
   setScheduledRevealAt: (date) => set({ scheduledRevealAt: date }),
   setReactionCamEnabled: (enabled) => set({ reactionCamEnabled: enabled }),

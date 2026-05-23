@@ -13,6 +13,7 @@ export interface TributeGiftMoment {
 export interface TributeAudio {
   dedicationUrl: string | null;
   dedicationTranscript: string | null;
+  memories?: Record<string, { url: string; transcript: string | null }>;
 }
 
 export interface TributeCreation {

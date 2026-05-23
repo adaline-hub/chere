@@ -5,18 +5,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 import CharacterPair from "./companion/CharacterPair";
 import { detectTone, type Reaction } from "./companion/character-animations";
+import { getScene, SCENE_HOTSPOTS, type SceneId, type HotspotDef } from "@/lib/companion/hotspots";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type SceneId = "kitchen" | "living-room" | "backyard" | "cafe";
 type TimeOfDay = "morning" | "afternoon" | "evening" | "night";
-
-interface HotspotDef {
-  id: string;
-  label: string;
-  x: number; // % from left
-  y: number; // % from top
-}
 
 interface Memory {
   text: string;
@@ -67,52 +60,6 @@ function playChime() {
   }
 }
 
-// ─── Scene selection ──────────────────────────────────────────────────────────
-
-function getScene(rel: string): SceneId {
-  const r = (rel || "").toLowerCase();
-  if (["mom", "dad", "mother", "father", "grandma", "grandpa", "grandmother", "grandfather", "grandparent", "parent"].some((k) => r.includes(k))) return "kitchen";
-  if (["partner", "spouse", "husband", "wife", "boyfriend", "girlfriend", "fiancé", "fiance"].some((k) => r.includes(k))) return "living-room";
-  if (["pet", "dog", "cat", "puppy", "kitten", "bunny", "rabbit"].some((k) => r.includes(k))) return "backyard";
-  return "cafe";
-}
-
-// ─── Hotspot definitions ──────────────────────────────────────────────────────
-
-const SCENE_HOTSPOTS: Record<SceneId, HotspotDef[]> = {
-  kitchen: [
-    { id: "mug", label: "The morning mug", x: 28, y: 66 },
-    { id: "recipe", label: "The recipe book", x: 52, y: 64 },
-    { id: "frame", label: "The photo frame", x: 78, y: 38 },
-    { id: "bowl", label: "The fruit bowl", x: 18, y: 68 },
-    { id: "plant", label: "The herb pot", x: 65, y: 28 },
-    { id: "mitt", label: "The oven mitt", x: 86, y: 52 },
-  ],
-  "living-room": [
-    { id: "blanket", label: "The blanket", x: 40, y: 62 },
-    { id: "book", label: "The book", x: 62, y: 72 },
-    { id: "photo", label: "The photo frame", x: 20, y: 40 },
-    { id: "mug", label: "The mug", x: 58, y: 68 },
-    { id: "cushion", label: "The cushion", x: 28, y: 60 },
-    { id: "lamp", label: "The lamp", x: 82, y: 42 },
-  ],
-  backyard: [
-    { id: "ball", label: "The tennis ball", x: 22, y: 74 },
-    { id: "bowl", label: "The food bowl", x: 45, y: 76 },
-    { id: "leash", label: "The leash", x: 80, y: 42 },
-    { id: "sunny", label: "The sunny patch", x: 60, y: 68 },
-    { id: "toy", label: "The favourite toy", x: 35, y: 72 },
-    { id: "pawprint", label: "Paw prints", x: 68, y: 80 },
-  ],
-  cafe: [
-    { id: "cup1", label: "Your coffee", x: 35, y: 60 },
-    { id: "cup2", label: "Their coffee", x: 55, y: 60 },
-    { id: "phone", label: "The phone", x: 50, y: 72 },
-    { id: "dessert", label: "The shared dessert", x: 44, y: 68 },
-    { id: "napkin", label: "The napkin note", x: 30, y: 70 },
-    { id: "book", label: "The magazine", x: 65, y: 66 },
-  ],
-};
 
 // ─── Scene backgrounds ────────────────────────────────────────────────────────
 
@@ -482,10 +429,54 @@ function Hotspot({
 // ─── Memory card ──────────────────────────────────────────────────────────────
 
 function MemoryCard({
-  memory, label, isMobile, onClose,
+  memory, label, isMobile, onClose, audioClip,
 }: {
-  memory: Memory; label: string; isMobile: boolean; onClose: () => void;
+  memory: Memory;
+  label: string;
+  isMobile: boolean;
+  onClose: () => void;
+  audioClip?: { url: string; transcript: string | null } | undefined;
 }) {
+  const memoryAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [memoryPlaying, setMemoryPlaying] = useState(false);
+  const [memoryMuted, setMemoryMuted] = useState(false);
+
+  useEffect(() => {
+    const el = memoryAudioRef.current;
+    if (!el || !audioClip?.url) return;
+    el.currentTime = 0;
+    el.play().then(() => setMemoryPlaying(true)).catch(() => setMemoryPlaying(false));
+  }, [audioClip?.url]);
+
+  useEffect(() => {
+    return () => {
+      const el = memoryAudioRef.current;
+      if (el) {
+        el.pause();
+        el.currentTime = 0;
+      }
+    };
+  }, []);
+
+  function toggleMemoryPlayback(e: React.MouseEvent) {
+    e.stopPropagation();
+    const el = memoryAudioRef.current;
+    if (!el) return;
+    if (memoryPlaying) {
+      el.pause();
+      setMemoryPlaying(false);
+      return;
+    }
+    el.play().then(() => setMemoryPlaying(true)).catch(() => setMemoryPlaying(false));
+  }
+
+  function toggleMemoryMuted(e: React.MouseEvent) {
+    e.stopPropagation();
+    const next = !memoryMuted;
+    setMemoryMuted(next);
+    if (memoryAudioRef.current) memoryAudioRef.current.muted = next;
+  }
+
   const content = (
     <>
       {memory.photo && (
@@ -507,6 +498,71 @@ function MemoryCard({
             aria-label="Close"
           >×</button>
         </div>
+        {audioClip?.url && (
+          <>
+            <audio
+              ref={memoryAudioRef}
+              src={audioClip.url}
+              onEnded={() => setMemoryPlaying(false)}
+              preload="auto"
+            />
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.625rem",
+                backgroundColor: "rgba(250,247,244,0.96)",
+                borderRadius: "2rem",
+                padding: "0.45rem 0.7rem 0.45rem 0.45rem",
+                marginBottom: "0.85rem",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
+              }}
+            >
+              <button
+                type="button"
+                onClick={toggleMemoryPlayback}
+                aria-label={memoryPlaying ? "Pause memory audio" : "Play memory audio"}
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: "50%",
+                  backgroundColor: "#C4A97D",
+                  color: "#FAF7F4",
+                  border: "none",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "0.75rem",
+                }}
+              >
+                {memoryPlaying ? "❚❚" : "▶"}
+              </button>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48", margin: 0 }}>
+                Voice memory
+              </p>
+              {memoryPlaying && (
+                <button
+                  type="button"
+                  onClick={toggleMemoryMuted}
+                  aria-label={memoryMuted ? "Unmute memory audio" : "Mute memory audio"}
+                  style={{
+                    width: 26,
+                    height: 26,
+                    borderRadius: "50%",
+                    backgroundColor: "transparent",
+                    color: "#8B7D72",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  {memoryMuted ? "🔇" : "🔊"}
+                </button>
+              )}
+            </div>
+          </>
+        )}
         <p style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", lineHeight: 1.75, color: "#2A2420", margin: 0 }}>{memory.text}</p>
       </div>
     </>
@@ -933,6 +989,7 @@ export default function CompanionRenderer({
             key={activeId}
             memory={memories[activeId]}
             label={hotspots.find((h) => h.id === activeId)?.label ?? ""}
+            audioClip={creation.audio?.memories?.[activeId]}
             isMobile={isMobile}
             onClose={handleCardClose}
           />
