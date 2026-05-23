@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 import CharacterPair from "./companion/CharacterPair";
-import AudioNarration from "./companion/AudioNarration";
 import { detectTone, type Reaction } from "./companion/character-animations";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -925,15 +924,6 @@ export default function CompanionRenderer({
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(245,240,235,0.4)", backdropFilter: "blur(1px)", zIndex: 30 }}>
           <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", color: "#2A2420", backgroundColor: "rgba(250,247,244,0.9)", padding: "0.75rem 1.5rem", borderRadius: "0.5rem" }}>Tap to explore</p>
         </div>
-      )}
-
-      {/* Audio narration */}
-      {!preview && (
-        <AudioNarration
-          audioUrl={creation.audio?.ttsUrl ?? null}
-          tier={creation.tier}
-          paused={activeId !== null}
-        />
       )}
 
       {/* Memory card */}

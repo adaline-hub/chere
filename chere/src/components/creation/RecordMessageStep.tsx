@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
 import type { AudioMode } from "@/stores/creation-store";
@@ -11,12 +11,6 @@ const MODE_OPTIONS: { value: AudioMode; label: string; description: string; avai
     value: "dedication",
     label: "Record your voice",
     description: "Leave a short spoken message — plays on the closing screen of the gift.",
-    available: true,
-  },
-  {
-    value: "tts",
-    label: "AI narration",
-    description: "A warm AI voice reads your tribute. No recording needed.",
     available: true,
   },
   {
@@ -47,8 +41,6 @@ export default function RecordMessageStep() {
 
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [promptIdx, setPromptIdx] = useState(0);
-  const [ttsStatus, setTtsStatus] = useState<"idle" | "generating" | "ready" | "error">("idle");
-  const ttsRequestedFor = useRef<string | null>(null);
 
   function pickPrompt() {
     setPromptIdx((i) => (i + 1) % RECORDING_PROMPTS.length);
@@ -91,30 +83,6 @@ export default function RecordMessageStep() {
   function clearDedication() {
     setAudioDedication(null);
   }
-
-  // Auto-generate MiniMax TTS once the user picks the AI narration mode, so
-  // the audio URL exists by the time they reach the preview/recipient view.
-  useEffect(() => {
-    if (audioMode !== "tts") return;
-    if (!creationId) return;
-    if (ttsRequestedFor.current === creationId) return;
-    ttsRequestedFor.current = creationId;
-    setTtsStatus("generating");
-    fetch("/api/audio/tts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ creation_id: creationId }),
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          setTtsStatus("error");
-          return;
-        }
-        await res.json();
-        setTtsStatus("ready");
-      })
-      .catch(() => setTtsStatus("error"));
-  }, [audioMode, creationId]);
 
   return (
     <div className="min-h-screen flex flex-col items-center px-6 py-24">
@@ -252,45 +220,6 @@ export default function RecordMessageStep() {
                 )}
               </div>
             )}
-          </div>
-        )}
-
-        {audioMode === "tts" && (
-          <div
-            className="mb-10 rounded-2xl px-6 py-6 text-center"
-            style={{
-              backgroundColor: "var(--color-cream)",
-              border: "1px solid var(--color-parchment)",
-            }}
-          >
-            <p
-              className="font-serif text-base mb-2"
-              style={{ color: "var(--color-espresso)" }}
-            >
-              AI narration selected
-            </p>
-            <p
-              className="text-sm mb-3"
-              style={{ color: "var(--color-stone)" }}
-            >
-              A natural voice will read your tribute aloud.
-            </p>
-            <p
-              className="text-xs"
-              style={{
-                color:
-                  ttsStatus === "ready"
-                    ? "var(--color-sage-green, #6BA38A)"
-                    : ttsStatus === "error"
-                    ? "var(--color-error, #B14545)"
-                    : "var(--color-warm-gray)",
-              }}
-            >
-              {ttsStatus === "generating" && "Generating narration..."}
-              {ttsStatus === "ready" && "✓ Narration ready"}
-              {ttsStatus === "error" && "Couldn't generate narration. We'll try again at preview."}
-              {ttsStatus === "idle" && "Preparing..."}
-            </p>
           </div>
         )}
 

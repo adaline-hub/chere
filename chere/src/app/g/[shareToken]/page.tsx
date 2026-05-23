@@ -30,24 +30,20 @@ async function loadCreation(shareToken: string): Promise<TributeCreation | null>
       }))
     );
 
-    // Audio clips — dedication (creator's voice) + cached TTS narration.
+    // Audio clips — dedication (creator's voice).
     const { data: audioRows } = await admin
       .from("audio_clips")
       .select("kind, storage_path, transcript")
       .eq("creation_id", creation.id)
-      .in("kind", ["dedication", "tts"]);
+      .eq("kind", "dedication");
 
     const dedicationRow = audioRows?.find((r) => r.kind === "dedication");
-    const ttsRow = audioRows?.find((r) => r.kind === "tts");
 
     const audio: TributeAudio = {
       dedicationUrl: dedicationRow?.storage_path
         ? await getSignedAssetUrl(dedicationRow.storage_path as string)
         : null,
       dedicationTranscript: (dedicationRow?.transcript as string | null) ?? null,
-      ttsUrl: ttsRow?.storage_path
-        ? await getSignedAssetUrl(ttsRow.storage_path as string)
-        : null,
     };
 
     return {

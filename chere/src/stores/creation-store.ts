@@ -52,7 +52,7 @@ export type WizardStep =
   | "payment"        // Tier selection + Stripe
   | "deliver";       // Send it
 
-export type AudioMode = "none" | "dedication" | "tts";
+export type AudioMode = "none" | "dedication";
 
 export interface AudioDedicationClip {
   id: string;
