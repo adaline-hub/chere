@@ -99,3 +99,19 @@ MiniMax Speech 2.5 (released mid-2025, refreshed to 2.6 in March 2026) does **sp
 - **`VoiceRecorder.tsx`** — full recording UI: tap-to-record button, 3-2-1 countdown, pulsing red dot + timer during recording, soft "wrap
 
 ---
+## 2026-05-23 — `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** Here's the prompt:
+
+---
+
+# Task: Per-memory voice recordings for Interactive Scene
+
+Working dir: `/Users/lindsaylynn/Developer/Chère`. Code in `chere/` (Next.js 16 — see `chere/node_modules/next/dist/docs/` for unfamiliar APIs).
+
+## Context
+
+Chère is a tribute-gift app. The "Interactive Scene" outpu
+
+---
