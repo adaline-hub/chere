@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
+import type { WalkthroughProps } from "@/lib/walkthrough/types";
 
 const TEMPLATES = {
   "warm-linen": { bg: "#F5F0EB", text: "#2A2420", accent: "#C4A97D", stone: "#8B7D72", page: "#FAF7F4", spine: "#D4B896" },
@@ -224,12 +225,13 @@ export default function StorybookRenderer({
   illustrationMode = "photos",
   preview = false,
   forceMobile = false,
+  walkthrough,
 }: {
   creation: TributeCreation;
   illustrationMode?: IllustrationMode;
   preview?: boolean;
   forceMobile?: boolean;
-}) {
+} & WalkthroughProps) {
   const tmpl = TEMPLATES[creation.templateId] ?? TEMPLATES["warm-linen"];
   const spreads = buildSpreads(creation);
   const mobilePages = buildMobilePages(spreads);
@@ -237,6 +239,7 @@ export default function StorybookRenderer({
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
   const [isMobile, setIsMobile] = useState(forceMobile);
+  const [showDedicationAudio, setShowDedicationAudio] = useState(false);
   const pointerStart = { x: 0 };
 
   useEffect(() => {
@@ -264,10 +267,24 @@ export default function StorybookRenderer({
 
   function handlePointerDown(e: React.PointerEvent) { pointerStart.x = e.clientX; }
   function handlePointerUp(e: React.PointerEvent) {
-    if (preview) return;
+    if (preview || walkthrough?.active) return;
     const dx = e.clientX - pointerStart.x;
     if (Math.abs(dx) > 40) navigate(dx < 0 ? current + 1 : current - 1);
   }
+
+  useEffect(() => {
+    if (!walkthrough?.active || walkthrough.paused) return;
+    if (current >= total - 1) {
+      if (creation.audio?.dedicationUrl) setShowDedicationAudio(true);
+      else walkthrough.onComplete();
+      return;
+    }
+    const t = window.setTimeout(() => {
+      navigate(current + 1);
+      walkthrough.onAdvance();
+    }, 5000);
+    return () => window.clearTimeout(t);
+  }, [creation.audio?.dedicationUrl, current, total, walkthrough?.active, walkthrough?.paused]);
 
   return (
     <div
@@ -405,6 +422,14 @@ export default function StorybookRenderer({
         >
           {isMobile ? "Swipe to turn pages" : "Click arrows or tap the sides to turn pages"}
         </motion.p>
+      )}
+      {showDedicationAudio && creation.audio?.dedicationUrl && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(42,36,32,0.28)" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", backgroundColor: "rgba(250,247,244,0.96)", borderRadius: "999px", padding: "0.55rem 0.9rem", boxShadow: "0 6px 24px rgba(0,0,0,0.2)" }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48" }}>A message for you</span>
+            <audio autoPlay src={creation.audio.dedicationUrl} onEnded={() => walkthrough?.onComplete()} preload="auto" />
+          </div>
+        </div>
       )}
     </div>
   );

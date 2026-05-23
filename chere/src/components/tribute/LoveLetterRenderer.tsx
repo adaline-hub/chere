@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
+import type { WalkthroughProps } from "@/lib/walkthrough/types";
 
 const TEMPLATES = {
   "warm-linen": { bg: "#F5F0EB", text: "#2A2420", accent: "#C4A97D", stone: "#8B7D72", envelope: "#EDE7DF", flap: "#DDD4C8" },
@@ -15,12 +17,15 @@ type Phase = "sealed" | "opening" | "letter";
 export default function LoveLetterRenderer({
   creation,
   preview,
+  walkthrough,
 }: {
   creation: TributeCreation;
   preview?: boolean;
-}) {
+} & WalkthroughProps) {
   const tmpl = TEMPLATES[creation.templateId] ?? TEMPLATES["warm-linen"];
   const [phase, setPhase] = useState<Phase>(preview ? "letter" : "sealed");
+  const letterRef = useRef<HTMLDivElement | null>(null);
+  const [showDedicationAudio, setShowDedicationAudio] = useState(false);
 
   const creatorInitial = creation.creatorName.charAt(0).toUpperCase();
   const paragraphs = creation.generatedText.split(/\n\n+/).filter((p) => p.trim());
@@ -42,6 +47,47 @@ export default function LoveLetterRenderer({
   function delay(ms: number) {
     return new Promise((r) => setTimeout(r, ms));
   }
+
+  useEffect(() => {
+    if (!walkthrough?.active || walkthrough.paused) return;
+    if (phase === "sealed") {
+      const t = window.setTimeout(() => {
+        walkthrough.onAdvance();
+        handleOpen();
+      }, 1500);
+      return () => window.clearTimeout(t);
+    }
+  }, [phase, walkthrough?.active, walkthrough?.paused]);
+
+  useEffect(() => {
+    if (!walkthrough?.active || walkthrough.paused || phase !== "letter") return;
+    const root = letterRef.current;
+    if (!root) return;
+    const words = creation.generatedText.trim().split(/\s+/).filter(Boolean).length;
+    const durationMs = Math.max(12000, (words / 60) * 60_000);
+    const maxScroll = Math.max(0, root.scrollHeight - root.clientHeight);
+    const pxPerMs = maxScroll <= 0 ? 0 : maxScroll / durationMs;
+    let rafId = 0;
+    let lastTs = performance.now();
+    let beatAt = 0;
+    const tick = (ts: number) => {
+      const dt = ts - lastTs;
+      lastTs = ts;
+      if (pxPerMs > 0 && root.scrollTop < maxScroll) root.scrollTop = Math.min(maxScroll, root.scrollTop + pxPerMs * dt);
+      if (ts - beatAt > 6000) {
+        beatAt = ts;
+        walkthrough.onAdvance();
+      }
+      if (root.scrollTop >= maxScroll - 4) {
+        if (creation.audio?.dedicationUrl) setShowDedicationAudio(true);
+        else walkthrough.onComplete();
+        return;
+      }
+      rafId = window.requestAnimationFrame(tick);
+    };
+    rafId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(rafId);
+  }, [creation.audio?.dedicationUrl, creation.generatedText, phase, walkthrough?.active, walkthrough?.paused]);
 
   return (
     <div
@@ -176,8 +222,9 @@ export default function LoveLetterRenderer({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+            ref={letterRef}
             className="min-h-screen pb-24 texture-linen"
-            style={{ backgroundColor: "#FAF7F4", position: "relative" }}
+            style={{ backgroundColor: "#FAF7F4", position: "relative", overflowY: "auto", height: "100vh" }}
           >
             {/* Notebook margin line */}
             <div
@@ -279,6 +326,14 @@ export default function LoveLetterRenderer({
           </motion.div>
         )}
       </AnimatePresence>
+      {showDedicationAudio && creation.audio?.dedicationUrl && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(42,36,32,0.28)" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", backgroundColor: "rgba(250,247,244,0.96)", borderRadius: "999px", padding: "0.55rem 0.9rem", boxShadow: "0 6px 24px rgba(0,0,0,0.2)" }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48" }}>A message for you</span>
+            <audio autoPlay src={creation.audio.dedicationUrl} onEnded={() => walkthrough?.onComplete()} preload="auto" />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

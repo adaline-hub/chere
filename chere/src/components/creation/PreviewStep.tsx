@@ -8,6 +8,8 @@ import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
 import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
 import StorybookRenderer from "@/components/tribute/StorybookRenderer";
 import CompanionRenderer from "@/components/tribute/CompanionRenderer";
+import WalkthroughBar from "@/components/audio/WalkthroughBar";
+import { useWalkthrough } from "@/lib/walkthrough/useWalkthrough";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 
 const TEMPLATE_STYLES: Record<string, { bg: string; accent: string }> = {
@@ -39,6 +41,7 @@ export default function PreviewStep() {
   const [previewMode, setPreviewMode] = useState<"mobile" | "desktop">(
     () => (typeof window !== "undefined" && window.innerWidth <= 768 ? "mobile" : "desktop")
   );
+  const [showWalkthroughModal, setShowWalkthroughModal] = useState(false);
 
   const previewCreation: TributeCreation = {
     id: creationId ?? "preview",
@@ -73,18 +76,34 @@ export default function PreviewStep() {
     });
   }
 
-  function renderFormat(preview = false) {
+  const walkthroughSteps = Math.max(1, previewCreation.generatedText.split(/\n\n+/).filter((p) => p.trim()).length + previewCreation.photos.length + 2);
+  const walkthrough = useWalkthrough(walkthroughSteps);
+
+  function renderFormat(preview = false, walkthroughActive = false) {
+    const markComplete = () => {
+      for (let i = 0; i < walkthrough.totalSteps; i++) walkthrough.next();
+    };
+    const walkthroughProps = walkthroughActive
+      ? {
+          walkthrough: {
+            active: true,
+            paused: walkthrough.state !== "playing",
+            onAdvance: walkthrough.next,
+            onComplete: markComplete,
+          },
+        }
+      : undefined;
     switch (outputFormat) {
       case "memory_wrapped":
-        return <MemoryWrappedRenderer creation={previewCreation} preview={preview} />;
+        return <MemoryWrappedRenderer creation={previewCreation} preview={preview} {...walkthroughProps} />;
       case "love_letter":
-        return <LoveLetterRenderer creation={previewCreation} preview={preview} />;
+        return <LoveLetterRenderer creation={previewCreation} preview={preview} {...walkthroughProps} />;
       case "storybook":
-        return <StorybookRenderer creation={previewCreation} illustrationMode={illustrationMode} preview={preview} forceMobile={previewMode === "mobile"} />;
+        return <StorybookRenderer creation={previewCreation} illustrationMode={illustrationMode} preview={preview} forceMobile={previewMode === "mobile"} {...walkthroughProps} />;
       case "companion":
-        return <CompanionRenderer creation={previewCreation} preview={preview} />;
+        return <CompanionRenderer creation={previewCreation} preview={preview} {...walkthroughProps} />;
       default:
-        return <ScrollytellingRenderer creation={previewCreation} />;
+        return <ScrollytellingRenderer creation={previewCreation} {...walkthroughProps} />;
     }
   }
 
@@ -245,6 +264,19 @@ export default function PreviewStep() {
         >
           This is a preview. Your recipient&apos;s experience will adapt to their screen.
         </p>
+        <div className="flex justify-center mb-8">
+          <button
+            type="button"
+            onClick={() => {
+              walkthrough.restart();
+              setShowWalkthroughModal(true);
+            }}
+            className="rounded-full px-5 py-2 text-sm"
+            style={{ backgroundColor: "rgba(250,247,244,0.95)", border: "1px solid rgba(196,169,125,0.45)", color: "#5A4E48" }}
+          >
+            ▶ Preview full experience
+          </button>
+        </div>
 
         {/* Actions — always visible outside the frame */}
         <motion.div
@@ -288,6 +320,20 @@ export default function PreviewStep() {
           </div>
         </motion.div>
       </div>
+      {showWalkthroughModal && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 120, backgroundColor: "#111" }}>
+          {renderFormat(false, true)}
+          <WalkthroughBar
+            state={walkthrough.state}
+            progress={walkthrough.progress}
+            step={walkthrough.step}
+            totalSteps={walkthrough.totalSteps}
+            onToggle={walkthrough.toggle}
+            onRestart={walkthrough.restart}
+            onExit={() => setShowWalkthroughModal(false)}
+          />
+        </div>
+      )}
     </div>
   );
 }

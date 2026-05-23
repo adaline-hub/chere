@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
+import type { WalkthroughProps } from "@/lib/walkthrough/types";
 
 const TEMPLATES = {
   "warm-linen": { bg: "#F5F0EB", text: "#2A2420", accent: "#C4A97D", stone: "#8B7D72", surface: "#EDE7DF", card: "#FAF7F4" },
@@ -184,11 +185,12 @@ function CardContent({
   }
 }
 
-export default function MemoryWrappedRenderer({ creation, preview }: { creation: TributeCreation; preview?: boolean }) {
+export default function MemoryWrappedRenderer({ creation, preview, walkthrough }: { creation: TributeCreation; preview?: boolean } & WalkthroughProps) {
   const tmpl = TEMPLATES[creation.templateId] ?? TEMPLATES["warm-linen"];
   const cards = buildCards(creation);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [showDedicationAudio, setShowDedicationAudio] = useState(false);
   const pointerStart = useRef({ x: 0 });
 
   function goNext() {
@@ -208,6 +210,7 @@ export default function MemoryWrappedRenderer({ creation, preview }: { creation:
     pointerStart.current = { x: e.clientX };
   }
   function handlePointerUp(e: React.PointerEvent) {
+    if (walkthrough?.active) return;
     const dx = e.clientX - pointerStart.current.x;
     if (Math.abs(dx) > 50) {
       if (dx < 0) goNext();
@@ -218,6 +221,23 @@ export default function MemoryWrappedRenderer({ creation, preview }: { creation:
       else goPrev();
     }
   }
+
+  useEffect(() => {
+    if (!walkthrough?.active || walkthrough.paused) return;
+    if (current >= cards.length - 1) {
+      if (creation.audio?.dedicationUrl) setShowDedicationAudio(true);
+      else walkthrough.onComplete();
+      return;
+    }
+    const card = cards[current];
+    const hasPhoto = card.kind === "photo";
+    const delayMs = hasPhoto ? 5000 : 3500;
+    const t = window.setTimeout(() => {
+      goNext();
+      walkthrough.onAdvance();
+    }, delayMs);
+    return () => window.clearTimeout(t);
+  }, [cards, creation.audio?.dedicationUrl, current, walkthrough?.active, walkthrough?.paused]);
 
   return (
     <div
@@ -289,6 +309,14 @@ export default function MemoryWrappedRenderer({ creation, preview }: { creation:
         >
           Tap to continue
         </motion.p>
+      )}
+      {showDedicationAudio && creation.audio?.dedicationUrl && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(42,36,32,0.28)" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", backgroundColor: "rgba(250,247,244,0.96)", borderRadius: "999px", padding: "0.55rem 0.9rem", boxShadow: "0 6px 24px rgba(0,0,0,0.2)" }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48" }}>A message for you</span>
+            <audio autoPlay src={creation.audio.dedicationUrl} onEnded={() => walkthrough?.onComplete()} preload="auto" />
+          </div>
+        </div>
       )}
     </div>
   );

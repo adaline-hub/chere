@@ -6,6 +6,7 @@ import type { TributeCreation } from "@/lib/mock/tribute-data";
 import CharacterPair from "./companion/CharacterPair";
 import { detectTone, type Reaction } from "./companion/character-animations";
 import { getScene, SCENE_HOTSPOTS, type SceneId, type HotspotDef } from "@/lib/companion/hotspots";
+import type { WalkthroughProps } from "@/lib/walkthrough/types";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -624,7 +625,7 @@ function MemoryCard({
 
 // ─── Completion screen ────────────────────────────────────────────────────────
 
-function CompletionScreen({ creation, onClose }: { creation: TributeCreation; onClose: () => void }) {
+function CompletionScreen({ creation, onClose, onDedicationEnded }: { creation: TributeCreation; onClose: () => void; onDedicationEnded?: () => void }) {
   const dedicationUrl = creation.audio?.dedicationUrl ?? null;
   const dedicationTranscript = creation.audio?.dedicationTranscript ?? null;
   const [dedicationMuted, setDedicationMuted] = useState(false);
@@ -680,7 +681,10 @@ function CompletionScreen({ creation, onClose }: { creation: TributeCreation; on
         <audio
           ref={dedAudioRef}
           src={dedicationUrl}
-          onEnded={() => setDedicationPlaying(false)}
+          onEnded={() => {
+            setDedicationPlaying(false);
+            onDedicationEnded?.();
+          }}
           preload="auto"
         />
       )}
@@ -795,10 +799,11 @@ function CompletionScreen({ creation, onClose }: { creation: TributeCreation; on
 export default function CompanionRenderer({
   creation,
   preview = false,
+  walkthrough,
 }: {
   creation: TributeCreation;
   preview?: boolean;
-}) {
+} & WalkthroughProps) {
   const sceneId = getScene(creation.relationshipType);
   const hotspots = SCENE_HOTSPOTS[sceneId];
   const SceneBg = SCENE_BG[sceneId];
@@ -828,6 +833,7 @@ export default function CompanionRenderer({
   const [lastInteractionAt, setLastInteractionAt] = useState<number>(() => Date.now());
 
   const isPet = creation.relationshipType === "pet" || creation.relationshipType === "pet_memorial";
+  const walkthroughMode = walkthrough?.active ?? false;
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -870,6 +876,7 @@ export default function CompanionRenderer({
   }, [activeId, discovered.size, activeHotspots.length, showCompletion]);
 
   function handleTap(id: string) {
+    if (walkthroughMode) return;
     if (!memories[id]) return;
     setLastInteractionAt(Date.now());
     setActiveId(id);
@@ -880,6 +887,57 @@ export default function CompanionRenderer({
       return new Set([...prev, id]);
     });
   }
+
+  useEffect(() => {
+    if (!walkthroughMode || walkthrough?.paused || preview || activeHotspots.length === 0) return;
+    let cancelled = false;
+    let timer: number | null = null;
+    let clipAudio: HTMLAudioElement | null = null;
+    const wait = (ms: number) =>
+      new Promise<void>((resolve) => {
+        timer = window.setTimeout(resolve, ms);
+      });
+    const run = async () => {
+      setDiscovered(new Set());
+      setShowCompletion(false);
+      setActiveId(null);
+      for (const hs of activeHotspots) {
+        if (cancelled) return;
+        setActiveId(hs.id);
+        setDiscovered((prev) => new Set([...prev, hs.id]));
+        walkthrough?.onAdvance();
+        const clip = creation.audio?.memories?.[hs.id];
+        if (clip?.url) {
+          await new Promise<void>((resolve) => {
+            clipAudio = new Audio(clip.url);
+            const done = () => resolve();
+            timer = window.setTimeout(done, 30_000);
+            clipAudio.onended = done;
+            clipAudio.play().catch(done);
+          });
+        } else {
+          await wait(5000);
+        }
+        if (cancelled) return;
+        setActiveId(null);
+        await wait(600);
+      }
+      setShowCompletion(true);
+      if (!creation.audio?.dedicationUrl) {
+        await wait(10_000);
+        if (!cancelled) walkthrough?.onComplete();
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+      if (timer) window.clearTimeout(timer);
+      if (clipAudio) {
+        clipAudio.pause();
+        clipAudio = null;
+      }
+    };
+  }, [activeHotspots, creation.audio?.dedicationUrl, creation.audio?.memories, preview, walkthrough?.paused, walkthroughMode]);
 
   function handleCardClose() {
     setActiveId(null);
@@ -976,7 +1034,7 @@ export default function CompanionRenderer({
       )}
 
       {/* Preview overlay */}
-      {preview && (
+      {preview && !walkthroughMode && (
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(245,240,235,0.4)", backdropFilter: "blur(1px)", zIndex: 30 }}>
           <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", color: "#2A2420", backgroundColor: "rgba(250,247,244,0.9)", padding: "0.75rem 1.5rem", borderRadius: "0.5rem" }}>Tap to explore</p>
         </div>
@@ -999,7 +1057,7 @@ export default function CompanionRenderer({
       {/* Completion */}
       <AnimatePresence>
         {showCompletion && (
-          <CompletionScreen key="completion" creation={creation} onClose={() => setShowCompletion(false)} />
+          <CompletionScreen key="completion" creation={creation} onClose={() => setShowCompletion(false)} onDedicationEnded={() => walkthrough?.onComplete()} />
         )}
       </AnimatePresence>
     </div>

@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
+import type { WalkthroughProps } from "@/lib/walkthrough/types";
 
 const TEMPLATES = {
   "warm-linen":    { bg: "#F5F0EB", text: "#2A2420", accent: "#C4A97D", stone: "#8B7D72", surface: "#EDE7DF" },
@@ -124,8 +126,10 @@ function TextSection({ para, tmpl }: { para: string; tmpl: TemplateDef }) {
   );
 }
 
-export default function ScrollytellingRenderer({ creation }: { creation: TributeCreation }) {
+export default function ScrollytellingRenderer({ creation, walkthrough }: { creation: TributeCreation } & WalkthroughProps) {
   const tmpl = TEMPLATES[creation.templateId] ?? TEMPLATES["warm-linen"];
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const [showDedicationAudio, setShowDedicationAudio] = useState(false);
   const paragraphs = creation.generatedText.split(/\n\n+/).filter((p) => p.trim());
   const photos = creation.photos;
 
@@ -149,8 +153,50 @@ export default function ScrollytellingRenderer({ creation }: { creation: Tribute
   const heroText = paragraphs[0] ?? "";
   const bodySections = sections.slice(1);
 
+  useEffect(() => {
+    if (!walkthrough?.active) {
+      setShowDedicationAudio(false);
+      return;
+    }
+    if (walkthrough.paused) return;
+    const root = rootRef.current;
+    if (!root) return;
+    const words = creation.generatedText.trim().split(/\s+/).filter(Boolean).length;
+    const durationMs = Math.max(12000, (words / 60) * 60_000);
+    const maxScroll = Math.max(0, root.scrollHeight - root.clientHeight);
+    const pxPerMs = maxScroll <= 0 ? 0 : maxScroll / durationMs;
+    let rafId = 0;
+    let lastTs = performance.now();
+    let beatAt = 0;
+    const tick = (ts: number) => {
+      const dt = ts - lastTs;
+      lastTs = ts;
+      if (pxPerMs > 0 && root.scrollTop < maxScroll) {
+        root.scrollTop = Math.min(maxScroll, root.scrollTop + pxPerMs * dt);
+      }
+      if (ts - beatAt > 5500) {
+        beatAt = ts;
+        walkthrough.onAdvance();
+      }
+      if (root.scrollTop >= maxScroll - 4) {
+        if (creation.audio?.dedicationUrl) setShowDedicationAudio(true);
+        else walkthrough.onComplete();
+        return;
+      }
+      rafId = window.requestAnimationFrame(tick);
+    };
+    rafId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(rafId);
+  }, [creation.audio?.dedicationUrl, creation.generatedText, walkthrough?.active, walkthrough?.paused]);
+
+  useEffect(() => {
+    if (!showDedicationAudio) return;
+    const timeout = window.setTimeout(() => walkthrough?.onComplete(), 12_000);
+    return () => window.clearTimeout(timeout);
+  }, [showDedicationAudio, walkthrough]);
+
   return (
-    <div style={{ backgroundColor: tmpl.bg, minHeight: "100vh" }}>
+    <div ref={rootRef} style={{ backgroundColor: tmpl.bg, minHeight: "100vh", overflowY: "auto", height: "100vh" }}>
       {/* Hero — full viewport */}
       <motion.section
         initial={{ opacity: 0 }}
@@ -292,6 +338,14 @@ export default function ScrollytellingRenderer({ creation }: { creation: Tribute
           </div>
         </footer>
       </div>
+      {showDedicationAudio && creation.audio?.dedicationUrl && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(42,36,32,0.28)" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", backgroundColor: "rgba(250,247,244,0.96)", borderRadius: "999px", padding: "0.55rem 0.9rem", boxShadow: "0 6px 24px rgba(0,0,0,0.2)" }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48" }}>A message for you</span>
+            <audio autoPlay src={creation.audio.dedicationUrl} onEnded={() => walkthrough?.onComplete()} preload="auto" />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
