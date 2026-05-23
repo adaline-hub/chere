@@ -10,6 +10,8 @@ import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
 import StorybookRenderer from "@/components/tribute/StorybookRenderer";
 import CompanionRenderer from "@/components/tribute/CompanionRenderer";
 import WalkthroughBar from "@/components/audio/WalkthroughBar";
+import RecipientMuteButton from "@/components/audio/RecipientMuteButton";
+import { RecipientAudioProvider } from "@/lib/audio/useRecipientAudio";
 import { useWalkthrough } from "@/lib/walkthrough/useWalkthrough";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 
@@ -41,6 +43,10 @@ export default function TributeExperience({
   const [walkthroughActive, setWalkthroughActive] = useState(false);
   const totalSteps = useMemo(() => getTotalSteps(creation), [creation]);
   const walkthrough = useWalkthrough(totalSteps);
+  const hasAudio = !!(
+    creation.audio?.dedicationUrl
+    || Object.keys(creation.audio?.memories ?? {}).length > 0
+  );
 
   function handleOpen() {
     setOpened(true);
@@ -82,71 +88,74 @@ export default function TributeExperience({
   }
 
   return (
-    <AnimatePresence mode="wait">
-      {!opened ? (
-        <FirstOpenExperience
-          key="open"
-          recipientName={creation.recipientName}
-          creatorName={creation.creatorName}
-          templateId={creation.templateId}
-          onOpen={handleOpen}
-        />
-      ) : (
-        <motion.div
-          key="tribute"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          {!walkthroughActive && (
-            <button
-              type="button"
-              onClick={() => {
-                walkthrough.restart();
-                setWalkthroughActive(true);
-              }}
-              style={{
-                position: "fixed",
-                top: "1rem",
-                right: "1rem",
-                zIndex: 80,
-                backgroundColor: "rgba(250,247,244,0.9)",
-                border: "1px solid rgba(196,169,125,0.4)",
-                borderRadius: "999px",
-                padding: "0.45rem 0.8rem",
-                fontFamily: "var(--font-sans)",
-                fontSize: "0.75rem",
-                color: "#6A5D56",
-                backdropFilter: "blur(6px)",
-                cursor: "pointer",
-              }}
-            >
-              ▶ Auto-play
-            </button>
-          )}
+    <RecipientAudioProvider>
+      <AnimatePresence mode="wait">
+        {!opened ? (
+          <FirstOpenExperience
+            key="open"
+            recipientName={creation.recipientName}
+            creatorName={creation.creatorName}
+            templateId={creation.templateId}
+            onOpen={handleOpen}
+          />
+        ) : (
+          <motion.div
+            key="tribute"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            {!walkthroughActive && (
+              <button
+                type="button"
+                onClick={() => {
+                  walkthrough.restart();
+                  setWalkthroughActive(true);
+                }}
+                style={{
+                  position: "fixed",
+                  top: "1rem",
+                  right: hasAudio ? "3.75rem" : "1rem",
+                  zIndex: 80,
+                  backgroundColor: "rgba(250,247,244,0.9)",
+                  border: "1px solid rgba(196,169,125,0.4)",
+                  borderRadius: "999px",
+                  padding: "0.45rem 0.8rem",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.75rem",
+                  color: "#6A5D56",
+                  backdropFilter: "blur(6px)",
+                  cursor: "pointer",
+                }}
+              >
+                ▶ Auto-play
+              </button>
+            )}
 
-          {renderTribute()}
+            <RecipientMuteButton hasAudio={hasAudio} />
+            {renderTribute()}
 
-          {walkthroughActive && (
-            <WalkthroughBar
-              state={walkthrough.state}
-              progress={walkthrough.progress}
-              step={walkthrough.step}
-              totalSteps={walkthrough.totalSteps}
-              onToggle={walkthrough.toggle}
-              onRestart={walkthrough.restart}
-              onExit={() => {
-                setWalkthroughActive(false);
-                walkthrough.pause();
-              }}
-            />
-          )}
+            {walkthroughActive && (
+              <WalkthroughBar
+                state={walkthrough.state}
+                progress={walkthrough.progress}
+                step={walkthrough.step}
+                totalSteps={walkthrough.totalSteps}
+                onToggle={walkthrough.toggle}
+                onRestart={walkthrough.restart}
+                onExit={() => {
+                  setWalkthroughActive(false);
+                  walkthrough.pause();
+                }}
+              />
+            )}
 
-          {creation.reactionCamEnabled && (
-            <ReactionCam creationId={creationId} recipientName={creation.recipientName} />
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
+            {creation.reactionCamEnabled && (
+              <ReactionCam creationId={creationId} recipientName={creation.recipientName} />
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </RecipientAudioProvider>
   );
 }

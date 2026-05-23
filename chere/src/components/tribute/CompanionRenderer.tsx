@@ -7,6 +7,7 @@ import CharacterPair from "./companion/CharacterPair";
 import { detectTone, type Reaction } from "./companion/character-animations";
 import { getScene, SCENE_HOTSPOTS, type SceneId, type HotspotDef } from "@/lib/companion/hotspots";
 import type { WalkthroughProps } from "@/lib/walkthrough/types";
+import { useRecipientAudio } from "@/lib/audio/useRecipientAudio";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -438,9 +439,9 @@ function MemoryCard({
   onClose: () => void;
   audioClip?: { url: string; transcript: string | null } | undefined;
 }) {
+  const { muted } = useRecipientAudio();
   const memoryAudioRef = useRef<HTMLAudioElement | null>(null);
   const [memoryPlaying, setMemoryPlaying] = useState(false);
-  const [memoryMuted, setMemoryMuted] = useState(false);
 
   useEffect(() => {
     const el = memoryAudioRef.current;
@@ -471,13 +472,6 @@ function MemoryCard({
     el.play().then(() => setMemoryPlaying(true)).catch(() => setMemoryPlaying(false));
   }
 
-  function toggleMemoryMuted(e: React.MouseEvent) {
-    e.stopPropagation();
-    const next = !memoryMuted;
-    setMemoryMuted(next);
-    if (memoryAudioRef.current) memoryAudioRef.current.muted = next;
-  }
-
   const content = (
     <>
       {memory.photo && (
@@ -504,6 +498,7 @@ function MemoryCard({
             <audio
               ref={memoryAudioRef}
               src={audioClip.url}
+              muted={muted}
               onEnded={() => setMemoryPlaying(false)}
               preload="auto"
             />
@@ -542,25 +537,6 @@ function MemoryCard({
               <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48", margin: 0 }}>
                 Voice memory
               </p>
-              {memoryPlaying && (
-                <button
-                  type="button"
-                  onClick={toggleMemoryMuted}
-                  aria-label={memoryMuted ? "Unmute memory audio" : "Mute memory audio"}
-                  style={{
-                    width: 26,
-                    height: 26,
-                    borderRadius: "50%",
-                    backgroundColor: "transparent",
-                    color: "#8B7D72",
-                    border: "none",
-                    cursor: "pointer",
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  {memoryMuted ? "🔇" : "🔊"}
-                </button>
-              )}
             </div>
           </>
         )}
@@ -626,9 +602,9 @@ function MemoryCard({
 // ─── Completion screen ────────────────────────────────────────────────────────
 
 function CompletionScreen({ creation, onClose, onDedicationEnded }: { creation: TributeCreation; onClose: () => void; onDedicationEnded?: () => void }) {
+  const { muted } = useRecipientAudio();
   const dedicationUrl = creation.audio?.dedicationUrl ?? null;
   const dedicationTranscript = creation.audio?.dedicationTranscript ?? null;
-  const [dedicationMuted, setDedicationMuted] = useState(false);
   const [dedicationPlaying, setDedicationPlaying] = useState(false);
   const dedAudioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -654,13 +630,6 @@ function CompletionScreen({ creation, onClose, onDedicationEnded }: { creation: 
     }
   }
 
-  function toggleDedicationMuted(e: React.MouseEvent) {
-    e.stopPropagation();
-    const next = !dedicationMuted;
-    setDedicationMuted(next);
-    if (dedAudioRef.current) dedAudioRef.current.muted = next;
-  }
-
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -681,6 +650,7 @@ function CompletionScreen({ creation, onClose, onDedicationEnded }: { creation: 
         <audio
           ref={dedAudioRef}
           src={dedicationUrl}
+          muted={muted}
           onEnded={() => {
             setDedicationPlaying(false);
             onDedicationEnded?.();
@@ -721,19 +691,6 @@ function CompletionScreen({ creation, onClose, onDedicationEnded }: { creation: 
           <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48", margin: 0 }}>
             A message for you
           </p>
-          <button
-            type="button"
-            onClick={toggleDedicationMuted}
-            aria-label={dedicationMuted ? "Unmute message" : "Mute message"}
-            style={{
-              width: 28, height: 28, borderRadius: "50%",
-              backgroundColor: "transparent", color: "#8B7D72",
-              border: "none", cursor: "pointer",
-              fontSize: "0.8rem",
-            }}
-          >
-            {dedicationMuted ? "🔇" : "🔊"}
-          </button>
         </motion.div>
       )}
 
@@ -826,11 +783,11 @@ export default function CompanionRenderer({
   const [activeId, setActiveId] = useState<string | null>(null);
   const [showCompletion, setShowCompletion] = useState(false);
   const [hintVisible, setHintVisible] = useState(false);
-  const [muted, setMuted] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
   const [reaction, setReaction] = useState<Reaction>("default");
   const [burstKey, setBurstKey] = useState(0);
   const [lastInteractionAt, setLastInteractionAt] = useState<number>(() => Date.now());
+  const { muted } = useRecipientAudio();
 
   const isPet = creation.relationshipType === "pet" || creation.relationshipType === "pet_memorial";
   const walkthroughMode = walkthrough?.active ?? false;
@@ -910,6 +867,7 @@ export default function CompanionRenderer({
         if (clip?.url) {
           await new Promise<void>((resolve) => {
             clipAudio = new Audio(clip.url);
+            clipAudio.muted = muted;
             const done = () => resolve();
             timer = window.setTimeout(done, 30_000);
             clipAudio.onended = done;
@@ -937,7 +895,7 @@ export default function CompanionRenderer({
         clipAudio = null;
       }
     };
-  }, [activeHotspots, creation.audio?.dedicationUrl, creation.audio?.memories, preview, walkthrough?.paused, walkthroughMode]);
+  }, [activeHotspots, creation.audio?.dedicationUrl, creation.audio?.memories, muted, preview, walkthrough?.paused, walkthroughMode]);
 
   function handleCardClose() {
     setActiveId(null);
@@ -983,14 +941,6 @@ export default function CompanionRenderer({
           >
             {discovered.size} / {activeHotspots.length} discovered
           </motion.p>
-          <button
-            onClick={() => setMuted((m) => !m)}
-            style={{ background: "rgba(250,247,244,0.88)", border: "none", borderRadius: "50%", width: "28px", height: "28px", cursor: "pointer", fontSize: "0.8rem", backdropFilter: "blur(4px)", color: "#8B7D72" }}
-            aria-label={muted ? "Unmute" : "Mute"}
-            title={muted ? "Unmute" : "Mute sounds"}
-          >
-            {muted ? "🔇" : "🔔"}
-          </button>
         </div>
       )}
 
