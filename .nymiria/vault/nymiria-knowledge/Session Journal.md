@@ -1062,3 +1062,41 @@ Discussed: can you review what we need to implement next; for storybook mobile p
 - think through what dimensions actually warrant the mobile layout.
 
 ---
+
+## May 23, 2026
+
+Discussed: can you review what we need to implement next; for storybook mobile preview, im still not seeing the landsc…; can you review the above plan and see if they are valid? and…; Yes; hi
+
+**Decisions:**
+- harden companion. should we rename companion to “interactive animation” or Inter
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- one expands the recorder UI below.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+
+**Files touched:**
+- `lib/ai/generate-tribute.ts`
+- `lib/ai/admin.ts`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/MemoryWrappedRenderer.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+
+**Next steps:**
+- implement next
+- read creation by `share_token`, pick the correct renderer based on `output_forma
+- call `/api/deliver` (which exists but is empty), trigger email delivery, and upd
+- show the user's creations list, status (draft/generating/ready/sent), and quick
+- show aggregated reactions to sent tributes (opened counts, reaction type breakdo
+- be wired into the tribute viewer when a creation is first opened. |
+- see their creations
+- I tackle first?
+- now render the desktop storybook layout instead of collapsing to mobile.
+- think through what dimensions actually warrant the mobile layout.
+
+---
