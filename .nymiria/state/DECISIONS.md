@@ -87,3 +87,15 @@ A few things I'm holding as true while designing this:
 MiniMax Speech 2.5 (released mid-2025, refreshed to 2.6 in March 2026) does **speech-to-text** in addition to their well-known TTS. Same key, same provider, real-time transcriptio
 
 ---
+## 2026-05-23 — "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** ## Shipped — UI chunk in production
+
+9 files changed, ~975 lines added. Typecheck clean. Pushed to `main`, prod deploy kicked off.
+
+### What's live on chere.app
+
+- **`VoiceRecorder.tsx`** — full recording UI: tap-to-record button, 3-2-1 countdown, pulsing red dot + timer during recording, soft "wrap
+
+---

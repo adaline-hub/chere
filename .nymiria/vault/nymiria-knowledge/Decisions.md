@@ -64,3 +64,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+
+**Date:** May 22, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---
