@@ -170,3 +170,10 @@
 **Decisions:** harden companion. should we rename companion to “interactive animation” or Inter, give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a, also use it for **the AI narration mode** (option #3 in the audio feature). Righ, one expands the recorder UI below., "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re, `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
 
 ---
+## 2026-05-23T23:37:22.091Z — claude
+**Summary:** Discussed: we have a chere favicon in project folder. can you use it fo…; yes commit and deploy; # Chère — Storybook Book Layout Redesign + Memory Companion …; commit and deploy; home page "Turn your love into
+**Duration:** 37 min
+**Files Changed:** src/components/tribute/StorybookRenderer.tsx, src/components/tribute/CompanionRenderer.tsx, src/components/creation/FormatPicker.tsx, src/stores/creation-store.ts, src/components/creation/PreviewStep.tsx, src/app/page.tsx, src/components/shared/AppHeader.tsx, src/app/(protected)/dashboard/layout.tsx, src/app/(protected)/create/page.tsx, src/components/creation/InterviewFlow.tsx, src/app/api/deliver/route.ts, src/components/creation/DeliveryStep.tsx, src/components/tribute/companion/CharacterPair.tsx, src/components/tribute/companion/character-animations.ts, src/components/tribute/companion/AudioNarration.tsx
+**Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s), - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will, outputFormat === "companion". Label: "Voice memories". Description: "Record one
+
+---
