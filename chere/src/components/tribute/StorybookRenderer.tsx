@@ -104,7 +104,7 @@ function PhotoPane({
   if (!photo) return <Monogram letter="·" tmpl={tmpl} />;
   const imgSt = photoStyle(mode, hasReal);
   return (
-    <div style={{ height: "100%", backgroundColor: tmpl.bg, padding: "1.5rem", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+    <div style={{ height: "100%", backgroundColor: tmpl.bg, padding: "2rem", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
       <div style={{ position: "relative", width: "100%", height: "100%", borderRadius: "0.5rem", overflow: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.12)" }}>
         {photo.url ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -350,8 +350,8 @@ export default function StorybookRenderer({
           style={{
             position: "relative",
             width: "100%",
-            maxWidth: "900px",
-            aspectRatio: "3/2",
+            maxWidth: "780px",
+            aspectRatio: "4/3",
             display: "flex",
             borderRadius: "4px",
             boxShadow: "0 24px 80px rgba(0,0,0,0.22), 0 8px 24px rgba(0,0,0,0.12)",
@@ -399,6 +399,7 @@ export default function StorybookRenderer({
       {/* Navigation */}
       <div style={{ display: "flex", alignItems: "center", gap: "2rem", marginTop: "1.5rem" }}>
         <button
+          type="button"
           onClick={preview ? undefined : () => navigate(current - 1)}
           disabled={current === 0}
           aria-label="Previous"
@@ -408,6 +409,7 @@ export default function StorybookRenderer({
           {current + 1} / {total}
         </p>
         <button
+          type="button"
           onClick={preview ? undefined : () => navigate(current + 1)}
           disabled={current === total - 1}
           aria-label="Next"

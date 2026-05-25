@@ -12,6 +12,7 @@ interface FormatDef {
   label: string;
   description: string;
   giftOnly?: boolean;
+  hidden?: boolean;
   comingSoon?: boolean;
   premium?: boolean;
   deluxe?: boolean;
@@ -175,6 +176,7 @@ const ALL_FORMATS: FormatDef[] = [
     value: "companion",
     label: "Interactive Scene",
     description: "A hand-drawn scene to explore. Tap objects to uncover memories, one at a time.",
+    hidden: true,
     deluxe: true,
     preview: <CompanionPreview />,
   },
@@ -205,7 +207,7 @@ export default function FormatPicker() {
   } = useCreationStore();
 
   const visibleFormats = ALL_FORMATS.filter(
-    (f) => !(f.giftOnly && creationType === "tribute")
+    (f) => !(f.giftOnly && creationType === "tribute") && !f.hidden
   );
 
   const canContinue = Boolean(outputFormat && templateId);
