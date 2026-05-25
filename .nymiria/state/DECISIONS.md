@@ -135,3 +135,15 @@ Working dir: `/Users/lindsaylynn/D
 You pasted your live `GROQ_API_KEY` into chat. That's now in the conversation transcript, which is logged. **Treat it as compromised** — go to `console.groq.com/keys`, revoke it, generate a new one, and add the new one via `vercel env add GROQ_API_KEY` (C
 
 ---
+## 2026-05-25 — it until the visuals are upgraded. Keep all the code intact; just don't show it
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** You're right, I didn't — I cut off after setting up the work. Apologies. Here are the three prompts.
+
+---
+
+# PROMPT A — Polish: hide Interactive Scene + Storybook fixes
+
+Working dir: `/Users/lindsaylynn/Developer/Chère`. Code in `chere/` (Next.js 16 — see `chere/node_modules/next/dist/docs/` for unf
+
+---
