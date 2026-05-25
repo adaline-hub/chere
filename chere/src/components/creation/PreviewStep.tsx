@@ -51,7 +51,7 @@ export default function PreviewStep() {
     relationshipType: relationshipType ?? "",
     outputFormat: (outputFormat ?? "scrollytelling") as TributeCreation["outputFormat"],
     templateId: (templateId ?? "warm-linen") as TributeCreation["templateId"],
-    tier: "standard",
+    tier: "starter",
     generatedText: displayText ?? "",
     dedicationMessage: dedicationMessage ?? "",
     photos: photos.map((p) => ({ id: p.id, url: p.preview, caption: p.caption ?? "" })),
@@ -60,7 +60,7 @@ export default function PreviewStep() {
         ? {
             description: giftMoments[0].description,
             message: giftMoments[0].message ?? "",
-            revealStyle: "standard",
+            revealStyle: "card",
           }
         : null,
     musicTrackId: null,

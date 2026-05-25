@@ -3,15 +3,13 @@ import Stripe from "stripe";
 import type { Tier } from "@/lib/supabase/types";
 
 const TIER_PRICE_IDS: Record<string, string | undefined> = {
-  standard: process.env.STRIPE_PRICE_STANDARD,
+  starter: process.env.STRIPE_PRICE_STARTER,
   premium: process.env.STRIPE_PRICE_PREMIUM,
-  deluxe: process.env.STRIPE_PRICE_DELUXE,
 };
 
 const TIER_FALLBACK: Record<string, { amount: number; name: string }> = {
-  standard: { amount: 999, name: "Chère Standard" },
-  premium: { amount: 2499, name: "Chère Premium" },
-  deluxe: { amount: 4499, name: "Chère Deluxe" },
+  starter: { amount: 999, name: "Chère Starter" },
+  premium: { amount: 1999, name: "Chère Premium" },
 };
 
 export async function POST(req: NextRequest) {

@@ -39,24 +39,17 @@ const pricingPlans = [
     highlight: false,
   },
   {
-    tier: "Standard",
-    price: "$19",
+    tier: "Starter",
+    price: "$9.99",
     desc: "Most popular",
     features: ["Unlimited photos", "1-year link", "All 3 formats", "No watermark"],
     highlight: true,
   },
   {
     tier: "Premium",
-    price: "$39",
+    price: "$19.99",
     desc: "Forever",
     features: ["Unlimited photos", "Permanent link", "All formats", "Storybook"],
-    highlight: false,
-  },
-  {
-    tier: "Deluxe",
-    price: "$79",
-    desc: "Everything",
-    features: ["Everything in Premium", "Background music", "Multiple recipients", "Priority support"],
     highlight: false,
   },
 ];

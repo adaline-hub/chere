@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     if (creationId && tier) {
       await adminUpdateCreation(creationId, {
-        tier: tier as "standard" | "premium" | "deluxe",
+        tier: tier as "starter" | "premium",
         stripe_payment_id: typeof session.payment_intent === "string"
           ? session.payment_intent
           : null,

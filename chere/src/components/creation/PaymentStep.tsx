@@ -28,8 +28,8 @@ const TIERS: TierDef[] = [
     ],
   },
   {
-    id: "standard",
-    name: "Standard",
+    id: "starter",
+    name: "Starter",
     price: "$9.99",
     badge: "Most popular",
     features: [
@@ -43,23 +43,12 @@ const TIERS: TierDef[] = [
   {
     id: "premium",
     name: "Premium",
-    price: "$24.99",
+    price: "$19.99",
     features: [
-      "Everything in Standard",
+      "Everything in Starter",
       "Permanent link — forever",
       "Downloadable PDF keepsake",
       "Background music",
-    ],
-  },
-  {
-    id: "deluxe",
-    name: "Deluxe",
-    price: "$44.99",
-    features: [
-      "Everything in Premium",
-      "Custom URL (chere.app/for-dad)",
-      "Priority AI generation",
-      "Permanent + custom link",
     ],
   },
 ];

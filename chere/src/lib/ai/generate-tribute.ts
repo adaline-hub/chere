@@ -120,7 +120,7 @@ interface GenerateTributeOptions {
   recipientName: string;
   interviewAnswers: Record<string, string>;
   photoDescriptions?: string[];
-  tier?: "free" | "standard" | "premium" | "deluxe";
+  tier?: "free" | "starter" | "premium";
   tone?: "default" | "playful" | "poetic" | "concise";
 }
 

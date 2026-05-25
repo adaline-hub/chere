@@ -90,12 +90,12 @@ export function tierExpiresAt(tier: string): string | null {
     d.setDate(d.getDate() + 7);
     return d.toISOString();
   }
-  if (tier === "standard") {
+  if (tier === "starter") {
     const d = new Date();
     d.setFullYear(d.getFullYear() + 1);
     return d.toISOString();
   }
-  return null; // premium / deluxe = permanent
+  return null; // premium = permanent
 }
 
 export async function getUserCreations(userId: string): Promise<Creation[]> {

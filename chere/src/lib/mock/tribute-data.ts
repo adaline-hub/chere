@@ -30,7 +30,7 @@ export interface TributeCreation {
     | "storybook"
     | "companion";
   templateId: "warm-linen" | "soft-sage" | "midnight-gold";
-  tier: "free" | "standard" | "premium" | "deluxe";
+  tier: "free" | "starter" | "premium";
   generatedText: string;
   dedicationMessage: string;
   photos: TributePhoto[];
@@ -48,7 +48,7 @@ export const mockCreation: TributeCreation = {
   relationshipType: "mom",
   outputFormat: "scrollytelling",
   templateId: "warm-linen",
-  tier: "standard",
+  tier: "starter",
 
   generatedText: `Mom,
 

@@ -15,7 +15,6 @@ interface FormatDef {
   hidden?: boolean;
   comingSoon?: boolean;
   premium?: boolean;
-  deluxe?: boolean;
   preview: React.ReactNode;
 }
 
@@ -177,7 +176,7 @@ const ALL_FORMATS: FormatDef[] = [
     label: "Interactive Scene",
     description: "A hand-drawn scene to explore. Tap objects to uncover memories, one at a time.",
     hidden: true,
-    deluxe: true,
+    premium: true,
     preview: <CompanionPreview />,
   },
 ];
@@ -283,15 +282,6 @@ export default function FormatPicker() {
                     Premium
                   </span>
                 )}
-                {format.deluxe && !format.comingSoon && (
-                  <span
-                    className="absolute top-3 right-3 text-xs px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: "var(--color-espresso)", color: "var(--color-muted-gold)" }}
-                  >
-                    Deluxe
-                  </span>
-                )}
-
                 <div className="p-4">
                   <h3
                     className="font-serif mb-1"

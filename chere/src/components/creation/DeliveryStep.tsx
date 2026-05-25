@@ -244,7 +244,7 @@ export default function DeliveryStep() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Reaction Cam toggle — Deluxe only */}
+        {/* Reaction Cam toggle — Premium only */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -253,7 +253,7 @@ export default function DeliveryStep() {
           style={{
             backgroundColor: "var(--color-cream)",
             border: "1px solid var(--color-parchment)",
-            opacity: tier === "deluxe" ? 1 : 0.65,
+            opacity: tier === "premium" ? 1 : 0.65,
           }}
         >
           <div className="flex items-center justify-between">
@@ -262,22 +262,22 @@ export default function DeliveryStep() {
                 Capture their reaction
               </p>
               <p className="text-xs mt-1 leading-relaxed" style={{ color: "var(--color-stone)", maxWidth: "260px" }}>
-                {tier === "deluxe"
+                {tier === "premium"
                   ? "We'll ask permission before using their camera. A 15-second clip for your eyes only."
-                  : "Available on Deluxe"}
+                  : "Available on Premium"}
               </p>
             </div>
             <button
-              disabled={tier !== "deluxe"}
-              onClick={() => tier === "deluxe" && setReactionCamEnabled(!reactionCamEnabled)}
+              disabled={tier !== "premium"}
+              onClick={() => tier === "premium" && setReactionCamEnabled(!reactionCamEnabled)}
               aria-label="Toggle reaction cam"
               style={{
                 width: "44px",
                 height: "24px",
                 borderRadius: "12px",
-                backgroundColor: reactionCamEnabled && tier === "deluxe" ? "var(--color-muted-gold)" : "var(--color-parchment)",
+                backgroundColor: reactionCamEnabled && tier === "premium" ? "var(--color-muted-gold)" : "var(--color-parchment)",
                 border: "none",
-                cursor: tier === "deluxe" ? "pointer" : "default",
+                cursor: tier === "premium" ? "pointer" : "default",
                 position: "relative",
                 flexShrink: 0,
                 transition: "background-color 200ms",
@@ -287,7 +287,7 @@ export default function DeliveryStep() {
                 style={{
                   position: "absolute",
                   top: "3px",
-                  left: reactionCamEnabled && tier === "deluxe" ? "22px" : "3px",
+                  left: reactionCamEnabled && tier === "premium" ? "22px" : "3px",
                   width: "18px",
                   height: "18px",
                   borderRadius: "50%",

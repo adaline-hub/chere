@@ -35,7 +35,7 @@ export type OutputFormat =
   | "storybook"
   | "companion";
 
-export type Tier = "free" | "standard" | "premium" | "deluxe";
+export type Tier = "free" | "starter" | "premium";
 
 export type DeliveryMethod = "email" | "link" | "qr";
 
