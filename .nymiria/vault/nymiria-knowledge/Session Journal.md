@@ -1142,3 +1142,162 @@ Discussed: we have a chere favicon in project folder. can you use it fo…; yes 
 - NOT see app navigation
 
 ---
+
+## May 23, 2026
+
+Discussed: # Chère — Storybook Book Layout Redesign + Memory Companion …; commit and deploy; home page "Turn your love into; Turn your love into something lasting; commit and deploy?
+
+**Decisions:**
+- do it" (btn-gold) / "No thanks" (text link)
+- love it." (fade out after 3s)
+- automatically based on `relationshipType`:
+- relationship type displayed vertically
+- Storybook format AND reaches the interview step (or returns to it), show a speci
+- Storybook — nice choice."
+- 2. Resend sends the email (or returns a clear error)
+- Storybook — nice choice. The more memories you share, the richer your book will
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+**Files touched:**
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/PreviewStep.tsx`
+- `src/app/page.tsx`
+- `src/components/shared/AppHeader.tsx`
+- `src/app/(protected)/dashboard/layout.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/components/creation/InterviewFlow.tsx`
+
+**Next steps:**
+- look like you're holding a real picture book open — two pages side by side with
+- still have the vignette overlay on top of the filter
+- look desaturated and painterly
+- NOT be interactive in the preview — just show the scene layout with small golden
+- feel like a real book you're holding.** The spine, the page shadows, the drop ca
+- feel like exploring a room.** The joy is in discovery — tapping an object and fi
+- be warm and minimal.** Simple CSS shapes with warm gradients — not photorealisti
+- look at either of these and think "someone spent real effort on this for me."
+- expose a `saveStatus` state: `'idle' | 'saving' | 'saved' | 'error'`
+- NOT see app navigation
+
+---
+
+## May 24, 2026
+
+Discussed: hi; > ## What's Built vs. What's Next --- ### ✅ Complete / Worki…; all changes should be committed and deployed. can you check …; how about interactive scene? , yes  start with discoverabili…; whats audio narration fallback? can users record an audio me…
+
+**Decisions:**
+- harden companion. should we rename companion to “interactive animation” or Inter
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- one expands the recorder UI below.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- now see the single-page swipeable layout (with the page-turn slide animation) in
+- do another analysis to see where we are at?
+- be committed and deployed. can you check on those and commit deploy the correct
+- harden companion. should we rename companion to “interactive animation” or Inter
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- be able to play back and preview the full gift with the voice over. we can sugge
+- be quick, forgiving, and *guided*.
+- fade behind real recordings whenever they exist.
+- be cohesive.** A gift that's 30% creator's voice and 70% robotic narrator feels
+- the recipient be able to toggle audio off** when receiving the gift? My instinct
+
+---
+
+## May 24, 2026
+
+Discussed: hi; > ## What's Built vs. What's Next --- ### ✅ Complete / Worki…; all changes should be committed and deployed. can you check …; how about interactive scene? , yes  start with discoverabili…; whats audio narration fallback? can users record an audio me…
+
+**Decisions:**
+- harden companion. should we rename companion to “interactive animation” or Inter
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- one expands the recorder UI below.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- now see the single-page swipeable layout (with the page-turn slide animation) in
+- do another analysis to see where we are at?
+- be committed and deployed. can you check on those and commit deploy the correct
+- harden companion. should we rename companion to “interactive animation” or Inter
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- be able to play back and preview the full gift with the voice over. we can sugge
+- be quick, forgiving, and *guided*.
+- fade behind real recordings whenever they exist.
+- be cohesive.** A gift that's 30% creator's voice and 70% robotic narrator feels
+- the recipient be able to toggle audio off** when receiving the gift? My instinct
+
+---
+
+## May 24, 2026
+
+Discussed: hi; > ## What's Built vs. What's Next --- ### ✅ Complete / Worki…; all changes should be committed and deployed. can you check …; how about interactive scene? , yes  start with discoverabili…; whats audio narration fallback? can users record an audio me…
+
+**Decisions:**
+- harden companion. should we rename companion to “interactive animation” or Inter
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- one expands the recorder UI below.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- now see the single-page swipeable layout (with the page-turn slide animation) in
+- do another analysis to see where we are at?
+- be committed and deployed. can you check on those and commit deploy the correct
+- harden companion. should we rename companion to “interactive animation” or Inter
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- be able to play back and preview the full gift with the voice over. we can sugge
+- be quick, forgiving, and *guided*.
+- fade behind real recordings whenever they exist.
+- be cohesive.** A gift that's 30% creator's voice and 70% robotic narrator feels
+- the recipient be able to toggle audio off** when receiving the gift? My instinct
+
+---

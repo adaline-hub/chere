@@ -177,3 +177,10 @@
 **Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s), - Wired into `PreviewStep` and `_experience.tsx` for both wizard preview and sha, automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will, outputFormat === "companion". Label: "Voice memories". Description: "Record one
 
 ---
+## 2026-05-25T06:25:11.614Z — claude
+**Summary:** Discussed: hi; > ## What's Built vs. What's Next --- ### ✅ Complete / Worki…; all changes should be committed and deployed. can you check …; how about interactive scene? , yes  start with discoverabili…; whats audio narration fallback? can users record an audio me…
+**Duration:** 5 min
+**Files Changed:** app/api/audio/upload/route.ts, app/api/audio/tts/route.ts, components/audio/VoiceRecorder.tsx, lib/minimax/tts.ts, lib/groq/stt.ts, src/stores/creation-store.ts, src/components/creation/RecordMessageStep.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/CompanionRenderer.tsx, src/components/tribute/companion/AudioNarration.tsx, src/lib/minimax/tts.ts, src/app/api/audio/tts/route.ts, src/components/audio/VoiceRecorder.tsx, src/app/api/audio/upload/route.ts, src/lib/companion/hotspots.ts
+**Decisions:** harden companion. should we rename companion to “interactive animation” or Inter, give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a, also use it for **the AI narration mode** (option #3 in the audio feature). Righ, one expands the recorder UI below., "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re, `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on, scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+---
