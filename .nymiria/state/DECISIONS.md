@@ -127,3 +127,11 @@ Chère is a tribute-gift app. The "Interactive Scene" outpu
 Working dir: `/Users/lindsaylynn/D
 
 ---
+## 2026-05-25 — use the leaked key.
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** ## ⚠️ Security first — rotate that Groq key
+
+You pasted your live `GROQ_API_KEY` into chat. That's now in the conversation transcript, which is logged. **Treat it as compromised** — go to `console.groq.com/keys`, revoke it, generate a new one, and add the new one via `vercel env add GROQ_API_KEY` (C
+
+---
