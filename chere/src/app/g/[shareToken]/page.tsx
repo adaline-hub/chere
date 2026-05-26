@@ -4,6 +4,9 @@ import { mockCreation, type TributeCreation, type TributeAudio } from "@/lib/moc
 import { getCreationByShareToken } from "@/lib/supabase/creations";
 import { getPhotoUrl, getSignedAssetUrl } from "@/lib/supabase/storage";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient as createServerClient } from "@/lib/supabase/server";
+import { listRecipes, isCoAuthor } from "@/lib/recipes/queries";
+import RecipeBookRenderer from "@/components/tribute/RecipeBookRenderer";
 import TributeExperience from "./_experience";
 
 async function loadCreation(shareToken: string): Promise<TributeCreation | null> {
@@ -107,6 +110,49 @@ export default async function TributePage({
   const creation = await loadCreation(shareToken);
 
   if (!creation) notFound();
+
+  // Recipe book: bypass TributeExperience — load recipes + permissions server-side
+  if (creation.outputFormat === "recipe_book") {
+    const configured = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+    let initialRecipes: Awaited<ReturnType<typeof listRecipes>> = [];
+    let canEdit = false;
+    let isOwnerFlag = false;
+
+    if (configured) {
+      try {
+        initialRecipes = await listRecipes(creation.id);
+      } catch (e) {
+        console.error("[tribute] listRecipes failed:", e);
+      }
+      try {
+        const serverClient = await createServerClient();
+        const { data: { user } } = await serverClient.auth.getUser();
+        if (user) {
+          canEdit = await isCoAuthor(creation.id, user.id);
+          const admin = createAdminClient();
+          const { data: raw } = await admin
+            .from("creations")
+            .select("creator_id")
+            .eq("id", creation.id)
+            .single();
+          isOwnerFlag = (raw as { creator_id?: string } | null)?.creator_id === user.id;
+        }
+      } catch (e) {
+        console.error("[tribute] recipe permission check failed:", e);
+      }
+    }
+
+    return (
+      <div className="tribute-page">
+        <RecipeBookRenderer
+          creation={creation!}
+          initialRecipes={initialRecipes}
+          canEdit={canEdit}
+          isOwner={isOwnerFlag}
+        />
+      </div>
+    );
+  }
 
   // Expired
   if ("expires_at" in creation) {

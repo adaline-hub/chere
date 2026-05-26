@@ -1,14 +1,26 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import { useCreationStore } from "@/stores/creation-store";
 import { updateCreation } from "@/lib/supabase/creations";
 import type { OutputFormat } from "@/lib/supabase/types";
 
 // ─── Format Definitions ───────────────────────────────────
 
-interface FormatDef {
+const INTERACTIVE_FORMATS: OutputFormat[] = ["recipe_book"];
+
+interface SubTemplate {
   value: OutputFormat;
+  label: string;
+  description: string;
+  comingSoon?: boolean;
+  preview: React.ReactNode;
+}
+
+interface FormatDef {
+  value: OutputFormat | "interactive_website";
   label: string;
   description: string;
   giftOnly?: boolean;
@@ -16,6 +28,7 @@ interface FormatDef {
   comingSoon?: boolean;
   premium?: boolean;
   preview: React.ReactNode;
+  subTemplates?: SubTemplate[];
 }
 
 function ScrollPreview() {
@@ -136,6 +149,61 @@ function StorybookPreview() {
   );
 }
 
+function RecipeBookPreview() {
+  return (
+    <div className="h-full w-full flex flex-col items-center justify-center gap-2 px-4" style={{ backgroundColor: "#FAF6EF" }}>
+      {[0, 1, 2].map((i) => (
+        <div
+          key={i}
+          style={{
+            width: "100%",
+            height: "22px",
+            backgroundColor: i === 0 ? "var(--color-cream)" : "var(--color-parchment)",
+            borderRadius: "4px",
+            border: "1px solid rgba(196,169,125,0.3)",
+            opacity: 1 - i * 0.2,
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: "8px",
+            gap: "6px",
+          }}
+        >
+          <div style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "var(--color-muted-gold)", opacity: 0.7 }} />
+          <div style={{ height: "4px", backgroundColor: "rgba(42,36,32,0.2)", borderRadius: "2px", flex: 1, marginRight: "8px" }} />
+        </div>
+      ))}
+      <div style={{ width: "28px", height: "28px", borderRadius: "50%", backgroundColor: "var(--color-muted-gold)", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "2px" }}>
+        <span style={{ color: "white", fontSize: "16px", lineHeight: 1, marginTop: "-1px" }}>+</span>
+      </div>
+    </div>
+  );
+}
+
+function InteractiveWebsitePreview() {
+  return (
+    <div className="h-full w-full flex flex-col" style={{ backgroundColor: "#F5F0EB" }}>
+      {/* Browser chrome */}
+      <div style={{ height: "20px", backgroundColor: "#E8E0D5", display: "flex", alignItems: "center", paddingLeft: "8px", gap: "4px", borderBottom: "1px solid rgba(196,169,125,0.2)" }}>
+        {[0, 1, 2].map((i) => (
+          <div key={i} style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: i === 0 ? "#C4A97D" : "rgba(196,169,125,0.4)" }} />
+        ))}
+      </div>
+      {/* Content area */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px", padding: "8px" }}>
+        {/* Clickable card */}
+        <div style={{ width: "80%", height: "28px", backgroundColor: "var(--color-cream)", borderRadius: "6px", border: "1px solid rgba(196,169,125,0.4)", display: "flex", alignItems: "center", paddingLeft: "8px", gap: "6px", boxShadow: "0 2px 6px rgba(0,0,0,0.06)" }}>
+          <div style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "var(--color-muted-gold)" }} />
+          <div style={{ height: "4px", backgroundColor: "rgba(42,36,32,0.18)", borderRadius: "2px", flex: 1, marginRight: "8px" }} />
+        </div>
+        {/* Cursor dot */}
+        <div style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "var(--color-muted-gold)", boxShadow: "0 0 8px rgba(196,169,125,0.5)", alignSelf: "flex-end", marginRight: "20%" }} />
+        <div style={{ width: "60%", height: "3px", backgroundColor: "rgba(42,36,32,0.1)", borderRadius: "2px" }} />
+        <div style={{ width: "45%", height: "3px", backgroundColor: "rgba(42,36,32,0.08)", borderRadius: "2px" }} />
+      </div>
+    </div>
+  );
+}
+
 const ALL_FORMATS: FormatDef[] = [
   {
     value: "scrollytelling",
@@ -179,6 +247,21 @@ const ALL_FORMATS: FormatDef[] = [
     premium: true,
     preview: <CompanionPreview />,
   },
+  {
+    value: "interactive_website",
+    label: "Interactive Website",
+    description: "A living gift that grows over time. Choose a template — recipe book, journal, and more coming.",
+    premium: true,
+    preview: <InteractiveWebsitePreview />,
+    subTemplates: [
+      {
+        value: "recipe_book",
+        label: "Recipe Book",
+        description: "A shared cookbook you both write together. Add family recipes one by one, forever.",
+        preview: <RecipeBookPreview />,
+      },
+    ],
+  },
 ];
 
 // ─── Template Swatches ────────────────────────────────────
@@ -205,8 +288,16 @@ export default function FormatPicker() {
     creationId,
   } = useCreationStore();
 
+  const searchParams = useSearchParams();
+  const showHidden = searchParams.get("showHidden") === "1";
+
+  // Track which category card is expanded (for multi-template types)
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(
+    outputFormat && INTERACTIVE_FORMATS.includes(outputFormat) ? "interactive_website" : null
+  );
+
   const visibleFormats = ALL_FORMATS.filter(
-    (f) => !(f.giftOnly && creationType === "tribute") && !f.hidden
+    (f) => !(f.giftOnly && creationType === "tribute") && (!f.hidden || showHidden)
   );
 
   const canContinue = Boolean(outputFormat && templateId);
@@ -240,7 +331,10 @@ export default function FormatPicker() {
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-12"
         >
           {visibleFormats.map((format, i) => {
-            const selected = outputFormat === format.value;
+            const isCategory = !!format.subTemplates;
+            const selected = isCategory
+              ? INTERACTIVE_FORMATS.includes(outputFormat as OutputFormat)
+              : outputFormat === format.value;
             const disabled = !!format.comingSoon;
 
             return (
@@ -249,7 +343,19 @@ export default function FormatPicker() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: disabled ? 0.45 : 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 + i * 0.06 }}
-                onClick={() => { if (!disabled) setOutputFormat(format.value); }}
+                onClick={() => {
+                  if (disabled) return;
+                  if (isCategory) {
+                    setExpandedCategory(expandedCategory === format.value ? null : format.value as string);
+                    // If only one sub-template, auto-select it
+                    if (format.subTemplates?.length === 1) {
+                      setOutputFormat(format.subTemplates[0].value);
+                    }
+                  } else {
+                    setExpandedCategory(null);
+                    setOutputFormat(format.value as OutputFormat);
+                  }
+                }}
                 disabled={disabled}
                 className="text-left rounded-xl relative overflow-hidden"
                 style={{
@@ -297,6 +403,66 @@ export default function FormatPicker() {
             );
           })}
         </motion.div>
+
+        {/* Sub-template picker (shown when a category with multiple templates is expanded) */}
+        {expandedCategory && (() => {
+          const categoryDef = ALL_FORMATS.find((f) => f.value === expandedCategory);
+          if (!categoryDef?.subTemplates) return null;
+          return (
+            <motion.div
+              key="sub-templates"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mb-10"
+            >
+              <p className="text-sm text-stone text-center mb-5 font-serif">Choose a template</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {categoryDef.subTemplates.map((tmpl) => {
+                  const active = outputFormat === tmpl.value;
+                  const isDisabled = !!tmpl.comingSoon;
+                  return (
+                    <button
+                      key={tmpl.value}
+                      disabled={isDisabled}
+                      onClick={() => { if (!isDisabled) setOutputFormat(tmpl.value); }}
+                      className="text-left rounded-xl relative overflow-hidden"
+                      style={{
+                        backgroundColor: "var(--color-cream)",
+                        border: "2px solid",
+                        borderColor: active ? "var(--color-muted-gold)" : "rgba(196,169,125,0.25)",
+                        boxShadow: active ? "var(--shadow-elevated)" : "var(--shadow-card)",
+                        transform: active ? "translateY(-3px)" : "none",
+                        transition: "border-color 350ms var(--ease-elegant), box-shadow 350ms var(--ease-elegant), transform 350ms var(--ease-elegant)",
+                        cursor: isDisabled ? "default" : "pointer",
+                        opacity: isDisabled ? 0.5 : 1,
+                      }}
+                    >
+                      <div className="h-32 border-b" style={{ borderColor: "var(--color-parchment)" }}>{tmpl.preview}</div>
+                      {tmpl.comingSoon && (
+                        <span className="absolute top-2 right-2 text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: "var(--color-parchment)", color: "var(--color-warm-gray)" }}>
+                          Coming soon
+                        </span>
+                      )}
+                      <div className="p-3">
+                        <h4 className="font-serif mb-1" style={{ fontSize: "0.9rem", color: "var(--color-espresso)" }}>{tmpl.label}</h4>
+                        <p className="text-xs leading-relaxed" style={{ color: "var(--color-stone)" }}>{tmpl.description}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+                {/* Placeholder for upcoming templates */}
+                <div
+                  className="rounded-xl flex flex-col items-center justify-center gap-2 p-4"
+                  style={{ backgroundColor: "var(--color-parchment)", border: "2px dashed rgba(196,169,125,0.3)", minHeight: "160px", opacity: 0.6 }}
+                >
+                  <span style={{ fontSize: "1.25rem" }}>✦</span>
+                  <p className="text-xs text-center font-serif" style={{ color: "var(--color-stone)" }}>More templates coming soon</p>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })()}
 
         {/* Template swatches */}
         {outputFormat && (
@@ -408,7 +574,11 @@ export default function FormatPicker() {
                   template_id: templateId,
                 }).catch(() => {});
               }
-              setStep("customize");
+              if (outputFormat === "recipe_book") {
+                setStep("payment");
+              } else {
+                setStep("customize");
+              }
             }}
             disabled={!canContinue}
             aria-disabled={!canContinue}

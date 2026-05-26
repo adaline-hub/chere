@@ -33,7 +33,8 @@ export type OutputFormat =
   | "love_letter"
   | "gift_reveal"
   | "storybook"
-  | "companion";
+  | "companion"
+  | "recipe_book";
 
 export type Tier = "free" | "starter" | "premium";
 

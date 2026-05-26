@@ -28,7 +28,8 @@ export interface TributeCreation {
     | "love_letter"
     | "gift_reveal"
     | "storybook"
-    | "companion";
+    | "companion"
+    | "recipe_book";
   templateId: "warm-linen" | "soft-sage" | "midnight-gold";
   tier: "free" | "starter" | "premium";
   generatedText: string;

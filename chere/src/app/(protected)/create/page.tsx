@@ -27,8 +27,13 @@ const VALID_RELATIONSHIP_TYPES: RelationshipType[] = [
 
 // ─── Flow Logic ──────────────────────────────────────────
 
-function getStepFlow(creationType: CreationType | null): WizardStep[] {
+function getStepFlow(creationType: CreationType | null, outputFormat: string | null): WizardStep[] {
   const base: WizardStep[] = ["type", "relationship"];
+
+  if (outputFormat === "recipe_book") {
+    return [...base, "format", "payment", "deliver"];
+  }
+
   const tail: WizardStep[] = ["customize", "audio", "preview", "payment", "deliver"];
 
   if (creationType === "gift_reveal") {
@@ -45,7 +50,7 @@ function getStepFlow(creationType: CreationType | null): WizardStep[] {
 
 export default function CreatePage() {
   useAutoSave();
-  const { currentStep, setStep, creationType, setCreationType, setRelationshipType, setRecipientName } = useCreationStore();
+  const { currentStep, setStep, creationType, outputFormat, setCreationType, setRelationshipType, setRecipientName } = useCreationStore();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -65,7 +70,7 @@ export default function CreatePage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const flow = getStepFlow(creationType);
+  const flow = getStepFlow(creationType, outputFormat);
   const stepIndex = flow.indexOf(currentStep);
   const progress = ((stepIndex + 1) / flow.length) * 100;
   const prevStep = stepIndex > 0 ? flow[stepIndex - 1] : undefined;
