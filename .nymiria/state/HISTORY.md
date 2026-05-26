@@ -198,3 +198,10 @@
 **Decisions:** outputFormat === "companion". Label: "Voice memories". Description: "Record one, scene (kitchen / living-room / backyard / cafe) and can record one short clip pe, it until the visuals are upgraded. Keep all the code intact; just don't show it
 
 ---
+## 2026-05-26T02:25:56.529Z — claude
+**Summary:** Discussed: i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?
+**Duration:** 43 min
+**Files Changed:** app/api/audio/upload/route.ts, app/api/audio/tts/route.ts, components/audio/VoiceRecorder.tsx, lib/minimax/tts.ts, lib/groq/stt.ts, src/stores/creation-store.ts, src/components/creation/RecordMessageStep.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/CompanionRenderer.tsx, src/components/tribute/companion/AudioNarration.tsx, src/lib/minimax/tts.ts, src/app/api/audio/tts/route.ts, src/components/audio/VoiceRecorder.tsx, src/app/api/audio/upload/route.ts, src/lib/companion/hotspots.ts
+**Decisions:** also use it for **the AI narration mode** (option #3 in the audio feature). Righ, be able to keep these websites alive if user pays for long term hosting. i haven, update pricing once we have working products easily, work on interactive scene while hiding it from public view and use., use the leaked key., "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re, `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on, scene (kitchen / living-room / backyard / cafe) and can record one short clip pe, it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+---

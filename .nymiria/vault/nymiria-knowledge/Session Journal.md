@@ -1780,3 +1780,44 @@ Discussed: That's a landmark deploy. The Memory Companion is now genuin…; i do
 - also not have its own mute control. The floating global mute is the one source o
 
 ---
+
+## May 25, 2026
+
+Discussed: i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+
+---
