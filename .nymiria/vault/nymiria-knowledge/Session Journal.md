@@ -1343,3 +1343,440 @@ Discussed: # Chère — Storybook Book Layout Redesign + Memory Companion …; c
 - NOT see app navigation
 
 ---
+
+## May 25, 2026
+
+Discussed: # Chère — Product Refinement: Preview, Navigation, Interview…; # Chère — Enhanced Memory Companion + Storybook Book Layout …; One critical action from the email finding: check your Verce…; Verify and complete: Storybook book-layout redesign + Enhanc…; commit and deploy all
+
+**Decisions:**
+- do it" (btn-gold) / "No thanks" (text link)
+- love it." (fade out after 3s)
+- relationship type displayed vertically
+- Storybook format AND reaches the interview step (or returns to it), show a speci
+- Storybook — nice choice."
+- 2. Resend sends the email (or returns a clear error)
+- Storybook — nice choice. The more memories you share, the richer your book will
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/shared/AppHeader.tsx`
+- `src/app/(protected)/dashboard/layout.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/components/creation/InterviewFlow.tsx`
+- `src/app/api/deliver/route.ts`
+- `src/components/creation/DeliveryStep.tsx`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/CharacterPair.tsx`
+
+**Next steps:**
+- expose a `saveStatus` state: `'idle' | 'saving' | 'saved' | 'error'`
+- NOT see app navigation
+- debug whether:
+- call `POST /api/deliver`
+- be added in the Vercel dashboard.
+- look like a real picture book — two pages side by side with a visible spine.
+- have a few small delightful details that make people want to share:
+- be distinguishable:
+- be roughly 80-100px tall and placed in a natural location within the scene compo
+- feel like friends in a warm illustration, not game sprites. Simple, geometric, e
+
+---
+
+## May 25, 2026
+
+Discussed: we should give user an audio choice of 3, your proposed #1 a…; yes toggle on and off as recipient wishes. and auto on with …; whats whisper for? the walkthrough should work for all five …; i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…
+
+**Decisions:**
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- one expands the recorder UI below.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- be able to play back and preview the full gift with the voice over. we can sugge
+- be quick, forgiving, and *guided*.
+- fade behind real recordings whenever they exist.
+- be cohesive.** A gift that's 30% creator's voice and 70% robotic narrator feels
+- the recipient be able to toggle audio off** when receiving the gift? My instinct
+- we transcribe recordings** so deaf/hard-of-hearing recipients can read what was
+- the walkthrough work for **all five formats** (Scrollytelling, Love Letter, Memo
+- work for all five formats
+- add Whisper/Groq/OpenAI as a second dependency.
+
+---
+
+## May 25, 2026
+
+Discussed: we should give user an audio choice of 3, your proposed #1 a…; yes toggle on and off as recipient wishes. and auto on with …; whats whisper for? the walkthrough should work for all five …; i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…
+
+**Decisions:**
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- one expands the recorder UI below.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- be able to play back and preview the full gift with the voice over. we can sugge
+- be quick, forgiving, and *guided*.
+- fade behind real recordings whenever they exist.
+- be cohesive.** A gift that's 30% creator's voice and 70% robotic narrator feels
+- the recipient be able to toggle audio off** when receiving the gift? My instinct
+- we transcribe recordings** so deaf/hard-of-hearing recipients can read what was
+- the walkthrough work for **all five formats** (Scrollytelling, Love Letter, Memo
+- work for all five formats
+- add Whisper/Groq/OpenAI as a second dependency.
+
+---
+
+## May 25, 2026
+
+Discussed: we should give user an audio choice of 3, your proposed #1 a…; yes toggle on and off as recipient wishes. and auto on with …; whats whisper for? the walkthrough should work for all five …; i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…
+
+**Decisions:**
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- one expands the recorder UI below.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- give user an audio choice of 3, your proposed #1 and #2, plus AI text to speed a
+- be able to play back and preview the full gift with the voice over. we can sugge
+- be quick, forgiving, and *guided*.
+- fade behind real recordings whenever they exist.
+- be cohesive.** A gift that's 30% creator's voice and 70% robotic narrator feels
+- the recipient be able to toggle audio off** when receiving the gift? My instinct
+- we transcribe recordings** so deaf/hard-of-hearing recipients can read what was
+- the walkthrough work for **all five formats** (Scrollytelling, Love Letter, Memo
+- work for all five formats
+- add Whisper/Groq/OpenAI as a second dependency.
+
+---
+
+## May 25, 2026
+
+Discussed: # Chère — Enhanced Memory Companion + Storybook Book Layout …; One critical action from the email finding: check your Verce…; Verify and complete: Storybook book-layout redesign + Enhanc…; commit and deploy all; Chère — Memory Companion V2: Animated Characters, Audio, Rea…
+
+**Decisions:**
+- do it" (btn-gold) / "No thanks" (text link)
+- love it." (fade out after 3s)
+- Storybook — nice choice. The more memories you share, the richer your book will
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/shared/AppHeader.tsx`
+- `src/components/creation/InterviewFlow.tsx`
+- `src/app/api/deliver/route.ts`
+- `src/components/creation/DeliveryStep.tsx`
+- `src/components/tribute/companion/CharacterPair.tsx`
+- `src/components/tribute/companion/character-animations.ts`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- be added in the Vercel dashboard.
+- look like a real picture book — two pages side by side with a visible spine.
+- have a few small delightful details that make people want to share:
+- be distinguishable:
+- be roughly 80-100px tall and placed in a natural location within the scene compo
+- feel like friends in a warm illustration, not game sprites. Simple, geometric, e
+- be subtle and gentle — a hug that takes 1.2 seconds, not 0.3 seconds. Match the
+- feel like someone reading a bedtime story — slow, warm, unhurried.
+- be created via Supabase dashboard for the Reaction Cam to persist across session
+- render desktop view):
+
+---
+
+## May 25, 2026
+
+Discussed: yes toggle on and off as recipient wishes. and auto on with …; whats whisper for? the walkthrough should work for all five …; i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- one expands the recorder UI below.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- be quick, forgiving, and *guided*.
+- fade behind real recordings whenever they exist.
+- be cohesive.** A gift that's 30% creator's voice and 70% robotic narrator feels
+- the recipient be able to toggle audio off** when receiving the gift? My instinct
+- we transcribe recordings** so deaf/hard-of-hearing recipients can read what was
+- the walkthrough work for **all five formats** (Scrollytelling, Love Letter, Memo
+- work for all five formats
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+
+---
+
+## May 25, 2026
+
+Discussed: whats whisper for? the walkthrough should work for all five …; i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- the walkthrough work for **all five formats** (Scrollytelling, Love Letter, Memo
+- work for all five formats
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+
+---
+
+## May 25, 2026
+
+Discussed: commit and deploy all; Chère — Memory Companion V2: Animated Characters, Audio, Rea…; That's a landmark deploy. The Memory Companion is now genuin…; i dont think minimax actually executed the plans below. can …; can you execute?
+
+**Decisions:**
+- do it" (btn-gold) / "No thanks" (text link)
+- love it." (fade out after 3s)
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/CharacterPair.tsx`
+- `src/components/tribute/companion/character-animations.ts`
+- `src/components/tribute/companion/AudioNarration.tsx`
+- `src/components/tribute/ReactionCam.tsx`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/DeliveryStep.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/MemoryWrappedRenderer.tsx`
+
+**Next steps:**
+- be distinguishable:
+- be roughly 80-100px tall and placed in a natural location within the scene compo
+- feel like friends in a warm illustration, not game sprites. Simple, geometric, e
+- be subtle and gentle — a hug that takes 1.2 seconds, not 0.3 seconds. Match the
+- feel like someone reading a bedtime story — slow, warm, unhurried.
+- be created via Supabase dashboard for the Reaction Cam to persist across session
+- render desktop view):
+- now render the desktop storybook layout instead of collapsing to mobile.
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+
+---
+
+## May 25, 2026
+
+Discussed: whats whisper for? the walkthrough should work for all five …; i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- the walkthrough work for **all five formats** (Scrollytelling, Love Letter, Memo
+- work for all five formats
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+
+---
+
+## May 25, 2026
+
+Discussed: That's a landmark deploy. The Memory Companion is now genuin…; i dont think minimax actually executed the plans below. can …; can you execute?; can you execute the below plan?; you didnt actually execute the below - can you check and com…
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/MemoryWrappedRenderer.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/components/creation/InterviewFlow.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+
+**Next steps:**
+- be created via Supabase dashboard for the Reaction Cam to persist across session
+- render desktop view):
+- now render the desktop storybook layout instead of collapsing to mobile.
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+
+---
+
+## May 25, 2026
+
+Discussed: That's a landmark deploy. The Memory Companion is now genuin…; i dont think minimax actually executed the plans below. can …; can you execute?; can you execute the below plan?; you didnt actually execute the below - can you check and com…
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/MemoryWrappedRenderer.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/components/creation/InterviewFlow.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+
+**Next steps:**
+- render desktop view):
+- now render the desktop storybook layout instead of collapsing to mobile.
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+- also not have its own mute control. The floating global mute is the one source o
+
+---

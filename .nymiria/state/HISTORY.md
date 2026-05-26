@@ -191,3 +191,10 @@
 **Decisions:** do it" (btn-gold) / "No thanks" (text link), love it." (fade out after 3s), automatically based on `relationshipType`:, relationship type displayed vertically, Storybook format AND reaches the interview step (or returns to it), show a speci, Storybook — nice choice.", 2. Resend sends the email (or returns a clear error), Storybook — nice choice. The more memories you share, the richer your book will, outputFormat === "companion". Label: "Voice memories". Description: "Record one, scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
 
 ---
+## 2026-05-26T02:26:14.783Z — claude
+**Summary:** Discussed: That's a landmark deploy. The Memory Companion is now genuin…; i dont think minimax actually executed the plans below. can …; can you execute?; can you execute the below plan?; you didnt actually execute the below - can you check and com…
+**Duration:** 5 min
+**Files Changed:** src/components/tribute/StorybookRenderer.tsx, src/components/creation/PreviewStep.tsx, src/components/tribute/MemoryWrappedRenderer.tsx, src/components/tribute/LoveLetterRenderer.tsx, src/components/creation/InterviewFlow.tsx, src/app/(protected)/create/page.tsx, src/components/creation/CustomizeStep.tsx, src/stores/creation-store.ts, src/components/creation/RecordMessageStep.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/CompanionRenderer.tsx, src/components/tribute/companion/AudioNarration.tsx, src/lib/minimax/tts.ts, src/app/api/audio/tts/route.ts, src/components/audio/VoiceRecorder.tsx
+**Decisions:** outputFormat === "companion". Label: "Voice memories". Description: "Record one, scene (kitchen / living-room / backyard / cafe) and can record one short clip pe, it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+---
