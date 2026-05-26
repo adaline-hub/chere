@@ -147,3 +147,16 @@ You pasted your live `GROQ_API_KEY` into chat. That's now in the conversation tr
 Working dir: `/Users/lindsaylynn/Developer/Chère`. Code in `chere/` (Next.js 16 — see `chere/node_modules/next/dist/docs/` for unf
 
 ---
+## 2026-05-26 — outputFormat. When
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** ```
+PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up)
+
+Working dir: /Users/lindsaylynn/Developer/Chère. Code in chere/ (Next.js 16).
+
+Context: Most of the Recipe Book feature was already built in a prior session
+(migration 005, lib/recipes, 6 API routes, RecipeBookRenderer, FormatPicker
+ent
+
+---
