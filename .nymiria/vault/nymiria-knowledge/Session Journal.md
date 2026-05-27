@@ -1821,3 +1821,634 @@ Discussed: i have a minimax key, can we use that?; will minimax $40/month plan w
 - upload, transcribe, and show transcript
 
 ---
+
+## May 25, 2026
+
+Discussed: i have a minimax key, can we use that?; will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+
+---
+
+## May 25, 2026
+
+Discussed: will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+
+---
+
+## May 26, 2026
+
+Discussed: will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+
+---
+
+## May 26, 2026
+
+Discussed: i dont think minimax actually executed the plans below. can …; can you execute?; can you execute the below plan?; you didnt actually execute the below - can you check and com…; > you didnt actually execute the below - can you check and c…
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/MemoryWrappedRenderer.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/components/creation/InterviewFlow.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+
+**Next steps:**
+- render desktop view):
+- now render the desktop storybook layout instead of collapsing to mobile.
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+- also not have its own mute control. The floating global mute is the one source o
+
+---
+
+## May 26, 2026
+
+Discussed: will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+
+---
+
+## May 26, 2026
+
+Discussed: i dont think minimax actually executed the plans below. can …; can you execute?; can you execute the below plan?; you didnt actually execute the below - can you check and com…; > you didnt actually execute the below - can you check and c…
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/tribute/MemoryWrappedRenderer.tsx`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/components/creation/InterviewFlow.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+
+**Next steps:**
+- render desktop view):
+- now render the desktop storybook layout instead of collapsing to mobile.
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+- also not have its own mute control. The floating global mute is the one source o
+
+---
+
+## May 26, 2026
+
+Discussed: will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+
+---
+
+## May 26, 2026
+
+Discussed: will minimax $40/month plan work? what about the $10/month p…; yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?
+
+**Decisions:**
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- add Whisper/Groq/OpenAI as a second dependency.
+- also use it for **the AI narration mode** (option #3 in the audio feature). Righ
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+
+---
+
+## May 26, 2026
+
+Discussed: > you didnt actually execute the below - can you check and c…; Apply migration 004 to Supabase. Existing 001–003 use a non-…; Task: Remove AI TTS narration from Chère; Task: Per-memory voice recordings for Interactive Scene; PROMPT 1 — Walkthrough auto-play mode for all 5 formats
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/components/creation/PreviewStep.tsx`
+- `src/components/creation/InterviewFlow.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+- also not have its own mute control. The floating global mute is the one source o
+- stay muted. Open a different gift in the same browser — should also be muted (it
+- leave it false. Verify this is the case. If something else is disabling clicks (
+
+---
+
+## May 26, 2026
+
+Discussed: Task: Remove AI TTS narration from Chère; Task: Per-memory voice recordings for Interactive Scene; PROMPT 1 — Walkthrough auto-play mode for all 5 formats; PROMPT 2 — AI recording suggestions per hotspot; PROMPT 3 — Recipient-side persistent mute
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+- `src/lib/minimax/tts.ts`
+- `src/app/api/audio/tts/route.ts`
+- `src/components/audio/VoiceRecorder.tsx`
+- `src/app/api/audio/upload/route.ts`
+- `src/lib/companion/hotspots.ts`
+
+**Next steps:**
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+- also not have its own mute control. The floating global mute is the one source o
+- stay muted. Open a different gift in the same browser — should also be muted (it
+- leave it false. Verify this is the case. If something else is disabling clicks (
+
+---
+
+## May 26, 2026
+
+Discussed: yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?; sure stick with Path 1 (MiniMax TTS + Groq STT)
+
+**Decisions:**
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+- show "Generating..." then "✓ Narration ready"
+- play with the new MiniMax voice instead of the robotic browser voice, and your d
+
+---
+
+## May 26, 2026
+
+Discussed: yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?; sure stick with Path 1 (MiniMax TTS + Groq STT)
+
+**Decisions:**
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+- show "Generating..." then "✓ Narration ready"
+- play with the new MiniMax voice instead of the robotic browser voice, and your d
+
+---
+
+## May 26, 2026
+
+Discussed: Task: Remove AI TTS narration from Chère; Task: Per-memory voice recordings for Interactive Scene; PROMPT 1 — Walkthrough auto-play mode for all 5 formats; PROMPT 2 — AI recording suggestions per hotspot; PROMPT 3 — Recipient-side persistent mute
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+- `src/lib/minimax/tts.ts`
+- `src/app/api/audio/tts/route.ts`
+- `src/components/audio/VoiceRecorder.tsx`
+- `src/app/api/audio/upload/route.ts`
+- `src/lib/companion/hotspots.ts`
+
+**Next steps:**
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+- also not have its own mute control. The floating global mute is the one source o
+- stay muted. Open a different gift in the same browser — should also be muted (it
+- leave it false. Verify this is the case. If something else is disabling clicks (
+
+---
+
+## May 26, 2026
+
+Discussed: Task: Remove AI TTS narration from Chère; Task: Per-memory voice recordings for Interactive Scene; PROMPT 1 — Walkthrough auto-play mode for all 5 formats; PROMPT 2 — AI recording suggestions per hotspot; PROMPT 3 — Recipient-side persistent mute
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+- `src/lib/minimax/tts.ts`
+- `src/app/api/audio/tts/route.ts`
+- `src/components/audio/VoiceRecorder.tsx`
+- `src/app/api/audio/upload/route.ts`
+- `src/lib/companion/hotspots.ts`
+
+**Next steps:**
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+- also not have its own mute control. The floating global mute is the one source o
+- stay muted. Open a different gift in the same browser — should also be muted (it
+- leave it false. Verify this is the case. If something else is disabling clicks (
+
+---
+
+## May 26, 2026
+
+Discussed: yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?; sure stick with Path 1 (MiniMax TTS + Groq STT)
+
+**Decisions:**
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+- show "Generating..." then "✓ Narration ready"
+- play with the new MiniMax voice instead of the robotic browser voice, and your d
+
+---
+
+## May 26, 2026
+
+Discussed: yes it works, i have the most expensive plan. all good; you run supabase push as needed; can grok do both?; is groq cheap?; sure stick with Path 1 (MiniMax TTS + Groq STT)
+
+**Decisions:**
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `app/api/audio/upload/route.ts`
+- `app/api/audio/tts/route.ts`
+- `components/audio/VoiceRecorder.tsx`
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+
+**Next steps:**
+- call MiniMax **programmatically** every time someone records a voice memory (STT
+- comfortably cover **300–500 gifts/month** — plenty of runway for early launch.
+- also enable **pay-as-you-go overflow** if MiniMax offers it — so a viral day doe
+- I just commit `004_audio_clips.sql` and let you apply it via Supabase CLI / dash
+- adjust on first test. Acceptable risk if you want me to push forward, or do you
+- build the MiniMax client now.
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+- show "Generating..." then "✓ Narration ready"
+- play with the new MiniMax voice instead of the robotic browser voice, and your d
+
+---
