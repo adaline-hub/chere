@@ -212,3 +212,10 @@
 **Decisions:** be able to keep these websites alive if user pays for long term hosting. i haven, update pricing once we have working products easily, work on interactive scene while hiding it from public view and use., use the leaked key., "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re, `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on, scene (kitchen / living-room / backyard / cafe) and can record one short clip pe, it until the visuals are upgraded. Keep all the code intact; just don't show it, outputFormat. When
 
 ---
+## 2026-05-27T05:01:53.267Z — claude
+**Summary:** Discussed: Task: Remove AI TTS narration from Chère; Task: Per-memory voice recordings for Interactive Scene; PROMPT 1 — Walkthrough auto-play mode for all 5 formats; PROMPT 2 — AI recording suggestions per hotspot; PROMPT 3 — Recipient-side persistent mute
+**Duration:** 5 min
+**Files Changed:** src/stores/creation-store.ts, src/components/creation/RecordMessageStep.tsx, src/lib/mock/tribute-data.ts, src/components/tribute/CompanionRenderer.tsx, src/components/tribute/companion/AudioNarration.tsx, src/lib/minimax/tts.ts, src/app/api/audio/tts/route.ts, src/components/audio/VoiceRecorder.tsx, src/app/api/audio/upload/route.ts, src/lib/companion/hotspots.ts, src/components/creation/PreviewStep.tsx, src/lib/walkthrough/useWalkthrough.ts, src/components/audio/WalkthroughBar.tsx, src/lib/ai/generate-tribute.ts, src/lib/ai/recording-suggestion.ts
+**Decisions:** outputFormat === "companion". Label: "Voice memories". Description: "Record one, scene (kitchen / living-room / backyard / cafe) and can record one short clip pe, it until the visuals are upgraded. Keep all the code intact; just don't show it, outputFormat. When
+
+---

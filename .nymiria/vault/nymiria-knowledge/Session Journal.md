@@ -2452,3 +2452,39 @@ Discussed: yes it works, i have the most expensive plan. all good; you run supab
 - play with the new MiniMax voice instead of the robotic browser voice, and your d
 
 ---
+
+## May 26, 2026
+
+Discussed: Task: Remove AI TTS narration from Chère; Task: Per-memory voice recordings for Interactive Scene; PROMPT 1 — Walkthrough auto-play mode for all 5 formats; PROMPT 2 — AI recording suggestions per hotspot; PROMPT 3 — Recipient-side persistent mute
+
+**Decisions:**
+- outputFormat === "companion". Label: "Voice memories". Description: "Record one
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+- `src/lib/minimax/tts.ts`
+- `src/app/api/audio/tts/route.ts`
+- `src/components/audio/VoiceRecorder.tsx`
+- `src/app/api/audio/upload/route.ts`
+- `src/lib/companion/hotspots.ts`
+
+**Next steps:**
+- pause if the user closes the card (memory card unmounts)
+- take ~60s in scrollytelling, etc.)
+- make the suggestion feel like a warm, knowledgeable friend nudging the creator:
+- feel fresh).
+- feel like a whispered tip, not a UI element.
+- only render once any audio is actually present in the gift. Take an optional has
+- be removed. Instead:
+- also not have its own mute control. The floating global mute is the one source o
+- stay muted. Open a different gift in the same browser — should also be muted (it
+- leave it false. Verify this is the case. If something else is disabling clicks (
+
+---
