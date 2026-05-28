@@ -2645,3 +2645,37 @@ Discussed: sure stick with Path 1 (MiniMax TTS + Groq STT); Completed. I execute
 - do offline:**
 
 ---
+
+## May 28, 2026
+
+Discussed: yes; PROMPT A — Polish: hide Interactive Scene + Storybook fixes; PROMPT B — Pricing repackage: free / starter / premium; include all current changes in one commit; PROMPT C — Interactive Recipe Book foundation (the 6th forma…
+
+**Decisions:**
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `src/components/creation/FormatPicker.tsx`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/lib/supabase/types.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/PaymentStep.tsx`
+- `src/app/api/stripe/create-checkout/route.ts`
+- `src/app/api/webhooks/stripe/route.ts`
+- `src/components/tribute/LoveLetterRenderer.tsx`
+- `src/components/tribute/ScrollytellingRenderer.tsx`
+- `src/lib/mock/tribute-data.ts`
+
+**Next steps:**
+- leave it false. Verify this is the case. If something else is disabling clicks (
+- show three options: Free / Starter / Premium
+- be addressed.
+- be skipped or no-op'd when outputFormat === "recipe_book":
+- only be visible when no recipient interview is needed, which works because the f
+- appear in the format grid
+- show the empty book + "Sign in to add your own recipes"
+- understand before implementing.Now let me read the remaining key files needed.No
+- recompute).
+- run this migration. Do you use the Supabase CLI? Run:
+
+---

@@ -233,3 +233,10 @@
 **Decisions:** be able to keep these websites alive if user pays for long term hosting. i haven, update pricing once we have working products easily, work on interactive scene while hiding it from public view and use., use the leaked key., "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re, `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on, scene (kitchen / living-room / backyard / cafe) and can record one short clip pe, it until the visuals are upgraded. Keep all the code intact; just don't show it, outputFormat. When
 
 ---
+## 2026-05-28T15:41:48.786Z — claude
+**Summary:** Discussed: yes; PROMPT A — Polish: hide Interactive Scene + Storybook fixes; PROMPT B — Pricing repackage: free / starter / premium; include all current changes in one commit; PROMPT C — Interactive Recipe Book foundation (the 6th forma…
+**Duration:** 19 min
+**Files Changed:** src/components/creation/FormatPicker.tsx, src/components/tribute/StorybookRenderer.tsx, src/lib/supabase/types.ts, src/stores/creation-store.ts, src/components/creation/PaymentStep.tsx, src/app/api/stripe/create-checkout/route.ts, src/app/api/webhooks/stripe/route.ts, src/components/tribute/LoveLetterRenderer.tsx, src/components/tribute/ScrollytellingRenderer.tsx, src/lib/mock/tribute-data.ts, src/lib/recipes/types.ts, src/lib/recipes/queries.ts, src/components/tribute/RecipeBookRenderer.tsx, src/app/(protected)/create/page.tsx, src/components/creation/WizardStepIndicator.tsx
+**Decisions:** it until the visuals are upgraded. Keep all the code intact; just don't show it, outputFormat. When
+
+---
