@@ -160,3 +160,16 @@ Context: Most of the Recipe Book feature was already built in a prior session
 ent
 
 ---
+## 2026-05-28 — keep them somewhere safe."
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** ```
+PROMPT — Recipe Book v1.1: fix permissions, add intro step, warmer renderer
+
+Working dir: /Users/lindsaylynn/Developer/Chère/chere.
+
+Context: Recipe Book launched in commit 618665a but has two problems:
+(a) "Failed" error when adding a recipe — Postgres code 42501 because the
+service_role has no
+
+---
