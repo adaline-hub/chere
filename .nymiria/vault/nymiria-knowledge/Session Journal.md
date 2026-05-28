@@ -2563,3 +2563,85 @@ Discussed: is groq cheap?; sure stick with Path 1 (MiniMax TTS + Groq STT); Comp
 - do offline:**
 
 ---
+
+## May 27, 2026
+
+Discussed: sure stick with Path 1 (MiniMax TTS + Groq STT); Completed. I executed migration 004audioclips.sql against yo…; keep building. i will add two env vars soon; im thinking - why do we need text to speech? i dont think we…; Yes, can you provide a prompt for sonnet or codex to execute…
+
+**Decisions:**
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+- `src/lib/minimax/tts.ts`
+- `src/app/api/audio/tts/route.ts`
+- `src/components/audio/VoiceRecorder.tsx`
+
+**Next steps:**
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+- show "Generating..." then "✓ Narration ready"
+- play with the new MiniMax voice instead of the robotic browser voice, and your d
+- auto-play at the end
+- bundle our own TTS.
+- cancel or downgrade your MiniMax subscription.** You're paying for the most expe
+- be a 5-minute job. Once done, you can also cancel/downgrade your MiniMax subscri
+- be the leaner version now.
+- do offline:**
+
+---
+
+## May 28, 2026
+
+Discussed: sure stick with Path 1 (MiniMax TTS + Groq STT); Completed. I executed migration 004audioclips.sql against yo…; keep building. i will add two env vars soon; im thinking - why do we need text to speech? i dont think we…; Yes, can you provide a prompt for sonnet or codex to execute…
+
+**Decisions:**
+- be able to keep these websites alive if user pays for long term hosting. i haven
+- update pricing once we have working products easily
+- work on interactive scene while hiding it from public view and use.
+- use the leaked key.
+- "AI narration" in the wizard immediately fires `/api/audio/tts` so the URL is re
+- `outputFormat === "companion"`. Label: "Voice memories". Description: "Record on
+- scene (kitchen / living-room / backyard / cafe) and can record one short clip pe
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+
+**Files touched:**
+- `lib/minimax/tts.ts`
+- `lib/groq/stt.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecordMessageStep.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/components/tribute/CompanionRenderer.tsx`
+- `src/components/tribute/companion/AudioNarration.tsx`
+- `src/lib/minimax/tts.ts`
+- `src/app/api/audio/tts/route.ts`
+- `src/components/audio/VoiceRecorder.tsx`
+
+**Next steps:**
+- be live shortly). All five new files typecheck clean.
+- upload, transcribe, and show transcript
+- show "Generating..." then "✓ Narration ready"
+- play with the new MiniMax voice instead of the robotic browser voice, and your d
+- auto-play at the end
+- bundle our own TTS.
+- cancel or downgrade your MiniMax subscription.** You're paying for the most expe
+- be a 5-minute job. Once done, you can also cancel/downgrade your MiniMax subscri
+- be the leaner version now.
+- do offline:**
+
+---
