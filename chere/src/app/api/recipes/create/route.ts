@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createRecipe, isCoAuthor } from "@/lib/recipes/queries";
 
 export async function POST(req: NextRequest) {
@@ -13,6 +14,14 @@ export async function POST(req: NextRequest) {
 
     const allowed = await isCoAuthor(creation_id, user.id);
     if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+    // Ensure profile row exists (profile trigger may not have fired on signup)
+    const admin = createAdminClient();
+    await admin.from("profiles").upsert({
+      id: user.id,
+      display_name: (user.user_metadata?.full_name as string | undefined) ?? user.email?.split("@")[0] ?? "User",
+      email: user.email ?? "",
+    }, { onConflict: "id", ignoreDuplicates: true });
 
     const recipe = await createRecipe({
       creationId: creation_id,
