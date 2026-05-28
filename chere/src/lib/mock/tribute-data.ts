@@ -34,6 +34,8 @@ export interface TributeCreation {
   tier: "free" | "starter" | "premium";
   generatedText: string;
   dedicationMessage: string;
+  recipe_book_cover_path?: string | null;
+  recipe_book_intro?: string | null;
   photos: TributePhoto[];
   giftMoment: TributeGiftMoment | null;
   musicTrackId: string | null;

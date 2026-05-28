@@ -77,6 +77,8 @@ export interface Creation {
   output_format: OutputFormat;
   template_id: string;
   music_track_id: string | null;
+  recipe_book_cover_path: string | null;
+  recipe_book_intro: string | null;
   share_token: string;
   delivery_method: DeliveryMethod | null;
   scheduled_reveal_at: string | null;

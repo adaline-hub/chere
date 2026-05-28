@@ -13,6 +13,7 @@ import PhotoUploader from "@/components/creation/PhotoUploader";
 import GiftDescriber from "@/components/creation/GiftDescriber";
 import ClueBuilder from "@/components/creation/ClueBuilder";
 import FormatPicker from "@/components/creation/FormatPicker";
+import RecipeBookCoverStep from "@/components/creation/RecipeBookCoverStep";
 import CustomizeStep from "@/components/creation/CustomizeStep";
 import RecordMessageStep from "@/components/creation/RecordMessageStep";
 import PreviewStep from "@/components/creation/PreviewStep";
@@ -32,7 +33,7 @@ function getStepFlow(creationType: CreationType | null, outputFormat: string | n
   const base: WizardStep[] = ["type", "relationship"];
 
   if (outputFormat === "recipe_book") {
-    return [...base, "format", "payment", "deliver"];
+    return [...base, "format", "cover", "payment", "deliver"];
   }
 
   const tail: WizardStep[] = ["customize", "audio", "preview", "payment", "deliver"];
@@ -89,6 +90,8 @@ export default function CreatePage() {
         return <ClueBuilder />;
       case "format":
         return <FormatPicker />;
+      case "cover":
+        return <RecipeBookCoverStep />;
       case "customize":
         return <CustomizeStep />;
       case "audio":

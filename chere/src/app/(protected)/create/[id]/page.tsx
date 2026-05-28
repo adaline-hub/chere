@@ -14,6 +14,7 @@ import PhotoUploader from "@/components/creation/PhotoUploader";
 import GiftDescriber from "@/components/creation/GiftDescriber";
 import ClueBuilder from "@/components/creation/ClueBuilder";
 import FormatPicker from "@/components/creation/FormatPicker";
+import RecipeBookCoverStep from "@/components/creation/RecipeBookCoverStep";
 import CustomizeStep from "@/components/creation/CustomizeStep";
 import RecordMessageStep from "@/components/creation/RecordMessageStep";
 import PreviewStep from "@/components/creation/PreviewStep";
@@ -25,7 +26,7 @@ function getStepFlow(creationType: CreationType | null, outputFormat: OutputForm
   const base: WizardStep[] = ["type", "relationship"];
 
   if (outputFormat === "recipe_book") {
-    return [...base, "format", "payment", "deliver"];
+    return [...base, "format", "cover", "payment", "deliver"];
   }
 
   const tail: WizardStep[] = ["customize", "audio", "preview", "payment", "deliver"];
@@ -61,6 +62,8 @@ export default function ResumeCreationPage({
           );
         }
         if (creation.output_format) store.setOutputFormat(creation.output_format);
+        if (creation.recipe_book_cover_path) store.setRecipeBookCoverPath(creation.recipe_book_cover_path);
+        if (creation.recipe_book_intro) store.setRecipeBookIntro(creation.recipe_book_intro);
         if (creation.template_id) store.setTemplateId(creation.template_id);
         if (creation.generated_text) store.setGeneratedText(creation.generated_text);
         if (creation.generated_text_edited) store.setEditedText(creation.generated_text_edited);
@@ -94,6 +97,7 @@ export default function ResumeCreationPage({
       case "photos": return <PhotoUploader />;
       case "clues": return <ClueBuilder />;
       case "format": return <FormatPicker />;
+      case "cover": return <RecipeBookCoverStep />;
       case "customize": return <CustomizeStep />;
       case "audio": return <RecordMessageStep />;
       case "preview": return <PreviewStep />;

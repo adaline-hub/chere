@@ -46,6 +46,7 @@ export type WizardStep =
   | "photos"         // Upload photos
   | "clues"          // Drip clues setup (optional)
   | "format"         // Choose output format
+  | "cover"          // Recipe book cover photo + intro
   | "customize"      // Edit text, template, music
   | "audio"          // Record a message / pick narration mode
   | "preview"        // Full preview
@@ -123,6 +124,12 @@ interface CreationStore {
   setTemplateId: (id: string) => void;
   illustrationMode: "photos" | "mixed" | "sketches";
   setIllustrationMode: (mode: "photos" | "mixed" | "sketches") => void;
+  recipeBookCoverFile: File | null;
+  setRecipeBookCoverFile: (file: File | null) => void;
+  recipeBookCoverPath: string | null;
+  setRecipeBookCoverPath: (path: string | null) => void;
+  recipeBookIntro: string;
+  setRecipeBookIntro: (intro: string) => void;
 
   // Step 8: Customize
   generatedText: string;
@@ -176,6 +183,9 @@ const initialState = {
   outputFormat: null,
   templateId: "warm-linen",
   illustrationMode: "photos" as "photos" | "mixed" | "sketches",
+  recipeBookCoverFile: null as File | null,
+  recipeBookCoverPath: null as string | null,
+  recipeBookIntro: "",
   generatedText: "",
   editedText: null,
   dedicationMessage: "",
@@ -251,6 +261,9 @@ export const useCreationStore = create<CreationStore>((set) => ({
   setOutputFormat: (format) => set({ outputFormat: format }),
   setTemplateId: (id) => set({ templateId: id }),
   setIllustrationMode: (mode) => set({ illustrationMode: mode }),
+  setRecipeBookCoverFile: (file) => set({ recipeBookCoverFile: file }),
+  setRecipeBookCoverPath: (path) => set({ recipeBookCoverPath: path }),
+  setRecipeBookIntro: (intro) => set({ recipeBookIntro: intro }),
   setGeneratedText: (text) => set({ generatedText: text }),
   setEditedText: (text) => set({ editedText: text }),
   setDedicationMessage: (message) => set({ dedicationMessage: message }),

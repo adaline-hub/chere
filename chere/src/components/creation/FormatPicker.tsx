@@ -575,7 +575,7 @@ export default function FormatPicker() {
                 }).catch(() => {});
               }
               if (outputFormat === "recipe_book") {
-                setStep("payment");
+                setStep("cover");
               } else {
                 setStep("customize");
               }

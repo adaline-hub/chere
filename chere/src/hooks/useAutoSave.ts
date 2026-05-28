@@ -24,6 +24,8 @@ export function useAutoSave() {
     generatedText,
     editedText,
     dedicationMessage,
+    recipeBookCoverPath,
+    recipeBookIntro,
     tier,
   } = store;
 
@@ -108,6 +110,8 @@ export function useAutoSave() {
       generated_text: generatedText || null,
       generated_text_edited: editedText,
       dedication_message: dedicationMessage || null,
+      recipe_book_cover_path: recipeBookCoverPath,
+      recipe_book_intro: recipeBookIntro || null,
       tier,
     })
       .then(markSaved)
@@ -126,6 +130,8 @@ export function useAutoSave() {
         interview_answers: interviewAnswers,
         generated_text_edited: editedText,
         dedication_message: dedicationMessage || null,
+        recipe_book_cover_path: recipeBookCoverPath,
+        recipe_book_intro: recipeBookIntro || null,
       })
         .then(markSaved)
         .catch(() => setSaveStatus("error"));
@@ -134,5 +140,5 @@ export function useAutoSave() {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interviewAnswers, editedText, dedicationMessage]);
+  }, [interviewAnswers, editedText, dedicationMessage, recipeBookCoverPath, recipeBookIntro]);
 }

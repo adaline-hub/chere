@@ -71,6 +71,8 @@ async function loadCreation(shareToken: string): Promise<TributeCreation | null>
       tier: creation.tier,
       generatedText: creation.generated_text_edited ?? creation.generated_text ?? "",
       dedicationMessage: creation.dedication_message ?? "",
+      recipe_book_cover_path: creation.recipe_book_cover_path ?? null,
+      recipe_book_intro: creation.recipe_book_intro ?? null,
       photos,
       giftMoment: null,
       musicTrackId: creation.music_track_id,
@@ -117,6 +119,8 @@ export default async function TributePage({
     let initialRecipes: Awaited<ReturnType<typeof listRecipes>> = [];
     let canEdit = false;
     let isOwnerFlag = false;
+    let coverPhotoUrl: string | null = null;
+    const intro = creation.recipe_book_intro ?? null;
 
     if (configured) {
       try {
@@ -140,6 +144,13 @@ export default async function TributePage({
       } catch (e) {
         console.error("[tribute] recipe permission check failed:", e);
       }
+      if (creation.recipe_book_cover_path) {
+        try {
+          coverPhotoUrl = await getSignedAssetUrl(creation.recipe_book_cover_path);
+        } catch (e) {
+          console.error("[tribute] cover url signing failed:", e);
+        }
+      }
     }
 
     return (
@@ -149,6 +160,8 @@ export default async function TributePage({
           initialRecipes={initialRecipes}
           canEdit={canEdit}
           isOwner={isOwnerFlag}
+          coverPhotoUrl={coverPhotoUrl}
+          intro={intro}
         />
       </div>
     );

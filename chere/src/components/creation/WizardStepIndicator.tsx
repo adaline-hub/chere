@@ -8,6 +8,7 @@ const STEP_LABELS: Record<WizardStep, string> = {
   photos: "Photos",
   clues: "Clues",
   format: "Format",
+  cover: "Cover & intro",
   customize: "Customize",
   audio: "Record a message",
   preview: "Preview",
