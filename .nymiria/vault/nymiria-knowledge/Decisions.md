@@ -118,3 +118,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## Recipe Book would have skipped straight to payment and the new step would be dea
+
+**Date:** May 28, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---

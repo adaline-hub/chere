@@ -109,3 +109,12 @@ auto-detected from response
 auto-detected from response
 
 ---
+
+## outputFormat. When
+
+**Date:** May 25, 2026
+**Provider:** auto-extract
+
+auto-detected from response
+
+---

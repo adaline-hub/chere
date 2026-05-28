@@ -173,3 +173,14 @@ Context: Recipe Book launched in commit 618665a but has two problems:
 service_role has no
 
 ---
+## 2026-05-28 — Recipe Book would have skipped straight to payment and the new step would be dea
+**Provider:** claude
+**Rationale:** (auto-detected)
+**Source:** Shipped. Recipe Book v1.1 is live (commit `f524833`).
+
+The `FormatPicker` flow-routing fix you added is a real catch — without it, picking Recipe Book would have skipped straight to payment and the new step would be dead code. Good judgment.
+
+You'll want to manually run the smoke pass yourself:
+1. `
+
+---
