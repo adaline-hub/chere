@@ -18,6 +18,7 @@ import RecordMessageStep from "@/components/creation/RecordMessageStep";
 import PreviewStep from "@/components/creation/PreviewStep";
 import PaymentStep from "@/components/creation/PaymentStep";
 import DeliveryStep from "@/components/creation/DeliveryStep";
+import WizardStepIndicator from "@/components/creation/WizardStepIndicator";
 import { useAutoSave } from "@/hooks/useAutoSave";
 
 const VALID_CREATION_TYPES: CreationType[] = ["tribute", "gift_reveal", "combined"];
@@ -72,7 +73,6 @@ export default function CreatePage() {
 
   const flow = getStepFlow(creationType, outputFormat);
   const stepIndex = flow.indexOf(currentStep);
-  const progress = ((stepIndex + 1) / flow.length) * 100;
   const prevStep = stepIndex > 0 ? flow[stepIndex - 1] : undefined;
 
   function renderStep() {
@@ -112,22 +112,9 @@ export default function CreatePage() {
   }
 
   return (
-    <main className="min-h-screen bg-linen" style={{ paddingTop: "56px" }}>
+    <main className="min-h-screen bg-linen" style={{ paddingTop: "120px" }}>
       <AppHeader />
-
-      {/* Progress bar — sits below the 56px AppHeader */}
-      <div
-        className="fixed left-0 right-0 z-40"
-        style={{ top: "56px", height: "2px", backgroundColor: "var(--color-parchment)" }}
-      >
-        <motion.div
-          className="h-full"
-          style={{ backgroundColor: "var(--color-muted-gold)" }}
-          initial={false}
-          animate={{ width: `${Math.max(0, progress)}%` }}
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-        />
-      </div>
+      <WizardStepIndicator flow={flow} currentStep={currentStep} onJump={setStep} />
 
       {/* Back button — below AppHeader */}
       <AnimatePresence>
@@ -140,7 +127,7 @@ export default function CreatePage() {
             transition={{ duration: 0.3 }}
             onClick={() => setStep(prevStep)}
             className="fixed left-6 z-40 flex items-center gap-1.5 text-sm text-stone hover:text-espresso transition-colors duration-300"
-            style={{ top: "72px" }}
+            style={{ top: "128px" }}
           >
             <span aria-hidden="true">←</span>
             <span>Back</span>
