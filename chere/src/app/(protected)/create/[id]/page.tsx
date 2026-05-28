@@ -3,9 +3,10 @@
 import { use, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore, type WizardStep } from "@/stores/creation-store";
-import type { CreationType } from "@/lib/supabase/types";
+import type { CreationType, OutputFormat } from "@/lib/supabase/types";
 import { getCreationById } from "@/lib/supabase/creations";
 import { useAutoSave } from "@/hooks/useAutoSave";
+import AppHeader from "@/components/shared/AppHeader";
 import TypeSelector from "@/components/creation/TypeSelector";
 import RelationshipPicker from "@/components/creation/RelationshipPicker";
 import InterviewFlow from "@/components/creation/InterviewFlow";
@@ -14,13 +15,20 @@ import GiftDescriber from "@/components/creation/GiftDescriber";
 import ClueBuilder from "@/components/creation/ClueBuilder";
 import FormatPicker from "@/components/creation/FormatPicker";
 import CustomizeStep from "@/components/creation/CustomizeStep";
+import RecordMessageStep from "@/components/creation/RecordMessageStep";
 import PreviewStep from "@/components/creation/PreviewStep";
 import PaymentStep from "@/components/creation/PaymentStep";
 import DeliveryStep from "@/components/creation/DeliveryStep";
+import WizardStepIndicator from "@/components/creation/WizardStepIndicator";
 
-function getStepFlow(creationType: CreationType | null): WizardStep[] {
+function getStepFlow(creationType: CreationType | null, outputFormat: OutputFormat | null): WizardStep[] {
   const base: WizardStep[] = ["type", "relationship"];
-  const tail: WizardStep[] = ["customize", "preview", "payment", "deliver"];
+
+  if (outputFormat === "recipe_book") {
+    return [...base, "format", "payment", "deliver"];
+  }
+
+  const tail: WizardStep[] = ["customize", "audio", "preview", "payment", "deliver"];
   if (creationType === "gift_reveal") return [...base, "gift", "photos", "clues", "format", ...tail];
   if (creationType === "combined") return [...base, "interview", "gift", "photos", "clues", "format", ...tail];
   return [...base, "interview", "photos", "format", ...tail];
@@ -66,10 +74,9 @@ export default function ResumeCreationPage({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const { currentStep, setStep, creationType } = store;
-  const flow = getStepFlow(creationType);
+  const { currentStep, setStep, creationType, outputFormat } = store;
+  const flow = getStepFlow(creationType, outputFormat);
   const stepIndex = flow.indexOf(currentStep);
-  const progress = ((stepIndex + 1) / flow.length) * 100;
   const prevStep = stepIndex > 0 ? flow[stepIndex - 1] : undefined;
 
   if (loading) {
@@ -90,6 +97,7 @@ export default function ResumeCreationPage({
       case "clues": return <ClueBuilder />;
       case "format": return <FormatPicker />;
       case "customize": return <CustomizeStep />;
+      case "audio": return <RecordMessageStep />;
       case "preview": return <PreviewStep />;
       case "payment": return <PaymentStep />;
       case "deliver": return <DeliveryStep />;
@@ -98,17 +106,15 @@ export default function ResumeCreationPage({
   }
 
   return (
-    <main className="min-h-screen bg-linen">
-      <div className="fixed top-0 left-0 right-0 z-50" style={{ height: "2px", backgroundColor: "var(--color-parchment)" }}>
-        <motion.div className="h-full" style={{ backgroundColor: "var(--color-muted-gold)" }}
-          initial={false} animate={{ width: `${Math.max(0, progress)}%` }}
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }} />
-      </div>
+    <main className="min-h-screen bg-linen" style={{ paddingTop: "120px" }}>
+      <AppHeader />
+      <WizardStepIndicator flow={flow} currentStep={currentStep} onJump={setStep} />
       <AnimatePresence>
         {prevStep && (
           <motion.button key="back" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }} onClick={() => setStep(prevStep)}
-            className="fixed top-5 left-6 z-40 flex items-center gap-1.5 text-sm text-stone hover:text-espresso transition-colors duration-300">
+            className="fixed left-6 z-40 flex items-center gap-1.5 text-sm text-stone hover:text-espresso transition-colors duration-300"
+            style={{ top: "128px" }}>
             <span aria-hidden="true">←</span><span>Back</span>
           </motion.button>
         )}
