@@ -76,8 +76,6 @@ export default function ResumeCreationPage({
 
   const { currentStep, setStep, creationType, outputFormat } = store;
   const flow = getStepFlow(creationType, outputFormat);
-  const stepIndex = flow.indexOf(currentStep);
-  const prevStep = stepIndex > 0 ? flow[stepIndex - 1] : undefined;
 
   if (loading) {
     return (
@@ -109,16 +107,6 @@ export default function ResumeCreationPage({
     <main className="min-h-screen bg-linen" style={{ paddingTop: "120px" }}>
       <AppHeader />
       <WizardStepIndicator flow={flow} currentStep={currentStep} onJump={setStep} />
-      <AnimatePresence>
-        {prevStep && (
-          <motion.button key="back" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }} onClick={() => setStep(prevStep)}
-            className="fixed left-6 z-40 flex items-center gap-1.5 text-sm text-stone hover:text-espresso transition-colors duration-300"
-            style={{ top: "128px" }}>
-            <span aria-hidden="true">←</span><span>Back</span>
-          </motion.button>
-        )}
-      </AnimatePresence>
       <AnimatePresence mode="wait">
         <motion.div key={currentStep} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}>

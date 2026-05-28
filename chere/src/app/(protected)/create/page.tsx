@@ -72,8 +72,6 @@ export default function CreatePage() {
   }, []);
 
   const flow = getStepFlow(creationType, outputFormat);
-  const stepIndex = flow.indexOf(currentStep);
-  const prevStep = stepIndex > 0 ? flow[stepIndex - 1] : undefined;
 
   function renderStep() {
     switch (currentStep) {
@@ -115,25 +113,6 @@ export default function CreatePage() {
     <main className="min-h-screen bg-linen" style={{ paddingTop: "120px" }}>
       <AppHeader />
       <WizardStepIndicator flow={flow} currentStep={currentStep} onJump={setStep} />
-
-      {/* Back button — below AppHeader */}
-      <AnimatePresence>
-        {prevStep && (
-          <motion.button
-            key="back"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={() => setStep(prevStep)}
-            className="fixed left-6 z-40 flex items-center gap-1.5 text-sm text-stone hover:text-espresso transition-colors duration-300"
-            style={{ top: "128px" }}
-          >
-            <span aria-hidden="true">←</span>
-            <span>Back</span>
-          </motion.button>
-        )}
-      </AnimatePresence>
 
       {/* Step content with crossfade */}
       <AnimatePresence mode="wait">
