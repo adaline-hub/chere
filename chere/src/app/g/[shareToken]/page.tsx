@@ -120,6 +120,7 @@ export default async function TributePage({
     let canEdit = false;
     let isOwnerFlag = false;
     let coverPhotoUrl: string | null = null;
+    let currentUserId: string | null = null;
     const intro = creation.recipe_book_intro ?? null;
 
     if (configured) {
@@ -132,6 +133,7 @@ export default async function TributePage({
         const serverClient = await createServerClient();
         const { data: { user } } = await serverClient.auth.getUser();
         if (user) {
+          currentUserId = user.id;
           canEdit = await isCoAuthor(creation.id, user.id);
           const admin = createAdminClient();
           const { data: raw } = await admin
@@ -162,6 +164,7 @@ export default async function TributePage({
           isOwner={isOwnerFlag}
           coverPhotoUrl={coverPhotoUrl}
           intro={intro}
+          currentUserId={currentUserId}
         />
       </div>
     );

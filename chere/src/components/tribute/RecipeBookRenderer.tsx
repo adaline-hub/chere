@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Recipe } from "@/lib/recipes/types";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
+import type { RecipeComment } from "@/lib/recipes/comments";
 
 interface Props {
   creation: TributeCreation;
@@ -11,6 +12,7 @@ interface Props {
   isOwner: boolean;
   coverPhotoUrl: string | null;
   intro: string | null;
+  currentUserId: string | null;
 }
 
 interface RecipeFormState {
@@ -22,7 +24,16 @@ interface RecipeFormState {
 
 const EMPTY_FORM: RecipeFormState = { title: "", ingredients: "", instructions: "", notes: "" };
 
-export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, isOwner, coverPhotoUrl, intro }: Props) {
+function relativeTime(iso: string): string {
+  const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (diff < 60) return "just now";
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 1209600) return `${Math.floor(diff / 86400)}d ago`;
+  return new Date(iso).toLocaleDateString();
+}
+
+export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, isOwner, coverPhotoUrl, intro, currentUserId }: Props) {
   const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -30,6 +41,13 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
   const [form, setForm] = useState<RecipeFormState>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Comments state: keyed by recipeId
+  const [commentsCache, setCommentsCache] = useState<Record<string, RecipeComment[]>>({});
+  const [commentsLoading, setCommentsLoading] = useState<Record<string, boolean>>({});
+  const [commentBody, setCommentBody] = useState("");
+  const [commentError, setCommentError] = useState<string | null>(null);
+  const [commentSaving, setCommentSaving] = useState(false);
 
   const selectedRecipe = recipes.find((r) => r.id === selectedId) ?? null;
 
@@ -125,7 +143,83 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
     setSelectedId(null);
   }
 
+  async function loadComments(recipeId: string, creationId: string) {
+    if (commentsCache[recipeId] !== undefined || commentsLoading[recipeId]) return;
+    setCommentsLoading((prev) => ({ ...prev, [recipeId]: true }));
+    try {
+      const res = await fetch("/api/recipes/comments/list", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipe_id: recipeId, creation_id: creationId }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCommentsCache((prev) => ({ ...prev, [recipeId]: data.comments ?? [] }));
+      } else {
+        setCommentsCache((prev) => ({ ...prev, [recipeId]: [] }));
+      }
+    } catch {
+      setCommentsCache((prev) => ({ ...prev, [recipeId]: [] }));
+    } finally {
+      setCommentsLoading((prev) => ({ ...prev, [recipeId]: false }));
+    }
+  }
+
+  async function handleCommentSubmit(recipe: Recipe) {
+    const trimmed = commentBody.trim();
+    if (!trimmed || trimmed.length > 2000) return;
+    setCommentSaving(true);
+    setCommentError(null);
+    try {
+      const res = await fetch("/api/recipes/comments/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipe_id: recipe.id, creation_id: recipe.creationId, body: trimmed }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Failed");
+      setCommentsCache((prev) => ({ ...prev, [recipe.id]: [...(prev[recipe.id] ?? []), data.comment] }));
+      setCommentBody("");
+    } catch (e) {
+      setCommentError(e instanceof Error ? e.message : "Failed to post comment");
+    } finally {
+      setCommentSaving(false);
+    }
+  }
+
+  async function handleCommentDelete(commentId: string, recipeId: string) {
+    if (!confirm("Delete this comment?")) return;
+    try {
+      const res = await fetch("/api/recipes/comments/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: commentId }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error ?? "Failed");
+      }
+      setCommentsCache((prev) => ({ ...prev, [recipeId]: (prev[recipeId] ?? []).filter((c) => c.id !== commentId) }));
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Failed to delete comment");
+    }
+  }
+
+  function openRecipe(id: string) {
+    setSelectedId(id);
+    setEditingId(null);
+    setShowForm(false);
+    setCommentBody("");
+    setCommentError(null);
+    const recipe = recipes.find((r) => r.id === id);
+    if (recipe) loadComments(recipe.id, recipe.creationId);
+  }
+
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+
+  // Determine "other party" for comment placeholder
+  const otherParty = isOwner ? creation.recipientName : creation.creatorName;
+  const commentPlaceholder = otherParty ? `Leave a note for ${otherParty}…` : "Leave a note…";
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#FAF6EF", fontFamily: "var(--font-sans)", lineHeight: 1.65 }}>
@@ -191,7 +285,7 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
           <button
             key={recipe.id}
             type="button"
-            onClick={() => { setSelectedId(recipe.id); setEditingId(null); setShowForm(false); }}
+            onClick={() => openRecipe(recipe.id)}
             style={{
               display: "block",
               width: "100%",
@@ -221,7 +315,6 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
           >
             <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.5rem", color: "#2A2420", marginBottom: "0.25rem" }}>{recipe.title}</p>
             {recipe.authorProfileId && (
-              // TODO: Fetch/display author display_name when recipe list includes joined profile metadata.
               <p style={{ fontSize: "0.8125rem", color: "#8B7D72", fontStyle: "italic", marginBottom: "0.35rem" }}>
                 Shared by a contributor
               </p>
@@ -258,11 +351,92 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
               </div>
             )}
             {selectedRecipe.notes && (
-              <div>
+              <div style={{ marginBottom: "1.25rem" }}>
                 <p style={{ fontSize: "0.75rem", fontWeight: 600, color: "#C4A97D", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.5rem" }}>Notes</p>
                 <p style={{ fontSize: "0.9375rem", color: "#6A5D56", fontStyle: "italic", lineHeight: 1.65 }}>{selectedRecipe.notes}</p>
               </div>
             )}
+
+            {/* Comments section */}
+            <div style={{ marginTop: "1.5rem", paddingTop: "1.25rem", borderTop: "1px solid rgba(196,169,125,0.2)" }}>
+              <p style={{ fontSize: "0.75rem", fontWeight: 600, color: "#C4A97D", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Comments</p>
+
+              {commentsLoading[selectedRecipe.id] && (
+                <p style={{ fontSize: "0.875rem", color: "#8B7D72", fontStyle: "italic" }}>Loading…</p>
+              )}
+
+              {!commentsLoading[selectedRecipe.id] && commentsCache[selectedRecipe.id] !== undefined && (
+                <>
+                  {commentsCache[selectedRecipe.id].length === 0 && (
+                    <p style={{ fontSize: "0.875rem", color: "#8B7D72", fontStyle: "italic", marginBottom: "1rem" }}>No comments yet.</p>
+                  )}
+                  {commentsCache[selectedRecipe.id].map((comment, i) => {
+                    const isMine = currentUserId !== null && comment.authorProfileId === currentUserId;
+                    const canDelete = isMine || isOwner;
+                    return (
+                      <div
+                        key={comment.id}
+                        style={{
+                          paddingLeft: "0.875rem",
+                          borderLeft: `2px solid ${isMine ? "#C4A97D" : "rgba(196,169,125,0.2)"}`,
+                          marginBottom: i < commentsCache[selectedRecipe.id].length - 1 ? "1rem" : "0.5rem",
+                          paddingBottom: i < commentsCache[selectedRecipe.id].length - 1 ? "1rem" : 0,
+                          borderBottom: i < commentsCache[selectedRecipe.id].length - 1 ? "1px solid rgba(196,169,125,0.1)" : "none",
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.25rem" }}>
+                          <span style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "0.875rem", color: "#4A3F38" }}>
+                            {comment.authorDisplayName ?? "Someone"}
+                          </span>
+                          <span style={{ fontSize: "0.75rem", color: "#8B7D72", marginLeft: "0.75rem", flexShrink: 0 }}>
+                            {relativeTime(comment.createdAt)}
+                          </span>
+                        </div>
+                        <p style={{ fontSize: "0.9375rem", color: "#3D3530", lineHeight: 1.65, margin: 0 }}>{comment.body}</p>
+                        {canDelete && (
+                          <button
+                            type="button"
+                            onClick={() => handleCommentDelete(comment.id, selectedRecipe.id)}
+                            style={{ marginTop: "0.375rem", fontSize: "0.75rem", color: "#8B7D72", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textDecorationColor: "rgba(139,125,114,0.4)", textUnderlineOffset: "2px" }}
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+
+              {canEdit && (
+                <div style={{ marginTop: "1rem" }}>
+                  <textarea
+                    value={commentBody}
+                    onChange={(e) => setCommentBody(e.target.value)}
+                    placeholder={commentPlaceholder}
+                    rows={3}
+                    style={{ width: "100%", border: "1px solid rgba(196,169,125,0.4)", borderRadius: "6px", padding: "0.625rem 0.75rem", fontSize: "0.9375rem", color: "#2A2420", backgroundColor: "#FDFAF6", resize: "vertical", fontFamily: "var(--font-sans)", boxSizing: "border-box", lineHeight: 1.65 }}
+                  />
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.375rem" }}>
+                    <span style={{ fontSize: "0.75rem", color: commentBody.length > 2000 ? "#C05050" : "#8B7D72" }}>
+                      {commentBody.length}/2000
+                    </span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      {commentError && <span style={{ fontSize: "0.8125rem", color: "#C05050" }}>{commentError}</span>}
+                      <button
+                        type="button"
+                        onClick={() => handleCommentSubmit(selectedRecipe)}
+                        disabled={commentSaving || !commentBody.trim() || commentBody.length > 2000}
+                        style={{ fontSize: "0.875rem", color: "white", backgroundColor: "#C4A97D", border: "none", borderRadius: "6px", padding: "0.5rem 1.125rem", cursor: commentSaving || !commentBody.trim() || commentBody.length > 2000 ? "not-allowed" : "pointer", opacity: commentSaving || !commentBody.trim() || commentBody.length > 2000 ? 0.55 : 1 }}
+                      >
+                        {commentSaving ? "Posting…" : "Post"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {canEdit && (
               <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.5rem" }}>
                 <button type="button" onClick={() => startEdit(selectedRecipe)} style={{ fontSize: "0.875rem", color: "#6A5D56", backgroundColor: "var(--color-parchment)", border: "none", borderRadius: "6px", padding: "0.5rem 1rem", cursor: "pointer" }}>
