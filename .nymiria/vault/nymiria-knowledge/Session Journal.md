@@ -2679,3 +2679,103 @@ Discussed: yes; PROMPT A — Polish: hide Interactive Scene + Storybook fixes; P
 - run this migration. Do you use the Supabase CLI? Run:
 
 ---
+
+## May 28, 2026
+
+Discussed: PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); hi
+
+**Decisions:**
+- keep them somewhere safe."
+- outputFormat. When
+
+**Files touched:**
+- `src/app/(protected)/create/page.tsx`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/lib/supabase/types.ts`
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+
+**Next steps:**
+- recompute).
+- run this migration. Do you use the Supabase CLI? Run:
+- work on your Chère links.
+- appear, with the current step highlighted and prior steps clickable.
+- be able to leave a comment
+
+---
+
+## May 28, 2026
+
+Discussed: did you finish the above task; use sonnet or codex for these prompts each?; Nymiria; can you confirm prompt A, b, C have all been completed as pe…; can you confirm prompt A, b, C have all been completed as pe…
+
+**Decisions:**
+- keep them somewhere safe."
+- it until the visuals are upgraded. Keep all the code intact; just don't show it
+- outputFormat. When
+- Recipe Book would have skipped straight to payment and the new step would be dea
+
+**Files touched:**
+- `src/components/creation/FormatPicker.tsx`
+- `src/components/tribute/StorybookRenderer.tsx`
+- `src/lib/supabase/types.ts`
+- `src/stores/creation-store.ts`
+- `src/components/creation/PaymentStep.tsx`
+- `src/app/api/stripe/create-checkout/route.ts`
+- `src/app/api/webhooks/stripe/route.ts`
+- `src/lib/mock/tribute-data.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+
+**Next steps:**
+- leave it `false`. Verify this is the case. If something else is disabling clicks
+- show three options: **Free** / **Starter** / **Premium**
+- be addressed.
+- be skipped or no-op'd when `outputFormat === "recipe_book"`:
+- only be visible when no recipient interview is needed, which works because the f
+- appear in the format grid
+- show the empty book + "Sign in to add your own recipes"
+- feel warm not generic" matter here. The cost delta is worth it for the foundatio
+- be skipped or no-op'd when outputFormat === "recipe_book":
+- understand before implementing.Now let me read the remaining key files needed.No
+
+---
+
+## May 28, 2026
+
+Discussed: can you confirm prompt A, b, C have all been completed as pe…; can you confirm prompt A, b, C have all been completed as pe…; can you check again if prompt C has been completed by sonnet…; give me a prompt for sonnet to complete all of these 4 items…; ⏺ Everything is done. Here's the full report:
+
+**Decisions:**
+- keep them somewhere safe."
+- outputFormat. When
+- Recipe Book would have skipped straight to payment and the new step would be dea
+
+**Files touched:**
+- `src/app/(protected)/create/page.tsx`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/lib/supabase/types.ts`
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+
+**Next steps:**
+- confirm getStepFlow() in create/page.tsx skips interview/customize/audio/preview
+- recompute).
+- be saved and vieweed by others and each other can comment on it. each comment wo
+- sit right between the chere.app header bar and the "← Back" button. In your scre
+- be plainly visible.
+- appear, with the current step highlighted and prior steps clickable.
+- this be a sonnet prompt?
+- now succeed (no more "Failed")
+- be able to leave a comment
+- depends on.
+
+---
