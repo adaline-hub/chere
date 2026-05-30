@@ -316,7 +316,7 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
             <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.5rem", color: "#2A2420", marginBottom: "0.25rem" }}>{recipe.title}</p>
             {recipe.authorProfileId && (
               <p style={{ fontSize: "0.8125rem", color: "#8B7D72", fontStyle: "italic", marginBottom: "0.35rem" }}>
-                Shared by a contributor
+                Shared by {recipe.authorDisplayName ?? "a contributor"}
               </p>
             )}
             {recipe.ingredients[0] && (

@@ -3,10 +3,12 @@ import { getSignedAssetUrl } from "@/lib/supabase/storage";
 import type { Recipe } from "./types";
 
 function toRecipe(row: Record<string, unknown>, photoUrl: string | null): Recipe {
+  const profile = row.profiles as { display_name?: string | null } | null;
   return {
     id: row.id as string,
     creationId: row.creation_id as string,
     authorProfileId: (row.author_profile_id as string | null) ?? null,
+    authorDisplayName: profile?.display_name ?? null,
     title: row.title as string,
     ingredients: (row.ingredients as string[]) ?? [],
     instructions: (row.instructions as string) ?? "",
@@ -22,7 +24,7 @@ export async function listRecipes(creationId: string): Promise<Recipe[]> {
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("recipes")
-    .select("*")
+    .select("*, profiles(display_name)")
     .eq("creation_id", creationId)
     .order("sort_order");
   if (error) throw error;
@@ -56,7 +58,7 @@ export async function createRecipe(input: {
       instructions: input.instructions,
       notes: input.notes ?? null,
     })
-    .select()
+    .select("*, profiles(display_name)")
     .single();
   if (error) throw error;
   return toRecipe(data as Record<string, unknown>, null);
@@ -78,7 +80,7 @@ export async function updateRecipe(
     .from("recipes")
     .update(dbPatch)
     .eq("id", id)
-    .select()
+    .select("*, profiles(display_name)")
     .single();
   if (error) throw error;
   const row = data as Record<string, unknown>;
