@@ -2878,3 +2878,32 @@ Discussed: can you confirm prompt A, b, C have all been completed as pe…; can 
 - do the same for consistency.
 
 ---
+
+## May 29, 2026
+
+Discussed: PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); hi
+
+**Decisions:**
+- keep them somewhere safe."
+- outputFormat. When
+
+**Files touched:**
+- `src/app/(protected)/create/page.tsx`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/lib/supabase/types.ts`
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+
+**Next steps:**
+- recompute).
+- run this migration. Do you use the Supabase CLI? Run:
+- work on your Chère links.
+- appear, with the current step highlighted and prior steps clickable.
+- be able to leave a comment
+
+---
