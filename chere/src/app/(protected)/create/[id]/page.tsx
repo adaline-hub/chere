@@ -69,8 +69,12 @@ export default function ResumeCreationPage({
         if (creation.generated_text_edited) store.setEditedText(creation.generated_text_edited);
         if (creation.dedication_message) store.setDedicationMessage(creation.dedication_message);
         if (creation.tier) store.setTier(creation.tier);
-        // Resume at customize if text exists, otherwise photos
-        store.setStep(creation.generated_text ? "customize" : "photos");
+        // Resume to a step that exists in the flow for this outputFormat
+        if (creation.output_format === "recipe_book") {
+          store.setStep(creation.recipe_book_intro ? "payment" : "cover");
+        } else {
+          store.setStep(creation.generated_text ? "customize" : "photos");
+        }
       }
       setLoading(false);
     });

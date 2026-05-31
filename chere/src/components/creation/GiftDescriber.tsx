@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
 import type { GiftType } from "@/lib/supabase/types";
+import StepHeader from "@/components/creation/StepHeader";
 
 // ─── Field Definitions ────────────────────────────────────
 
@@ -98,14 +99,7 @@ export default function GiftDescriber() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          What&apos;s the gift?
-        </motion.h1>
+        <StepHeader step="gift" title="What's the gift?" />
 
         <motion.p
           initial={{ opacity: 0 }}

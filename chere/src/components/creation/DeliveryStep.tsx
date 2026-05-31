@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useCreationStore } from "@/stores/creation-store";
+import StepHeader from "@/components/creation/StepHeader";
 
 export default function DeliveryStep() {
   const { recipientName, creationId, shareToken, tier, reactionCamEnabled, setReactionCamEnabled } = useCreationStore();
@@ -113,14 +114,7 @@ export default function DeliveryStep() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-lg">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          Your gift is ready.
-        </motion.h1>
+        <StepHeader step="deliver" title="Your gift is ready." />
 
         <motion.p
           initial={{ opacity: 0 }}

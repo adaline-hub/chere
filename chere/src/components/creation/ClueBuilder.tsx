@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
+import StepHeader from "@/components/creation/StepHeader";
 
 type ClueTypeLocal = "text" | "emoji" | "riddle" | "photo";
 
@@ -83,14 +84,7 @@ export default function ClueBuilder() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          Want to build some anticipation?
-        </motion.h1>
+        <StepHeader step="clues" title="Want to build some anticipation?" />
 
         <motion.p
           initial={{ opacity: 0 }}

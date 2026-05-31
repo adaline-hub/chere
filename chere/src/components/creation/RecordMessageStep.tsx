@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
 import type { AudioMode } from "@/stores/creation-store";
+import StepHeader from "@/components/creation/StepHeader";
 import VoiceRecorder from "@/components/audio/VoiceRecorder";
 import { getScene, SCENE_HOTSPOTS } from "@/lib/companion/hotspots";
 
@@ -166,14 +167,7 @@ export default function RecordMessageStep() {
   return (
     <div className="min-h-screen flex flex-col items-center px-6 py-24">
       <div className="w-full max-w-xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          Record a message
-        </motion.h1>
+        <StepHeader step="audio" title="Record a message" />
 
         <motion.p
           initial={{ opacity: 0 }}

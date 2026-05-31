@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useCreationStore } from "@/stores/creation-store";
 import { updateCreation } from "@/lib/supabase/creations";
 import type { OutputFormat } from "@/lib/supabase/types";
+import StepHeader from "@/components/creation/StepHeader";
 
 // ─── Format Definitions ───────────────────────────────────
 
@@ -305,14 +306,7 @@ export default function FormatPicker() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-2xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          Choose your format
-        </motion.h1>
+        <StepHeader step="format" title="Choose your format" />
 
         <motion.p
           initial={{ opacity: 0 }}

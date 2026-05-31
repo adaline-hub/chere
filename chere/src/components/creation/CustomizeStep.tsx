@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
+import StepHeader from "@/components/creation/StepHeader";
 
 const LOADING_MESSAGES = [
   "Reading your memories...",
@@ -130,31 +131,10 @@ export default function CustomizeStep() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          {isGenerating ? "Writing your tribute..." : "Here's what we wrote"}
-        </motion.h1>
-
-        {!isGenerating && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            className="flex justify-center mb-6"
-          >
-            <button
-              onClick={() => setStep("format")}
-              className="text-sm transition-colors duration-200"
-              style={{ color: "var(--color-stone)" }}
-            >
-              ← Change format or template
-            </button>
-          </motion.div>
-        )}
+        <StepHeader
+          step="customize"
+          title={isGenerating ? "Writing your tribute..." : "Here's what we wrote"}
+        />
 
         <AnimatePresence mode="wait">
           {isGenerating ? (

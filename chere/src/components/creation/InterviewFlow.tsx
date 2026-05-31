@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
 import type { RelationshipType } from "@/lib/supabase/types";
+import StepHeader from "@/components/creation/StepHeader";
 
 // ─── Question Data ────────────────────────────────────────
 
@@ -258,15 +259,7 @@ export default function InterviewFlow() {
     <div className="min-h-screen flex flex-col items-center justify-start px-6 py-16">
       <div className="w-full max-w-xl">
         {/* Header */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-sm text-stone text-center mb-2 tracking-wide"
-        >
-          Tell us about{" "}
-          <span className="text-charcoal">{recipientName}</span>
-        </motion.p>
+        <StepHeader step="interview" title={<>Tell us about <span className="text-charcoal">{recipientName}</span></>} className="mb-2" />
 
         {/* Mode toggle */}
         <motion.div

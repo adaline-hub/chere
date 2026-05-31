@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
+import StepHeader from "@/components/creation/StepHeader";
 import type { RelationshipType } from "@/lib/supabase/types";
 
 interface Pill {
@@ -78,14 +79,7 @@ export default function RelationshipPicker() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16">
       <div className="w-full max-w-xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-12"
-        >
-          Who is this for?
-        </motion.h1>
+        <StepHeader step="relationship" title="Who is this for?" className="mb-12" />
 
         {/* Relationship grid */}
         <motion.div

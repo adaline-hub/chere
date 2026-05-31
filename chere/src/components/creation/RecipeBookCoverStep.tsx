@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useCreationStore } from "@/stores/creation-store";
+import StepHeader from "@/components/creation/StepHeader";
 
 const INTRO_CHAR_LIMIT = 500;
 
@@ -92,14 +93,7 @@ export default function RecipeBookCoverStep() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-2xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          A little intro to your book
-        </motion.h1>
+        <StepHeader step="cover" title="A little intro to your book" />
 
         <motion.p
           initial={{ opacity: 0 }}

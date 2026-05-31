@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
 import type { Tier } from "@/lib/supabase/types";
+import StepHeader from "@/components/creation/StepHeader";
 
 interface TierDef {
   id: Tier;
@@ -86,14 +87,7 @@ export default function PaymentStep() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-2xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          Choose your gift wrapping
-        </motion.h1>
+        <StepHeader step="payment" title="Choose your gift wrapping" />
 
         <motion.p
           initial={{ opacity: 0 }}

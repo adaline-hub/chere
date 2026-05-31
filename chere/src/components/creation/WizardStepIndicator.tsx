@@ -1,6 +1,6 @@
 import type { WizardStep } from "@/stores/creation-store";
 
-const STEP_LABELS: Record<WizardStep, string> = {
+export const STEP_LABELS: Record<WizardStep, string> = {
   type: "Gift type",
   relationship: "Who it's for",
   interview: "Their story",

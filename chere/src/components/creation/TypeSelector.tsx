@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useCreationStore } from "@/stores/creation-store";
+import StepHeader from "@/components/creation/StepHeader";
 import type { CreationType } from "@/lib/supabase/types";
 
 const TYPES: {
@@ -43,24 +44,11 @@ export default function TypeSelector() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-20">
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-sm tracking-[0.15em] uppercase mb-4 text-stone"
-      >
-        What are you creating?
-      </motion.p>
-
-      <motion.h1
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.1 }}
-        className="font-serif text-center mb-16 max-w-lg text-espresso"
-        style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)", lineHeight: 1.2 }}
-      >
-        What kind of gift would you like to make?
-      </motion.h1>
+      <StepHeader
+        step="type"
+        title="What kind of gift would you like to make?"
+        className="mb-16"
+      />
 
       <div className="grid md:grid-cols-3 gap-5 w-full max-w-3xl">
         {TYPES.map((type, i) => {

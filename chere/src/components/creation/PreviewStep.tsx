@@ -3,6 +3,7 @@
 import { motion, MotionConfig } from "framer-motion";
 import { useState } from "react";
 import { useCreationStore } from "@/stores/creation-store";
+import StepHeader from "@/components/creation/StepHeader";
 import ScrollytellingRenderer from "@/components/tribute/ScrollytellingRenderer";
 import MemoryWrappedRenderer from "@/components/tribute/MemoryWrappedRenderer";
 import LoveLetterRenderer from "@/components/tribute/LoveLetterRenderer";
@@ -110,14 +111,7 @@ export default function PreviewStep() {
   return (
     <div className="min-h-screen flex flex-col items-center px-6 py-24 overflow-y-auto">
       <div className="w-full max-w-xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-serif text-3xl text-espresso text-center mb-3"
-        >
-          Here&apos;s their gift
-        </motion.h1>
+        <StepHeader step="preview" title="Here's their gift" />
 
         <motion.p
           initial={{ opacity: 0 }}
