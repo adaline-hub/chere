@@ -315,3 +315,10 @@
 **Decisions:** remove “change format or template” since we have the top bar now. 2. current ste, keep them somewhere safe.", outputFormat. When, Recipe Book would have skipped straight to payment and the new step would be dea
 
 ---
+## 2026-06-03T05:52:29.532Z — codex
+**Summary:** Discussed: hi; hi; PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); > PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up)…; i see the recipe book mode now. i generated a chere link and…
+**Duration:** 17 min
+**Files Changed:** src/app/(protected)/create/page.tsx, src/components/tribute/RecipeBookRenderer.tsx, src/components/creation/FormatPicker.tsx, src/lib/mock/tribute-data.ts, src/lib/supabase/types.ts, src/components/creation/WizardStepIndicator.tsx, src/stores/creation-store.ts, src/components/creation/RecipeBookCoverStep.tsx, src/components/creation/PhotoUploader.tsx, src/hooks/useAutoSave.ts, src/app/api/recipes/upload-cover/route.ts, src/lib/recipes/comments.ts, src/lib/recipes/queries.ts, src/app/api/recipes/create/route.ts, src/lib/recipes/types.ts
+**Decisions:** keep them somewhere safe.", outputFormat. When
+
+---
