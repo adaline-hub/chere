@@ -3343,3 +3343,39 @@ Discussed: hi; hi; PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up);
 - branch on outputFormat:
 
 ---
+
+## June 2, 2026
+
+Discussed: can you check again if prompt C has been completed by sonnet…; give me a prompt for sonnet to complete all of these 4 items…; ⏺ Everything is done. Here's the full report:; i see the recipe book mode now. i generated a chere link and…; did you finish the above task?
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+- keep them somewhere safe."
+- outputFormat. When
+- Recipe Book would have skipped straight to payment and the new step would be dea
+
+**Files touched:**
+- `src/app/(protected)/create/page.tsx`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/lib/supabase/types.ts`
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+
+**Next steps:**
+- confirm getStepFlow() in create/page.tsx skips interview/customize/audio/preview
+- recompute).
+- be saved and vieweed by others and each other can comment on it. each comment wo
+- sit right between the chere.app header bar and the "← Back" button. In your scre
+- be plainly visible.
+- appear, with the current step highlighted and prior steps clickable.
+- this be a sonnet prompt?
+- now succeed (no more "Failed")
+- be able to leave a comment
+- do the same for consistency.
+
+---
