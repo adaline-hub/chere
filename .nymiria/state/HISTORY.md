@@ -343,3 +343,10 @@
 **Decisions:** remove “change format or template” since we have the top bar now. 2. current ste, keep them somewhere safe.", Recipe Book would have skipped straight to payment and the new step would be dea
 
 ---
+## 2026-06-07T02:50:12.416Z — codex
+**Summary:** Discussed: > PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up)…; i see the recipe book mode now. i generated a chere link and…; you have access to my supabase. please run it as you did bef…; you finished?; push to production deploy please
+**Duration:** 21 min
+**Files Changed:** src/components/creation/WizardStepIndicator.tsx, src/app/(protected)/create/page.tsx, src/stores/creation-store.ts, src/components/creation/RecipeBookCoverStep.tsx, src/components/creation/PhotoUploader.tsx, src/hooks/useAutoSave.ts, src/app/api/recipes/upload-cover/route.ts, src/components/tribute/RecipeBookRenderer.tsx, src/lib/recipes/comments.ts, src/lib/recipes/queries.ts, src/app/api/recipes/create/route.ts, src/lib/recipes/types.ts, src/components/creation/CustomizeStep.tsx, src/components/creation/StepHeader.tsx, src/lib/supabase/client.ts
+**Decisions:** keep them somewhere safe."
+
+---

@@ -3513,3 +3513,33 @@ Discussed: can we do a UI update? right now as we progress through inte…; yes 
 - remove “change format or template” since we have the top bar now. 2. current ste
 
 ---
+
+## June 6, 2026
+
+Discussed: > PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up)…; i see the recipe book mode now. i generated a chere link and…; you have access to my supabase. please run it as you did bef…; you finished?; push to production deploy please
+
+**Decisions:**
+- keep them somewhere safe."
+
+**Files touched:**
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/app/api/recipes/upload-cover/route.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+
+**Next steps:**
+- run this migration. Do you use the Supabase CLI? Run:
+- work on your Chère links.
+- appear, with the current step highlighted and prior steps clickable.
+- be able to leave a comment
+- do the same for consistency.
+- attribute themselves on their own book.
+- branch on outputFormat:
+
+---
