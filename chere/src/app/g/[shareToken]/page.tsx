@@ -131,7 +131,7 @@ export default async function TributePage({
       const serverClient = await createServerClient();
       const { data: { user } } = await serverClient.auth.getUser();
       if (!user) {
-        redirect(`/login?next=/g/${shareToken}`);
+        redirect(`/login?redirect=/g/${shareToken}`);
       }
 
       currentUserId = user.id;
