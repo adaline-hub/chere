@@ -336,3 +336,10 @@
 **Decisions:** keep them somewhere safe.", outputFormat. When
 
 ---
+## 2026-06-07T02:44:49.117Z — claude
+**Summary:** Discussed: can we do a UI update? right now as we progress through inte…; yes draft; Commit and deploy are complete.; i dont think i see a bar with steps?; no i dont see it after reopening page
+**Duration:** 17 min
+**Files Changed:** src/components/creation/WizardStepIndicator.tsx, src/app/(protected)/create/page.tsx, src/stores/creation-store.ts, src/components/creation/RecipeBookCoverStep.tsx, src/components/creation/PhotoUploader.tsx, src/hooks/useAutoSave.ts, src/app/api/recipes/upload-cover/route.ts, src/components/tribute/RecipeBookRenderer.tsx, src/lib/recipes/comments.ts, src/lib/recipes/queries.ts, src/app/api/recipes/create/route.ts, src/lib/recipes/types.ts, src/components/creation/CustomizeStep.tsx, src/components/creation/StepHeader.tsx, src/app/api/recipes/claim/route.ts
+**Decisions:** remove “change format or template” since we have the top bar now. 2. current ste, keep them somewhere safe.", Recipe Book would have skipped straight to payment and the new step would be dea
+
+---

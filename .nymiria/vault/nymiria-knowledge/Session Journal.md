@@ -3411,3 +3411,105 @@ Discussed: hi; hi; PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up);
 - branch on outputFormat:
 
 ---
+
+## June 6, 2026
+
+Discussed: hi; hi; PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up); > PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up)…; i see the recipe book mode now. i generated a chere link and…
+
+**Decisions:**
+- keep them somewhere safe."
+- outputFormat. When
+
+**Files touched:**
+- `src/app/(protected)/create/page.tsx`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/FormatPicker.tsx`
+- `src/lib/mock/tribute-data.ts`
+- `src/lib/supabase/types.ts`
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+
+**Next steps:**
+- recompute).
+- run this migration. Do you use the Supabase CLI? Run:
+- work on your Chère links.
+- appear, with the current step highlighted and prior steps clickable.
+- be able to leave a comment
+- do the same for consistency.
+- attribute themselves on their own book.
+- branch on outputFormat:
+
+---
+
+## June 6, 2026
+
+Discussed: for the recipe book mode, i know you built it by bypassing i…; can we do a UI update? right now as we progress through inte…; yes draft; Commit and deploy are complete.; i dont think i see a bar with steps?
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+- keep them somewhere safe."
+- Recipe Book would have skipped straight to payment and the new step would be dea
+
+**Files touched:**
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/app/api/recipes/upload-cover/route.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+
+**Next steps:**
+- be saved and vieweed by others and each other can comment on it. each comment wo
+- sit right between the chere.app header bar and the "← Back" button. In your scre
+- be plainly visible.
+- appear, with the current step highlighted and prior steps clickable.
+- this be a sonnet prompt?
+- now succeed (no more "Failed")
+- be able to leave a comment
+- do the same for consistency.
+- attribute themselves on their own book.
+- remove “change format or template” since we have the top bar now. 2. current ste
+
+---
+
+## June 6, 2026
+
+Discussed: can we do a UI update? right now as we progress through inte…; yes draft; Commit and deploy are complete.; i dont think i see a bar with steps?; no i dont see it after reopening page
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+- keep them somewhere safe."
+- Recipe Book would have skipped straight to payment and the new step would be dea
+
+**Files touched:**
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/app/api/recipes/upload-cover/route.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+
+**Next steps:**
+- sit right between the chere.app header bar and the "← Back" button. In your scre
+- be plainly visible.
+- appear, with the current step highlighted and prior steps clickable.
+- be saved and vieweed by others and each other can comment on it. each comment wo
+- this be a sonnet prompt?
+- now succeed (no more "Failed")
+- be able to leave a comment
+- do the same for consistency.
+- attribute themselves on their own book.
+- remove “change format or template” since we have the top bar now. 2. current ste
+
+---
