@@ -289,7 +289,7 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
             Sign in to add your own recipes to this book.
           </p>
           <a
-            href={`/login?next=${encodeURIComponent(currentUrl)}`}
+            href={`/login?redirect=${encodeURIComponent(currentUrl)}`}
             style={{ fontSize: "0.9375rem", color: "#A88856", textDecoration: "underline", textDecorationColor: "#C4A97D", textUnderlineOffset: "3px" }}
           >
             Sign in →
@@ -527,7 +527,7 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
         )}
 
         {canEdit && !showForm && !editingId && (
-          <div style={{ display: "flex", justifyContent: "center", paddingTop: "0.5rem", paddingBottom: "4rem" }}>
+          <div style={{ display: "flex", justifyContent: "center", paddingTop: "0.5rem", paddingBottom: !isOwner ? "2rem" : "4rem" }}>
             <button
               type="button"
               onClick={() => { setShowForm(true); setSelectedId(null); setForm(EMPTY_FORM); }}
@@ -548,6 +548,39 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
               + Add a recipe to this book
             </button>
           </div>
+        )}
+
+        {!isOwner && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            style={{ textAlign: "center", paddingTop: "2rem", paddingBottom: "4rem" }}
+          >
+            <div style={{ height: "1px", backgroundColor: "rgba(196,169,125,0.4)", margin: "0 auto 2rem", maxWidth: "200px" }} />
+            <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.5rem", color: "#2A2420", marginBottom: "0.625rem", lineHeight: 1.2 }}>
+              Want to make one of your own?
+            </p>
+            <p style={{ fontSize: "0.9375rem", color: "#6A5D56", marginBottom: "1.5rem", lineHeight: 1.65 }}>
+              Turn your family&rsquo;s recipes into a keepsake like this one.
+            </p>
+            <a
+              href="/create"
+              style={{
+                display: "inline-block",
+                fontSize: "0.9375rem",
+                color: "white",
+                backgroundColor: "#C4A97D",
+                border: "none",
+                borderRadius: "8px",
+                padding: "0.75rem 1.75rem",
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              Create your own gift on Ch&egrave;re
+            </a>
+          </motion.div>
         )}
       </div>
     </div>
