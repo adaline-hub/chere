@@ -64,6 +64,9 @@ export default function ResumeCreationPage({
         if (creation.output_format) store.setOutputFormat(creation.output_format);
         if (creation.recipe_book_cover_path) store.setRecipeBookCoverPath(creation.recipe_book_cover_path);
         if (creation.recipe_book_intro) store.setRecipeBookIntro(creation.recipe_book_intro);
+        if (creation.banner_header) store.setRecipeBookBannerHeader(creation.banner_header);
+        if (creation.banner_subheader) store.setRecipeBookBannerSubheader(creation.banner_subheader);
+        if (creation.access_mode) store.setRecipeBookAccessMode(creation.access_mode);
         if (creation.template_id) store.setTemplateId(creation.template_id);
         if (creation.generated_text) store.setGeneratedText(creation.generated_text);
         if (creation.generated_text_edited) store.setEditedText(creation.generated_text_edited);

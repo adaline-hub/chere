@@ -130,6 +130,12 @@ interface CreationStore {
   setRecipeBookCoverPath: (path: string | null) => void;
   recipeBookIntro: string;
   setRecipeBookIntro: (intro: string) => void;
+  recipeBookBannerHeader: string;
+  setRecipeBookBannerHeader: (h: string) => void;
+  recipeBookBannerSubheader: string;
+  setRecipeBookBannerSubheader: (s: string) => void;
+  recipeBookAccessMode: "invited" | "open_link";
+  setRecipeBookAccessMode: (mode: "invited" | "open_link") => void;
 
   // Step 8: Customize
   generatedText: string;
@@ -186,6 +192,9 @@ const initialState = {
   recipeBookCoverFile: null as File | null,
   recipeBookCoverPath: null as string | null,
   recipeBookIntro: "",
+  recipeBookBannerHeader: "",
+  recipeBookBannerSubheader: "",
+  recipeBookAccessMode: "invited" as "invited" | "open_link",
   generatedText: "",
   editedText: null,
   dedicationMessage: "",
@@ -264,6 +273,9 @@ export const useCreationStore = create<CreationStore>((set) => ({
   setRecipeBookCoverFile: (file) => set({ recipeBookCoverFile: file }),
   setRecipeBookCoverPath: (path) => set({ recipeBookCoverPath: path }),
   setRecipeBookIntro: (intro) => set({ recipeBookIntro: intro }),
+  setRecipeBookBannerHeader: (h) => set({ recipeBookBannerHeader: h }),
+  setRecipeBookBannerSubheader: (s) => set({ recipeBookBannerSubheader: s }),
+  setRecipeBookAccessMode: (mode) => set({ recipeBookAccessMode: mode }),
   setGeneratedText: (text) => set({ generatedText: text }),
   setEditedText: (text) => set({ editedText: text }),
   setDedicationMessage: (message) => set({ dedicationMessage: message }),

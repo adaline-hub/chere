@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import type { Recipe } from "@/lib/recipes/types";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
 import type { RecipeComment } from "@/lib/recipes/comments";
@@ -12,6 +13,8 @@ interface Props {
   isOwner: boolean;
   coverPhotoUrl: string | null;
   intro: string | null;
+  bannerHeader: string | null;
+  bannerSubheader: string | null;
   currentUserId: string | null;
 }
 
@@ -33,7 +36,7 @@ function relativeTime(iso: string): string {
   return new Date(iso).toLocaleDateString();
 }
 
-export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, isOwner, coverPhotoUrl, intro, currentUserId }: Props) {
+export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, isOwner, coverPhotoUrl, intro, bannerHeader, bannerSubheader, currentUserId }: Props) {
   const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -255,6 +258,26 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
           <p style={{ maxWidth: "540px", margin: "0 auto 1.25rem", color: "#4A3F38", fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "0.9375rem", lineHeight: 1.7, textAlign: "center", whiteSpace: "pre-wrap" }}>
             {intro}
           </p>
+        )}
+
+        {(bannerHeader || bannerSubheader) && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            style={{ maxWidth: "540px", margin: "0 auto 1.5rem", textAlign: "center" }}
+          >
+            {bannerHeader && (
+              <p style={{ fontFamily: "var(--font-serif)", fontSize: "2rem", color: "#2A2420", marginBottom: bannerSubheader ? "0.75rem" : 0, lineHeight: 1.2 }}>
+                {bannerHeader}
+              </p>
+            )}
+            {bannerSubheader && (
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.9375rem", color: "#4A3F38", lineHeight: 1.75, whiteSpace: "pre-wrap" }}>
+                {bannerSubheader}
+              </p>
+            )}
+          </motion.div>
         )}
 
         <div style={{ height: "1px", backgroundColor: "rgba(196,169,125,0.75)", margin: "0 auto 1.25rem", maxWidth: "320px" }} />

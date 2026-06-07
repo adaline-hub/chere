@@ -1,3 +1,9 @@
+export interface RecipeBookMeta {
+  bannerHeader?: string | null;
+  bannerSubheader?: string | null;
+  accessMode?: "invited" | "open_link";
+}
+
 export interface Recipe {
   id: string;
   creationId: string;

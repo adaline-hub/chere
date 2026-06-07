@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { mockCreation, type TributeCreation, type TributeAudio } from "@/lib/mock/tribute-data";
 import { getCreationByShareToken } from "@/lib/supabase/creations";
 import { getPhotoUrl, getSignedAssetUrl } from "@/lib/supabase/storage";
@@ -73,6 +73,9 @@ async function loadCreation(shareToken: string): Promise<TributeCreation | null>
       dedicationMessage: creation.dedication_message ?? "",
       recipe_book_cover_path: creation.recipe_book_cover_path ?? null,
       recipe_book_intro: creation.recipe_book_intro ?? null,
+      banner_header: creation.banner_header ?? null,
+      banner_subheader: creation.banner_subheader ?? null,
+      access_mode: creation.access_mode ?? "invited",
       photos,
       giftMoment: null,
       musicTrackId: creation.music_track_id,
@@ -124,28 +127,60 @@ export default async function TributePage({
     const intro = creation.recipe_book_intro ?? null;
 
     if (configured) {
+      // Access gate — must be signed in for all recipe books
+      const serverClient = await createServerClient();
+      const { data: { user } } = await serverClient.auth.getUser();
+      if (!user) {
+        redirect(`/login?next=/g/${shareToken}`);
+      }
+
+      currentUserId = user.id;
+
       try {
         initialRecipes = await listRecipes(creation.id);
       } catch (e) {
         console.error("[tribute] listRecipes failed:", e);
       }
       try {
-        const serverClient = await createServerClient();
-        const { data: { user } } = await serverClient.auth.getUser();
-        if (user) {
-          currentUserId = user.id;
-          canEdit = await isCoAuthor(creation.id, user.id);
-          const admin = createAdminClient();
-          const { data: raw } = await admin
-            .from("creations")
-            .select("creator_id")
-            .eq("id", creation.id)
-            .single();
-          isOwnerFlag = (raw as { creator_id?: string } | null)?.creator_id === user.id;
-        }
+        canEdit = await isCoAuthor(creation.id, user.id);
+        const admin = createAdminClient();
+        const { data: raw } = await admin
+          .from("creations")
+          .select("creator_id")
+          .eq("id", creation.id)
+          .single();
+        isOwnerFlag = (raw as { creator_id?: string } | null)?.creator_id === user.id;
       } catch (e) {
         console.error("[tribute] recipe permission check failed:", e);
       }
+
+      // Invited-only gate: user must already be a collaborator or creator
+      const accessMode = creation.access_mode ?? "invited";
+      if (accessMode === "invited" && !canEdit && !isOwnerFlag) {
+        return (
+          <main className="min-h-screen flex flex-col items-center justify-center px-6 text-center" style={{ backgroundColor: "#F5F0EB" }}>
+            <p className="font-serif text-2xl" style={{ color: "#2A2420" }}>You&rsquo;re not on the invite list.</p>
+            <p className="text-sm mt-3 max-w-xs leading-relaxed" style={{ color: "#8B7D72" }}>
+              The person who made this needs to invite you before you can view it.
+            </p>
+          </main>
+        );
+      }
+
+      // open_link: auto-claim collaborator row so they appear in the audience list
+      if (accessMode === "open_link" && !canEdit && !isOwnerFlag) {
+        try {
+          const admin = createAdminClient();
+          await admin.from("recipe_collaborators").upsert(
+            { creation_id: creation.id, profile_id: user.id, role: "co_author" },
+            { onConflict: "creation_id,profile_id", ignoreDuplicates: true }
+          );
+          canEdit = true;
+        } catch (e) {
+          console.error("[tribute] open_link auto-claim failed:", e);
+        }
+      }
+
       if (creation.recipe_book_cover_path) {
         try {
           coverPhotoUrl = await getSignedAssetUrl(creation.recipe_book_cover_path);
@@ -164,6 +199,8 @@ export default async function TributePage({
           isOwner={isOwnerFlag}
           coverPhotoUrl={coverPhotoUrl}
           intro={intro}
+          bannerHeader={creation!.banner_header ?? null}
+          bannerSubheader={creation!.banner_subheader ?? null}
           currentUserId={currentUserId}
         />
       </div>

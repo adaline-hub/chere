@@ -17,6 +17,10 @@ export default function RecipeBookCoverStep() {
     setRecipeBookCoverPath,
     recipeBookIntro,
     setRecipeBookIntro,
+    recipeBookBannerHeader,
+    setRecipeBookBannerHeader,
+    recipeBookBannerSubheader,
+    setRecipeBookBannerSubheader,
     setStep,
   } = useCreationStore();
 
@@ -168,6 +172,52 @@ export default function RecipeBookCoverStep() {
           <p className="text-xs mt-2" style={{ color: "var(--color-warm-gray)" }}>
             {introLength}/{INTRO_CHAR_LIMIT}
           </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.25 }}
+          className="mb-8"
+        >
+          <label className="block font-serif text-base mb-1" style={{ color: "var(--color-espresso)" }}>
+            Tribute header <span className="text-xs font-sans" style={{ color: "var(--color-stone)" }}>(optional)</span>
+          </label>
+          <p className="text-xs mb-2" style={{ color: "var(--color-warm-gray)" }}>
+            A short dedication shown at the top of the book — e.g. "For Mom"
+          </p>
+          <input
+            type="text"
+            value={recipeBookBannerHeader}
+            onChange={(e) => setRecipeBookBannerHeader(e.target.value.slice(0, 80))}
+            placeholder="For Mom"
+            maxLength={80}
+            className="input w-full"
+          />
+          <p className="text-xs mt-1 text-right" style={{ color: "var(--color-warm-gray)" }}>
+            {recipeBookBannerHeader.length}/80
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="mb-8"
+        >
+          <label className="block font-serif text-base mb-1" style={{ color: "var(--color-espresso)" }}>
+            Tribute note <span className="text-xs font-sans" style={{ color: "var(--color-stone)" }}>(optional)</span>
+          </label>
+          <p className="text-xs mb-2" style={{ color: "var(--color-warm-gray)" }}>
+            A paragraph beneath the header — a tribute that stays visible on the book homepage.
+          </p>
+          <textarea
+            value={recipeBookBannerSubheader}
+            onChange={(e) => setRecipeBookBannerSubheader(e.target.value)}
+            placeholder="Every recipe in here is one you taught me, in the order you taught it…"
+            className="textarea w-full"
+            style={{ minHeight: "120px", lineHeight: 1.7, fontSize: "0.9375rem" }}
+          />
         </motion.div>
 
         {error && (

@@ -79,6 +79,9 @@ export interface Creation {
   music_track_id: string | null;
   recipe_book_cover_path: string | null;
   recipe_book_intro: string | null;
+  banner_header: string | null;
+  banner_subheader: string | null;
+  access_mode: "invited" | "open_link";
   share_token: string;
   delivery_method: DeliveryMethod | null;
   scheduled_reveal_at: string | null;

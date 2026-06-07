@@ -36,6 +36,9 @@ export interface TributeCreation {
   dedicationMessage: string;
   recipe_book_cover_path?: string | null;
   recipe_book_intro?: string | null;
+  banner_header?: string | null;
+  banner_subheader?: string | null;
+  access_mode?: "invited" | "open_link";
   photos: TributePhoto[];
   giftMoment: TributeGiftMoment | null;
   musicTrackId: string | null;
