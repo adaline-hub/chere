@@ -7,7 +7,7 @@ import { useCreationStore } from "@/stores/creation-store";
 import StepHeader from "@/components/creation/StepHeader";
 
 export default function DeliveryStep() {
-  const { recipientName, creationId, shareToken, tier, reactionCamEnabled, setReactionCamEnabled } = useCreationStore();
+  const { recipientName, creationId, shareToken, tier, reactionCamEnabled, setReactionCamEnabled, outputFormat, recipeBookAccessMode, setRecipeBookAccessMode } = useCreationStore();
   const [copied, setCopied] = useState(false);
   const [emailOpen, setEmailOpen] = useState(false);
   const [recipientEmail, setRecipientEmail] = useState("");
@@ -293,6 +293,45 @@ export default function DeliveryStep() {
             </button>
           </div>
         </motion.div>
+
+        {/* Recipe Book: access mode toggle */}
+        {outputFormat === "recipe_book" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.29 }}
+            className="rounded-xl px-5 py-4 mb-4"
+            style={{ backgroundColor: "var(--color-cream)", border: "1px solid var(--color-parchment)" }}
+          >
+            <p className="font-serif text-base mb-4" style={{ color: "var(--color-espresso)" }}>
+              Who can view this book?
+            </p>
+            {(["invited", "open_link"] as const).map((mode) => {
+              const active = recipeBookAccessMode === mode;
+              return (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setRecipeBookAccessMode(mode)}
+                  className="w-full text-left rounded-lg px-4 py-3 mb-2 transition-all duration-200"
+                  style={{
+                    backgroundColor: active ? "rgba(196,169,125,0.12)" : "transparent",
+                    border: `1.5px solid ${active ? "var(--color-muted-gold)" : "var(--color-parchment)"}`,
+                  }}
+                >
+                  <p className="text-sm font-serif" style={{ color: "var(--color-espresso)", marginBottom: "0.2rem" }}>
+                    {mode === "invited" ? "Invited people only" : "Anyone with the link (account required)"}
+                  </p>
+                  <p className="text-xs leading-snug" style={{ color: "var(--color-stone)" }}>
+                    {mode === "invited"
+                      ? "Only people you've explicitly invited can open this book."
+                      : "Anyone who has the link can view and contribute — they'll need a free account. Great for spreading the love."}
+                  </p>
+                </button>
+              );
+            })}
+          </motion.div>
+        )}
 
         {/* Tertiary: QR (coming soon) */}
         <motion.div
