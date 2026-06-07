@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Recipe } from "@/lib/recipes/types";
 import type { TributeCreation } from "@/lib/mock/tribute-data";
@@ -564,22 +565,20 @@ export default function RecipeBookRenderer({ creation, initialRecipes, canEdit, 
             <p style={{ fontSize: "0.9375rem", color: "#6A5D56", marginBottom: "1.5rem", lineHeight: 1.65 }}>
               Turn your family&rsquo;s recipes into a keepsake like this one.
             </p>
-            <a
+            <Link
               href="/create"
               style={{
                 display: "inline-block",
                 fontSize: "0.9375rem",
                 color: "white",
                 backgroundColor: "#C4A97D",
-                border: "none",
                 borderRadius: "8px",
                 padding: "0.75rem 1.75rem",
                 textDecoration: "none",
-                cursor: "pointer",
               }}
             >
               Create your own gift on Ch&egrave;re
-            </a>
+            </Link>
           </motion.div>
         )}
       </div>

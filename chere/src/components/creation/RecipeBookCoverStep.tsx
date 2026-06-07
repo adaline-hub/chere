@@ -32,6 +32,7 @@ export default function RecipeBookCoverStep() {
 
   useEffect(() => {
     if (!recipeBookCoverFile) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPreviewUrl(null);
       return;
     }
@@ -184,7 +185,7 @@ export default function RecipeBookCoverStep() {
             Tribute header <span className="text-xs font-sans" style={{ color: "var(--color-stone)" }}>(optional)</span>
           </label>
           <p className="text-xs mb-2" style={{ color: "var(--color-warm-gray)" }}>
-            A short dedication shown at the top of the book — e.g. "For Mom"
+            A short dedication shown at the top of the book — e.g. &ldquo;For Mom&rdquo;
           </p>
           <input
             type="text"
