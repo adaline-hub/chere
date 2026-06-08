@@ -55,11 +55,14 @@ export function useAutoSave() {
 
     async function create() {
       creating.current = true;
-      setSaveStatus("saving");
       try {
         const supabase = createClient();
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        if (!user) {
+          creating.current = false;
+          return;
+        }
+        setSaveStatus("saving");
 
         await supabase.from("profiles").upsert({
           id: user.id,

@@ -341,11 +341,31 @@ export default function ScrollytellingRenderer({ creation, walkthrough }: { crea
         </footer>
       </div>
       {showDedicationAudio && creation.audio?.dedicationUrl && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 60, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(42,36,32,0.28)" }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 60, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1rem", backgroundColor: "rgba(42,36,32,0.28)" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", backgroundColor: "rgba(250,247,244,0.96)", borderRadius: "999px", padding: "0.55rem 0.9rem", boxShadow: "0 6px 24px rgba(0,0,0,0.2)" }}>
             <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "#5A4E48" }}>A message for you</span>
             <audio autoPlay src={creation.audio.dedicationUrl} muted={muted} onEnded={() => walkthrough?.onComplete()} preload="auto" />
           </div>
+          {creation.audio?.dedicationTranscript && (
+            <p
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "0.875rem",
+                fontStyle: "italic",
+                lineHeight: 1.6,
+                color: "#5A4E48",
+                backgroundColor: "rgba(250,247,244,0.96)",
+                borderRadius: "1rem",
+                padding: "0.85rem 1.1rem",
+                maxWidth: "420px",
+                margin: 0,
+                textAlign: "center",
+                boxShadow: "0 6px 24px rgba(0,0,0,0.2)",
+              }}
+            >
+              &ldquo;{creation.audio.dedicationTranscript}&rdquo;
+            </p>
+          )}
         </div>
       )}
     </div>
