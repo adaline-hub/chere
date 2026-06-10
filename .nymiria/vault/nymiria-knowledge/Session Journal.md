@@ -3543,3 +3543,658 @@ Discussed: > PROMPT — Finish Interactive Recipe Book (Prompt C wrap-up)…; i 
 - branch on outputFormat:
 
 ---
+
+## June 6, 2026
+
+Discussed: i see the recipe book mode now. i generated a chere link and…; you have access to my supabase. please run it as you did bef…; you finished?; push to production deploy please; yes
+
+**Decisions:**
+- keep them somewhere safe."
+
+**Files touched:**
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/app/api/recipes/upload-cover/route.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+
+**Next steps:**
+- run this migration. Do you use the Supabase CLI? Run:
+- work on your Chère links.
+- appear, with the current step highlighted and prior steps clickable.
+- be able to leave a comment
+- do the same for consistency.
+- attribute themselves on their own book.
+- branch on outputFormat:
+- feel like a gentle sign-off, not an ad
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+
+---
+
+## June 6, 2026
+
+Discussed: yes; for the recipe book mode, i know you built it by bypassing i…; yes; Commit SHA: f524833; next prompt for sonnet?
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+- keep them somewhere safe."
+- Recipe Book would have skipped straight to payment and the new step would be dea
+
+**Files touched:**
+- `src/app/(protected)/create/page.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/app/api/recipes/upload-cover/route.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+
+**Next steps:**
+- be saved and vieweed by others and each other can comment on it. each comment wo
+- this be a sonnet prompt?
+- now succeed (no more "Failed")
+- be able to leave a comment
+- do the same for consistency.
+- attribute themselves on their own book.
+- remove “change format or template” since we have the top bar now. 2. current ste
+- branch on outputFormat:
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+
+---
+
+## June 6, 2026
+
+Discussed: yes; PROMPT — Wizard step indicator (clickable backward jumps); PROMPT — Apply WizardStepIndicator to /create/[id] too; i see the bar now. can you make it longer and show what each…; commited and deployed?
+
+**Decisions:**
+- keep them somewhere safe."
+
+**Files touched:**
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/app/api/recipes/upload-cover/route.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+
+**Next steps:**
+- work on your Chère links.
+- appear, with the current step highlighted and prior steps clickable.
+- be able to leave a comment
+- do the same for consistency.
+- attribute themselves on their own book.
+- branch on outputFormat:
+- feel like a gentle sign-off, not an ad
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+
+---
+
+## June 7, 2026
+
+Discussed: ⏺ Everything from the prompt has been fully implemented. Her…; ⏺ Everything from the prompt has been fully implemented. Her…; > ``` PROMPT — Recipe Book v1.2: comments per recipe Working…; what’s the next prompt?; yes draft
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+
+**Files touched:**
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+- `src/lib/recipes/types.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/components/creation/StepHeader.tsx`
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/components/.../StepHeader.tsx`
+
+**Next steps:**
+- do the same for consistency.
+- attribute themselves on their own book.
+- remove “change format or template” since we have the top bar now. 2. current ste
+- branch on outputFormat:
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+
+---
+
+## June 7, 2026
+
+Discussed: i see the bar now. can you make it longer and show what each…; commited and deployed?; yes commit and deploy; Commit and deploy all tracked changes currently in the repo; PROMPT — Remove redundant "← Back" button from /create wizar…
+
+**Decisions:**
+- keep them somewhere safe."
+
+**Files touched:**
+- `src/components/creation/WizardStepIndicator.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/stores/creation-store.ts`
+- `src/components/creation/RecipeBookCoverStep.tsx`
+- `src/components/creation/PhotoUploader.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/app/api/recipes/upload-cover/route.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+
+**Next steps:**
+- be able to leave a comment
+- do the same for consistency.
+- attribute themselves on their own book.
+- branch on outputFormat:
+- feel like a gentle sign-off, not an ad
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+
+---
+
+## June 7, 2026
+
+Discussed: ⏺ Everything from the prompt has been fully implemented. Her…; > ``` PROMPT — Recipe Book v1.2: comments per recipe Working…; what’s the next prompt?; yes draft; two issues: i think we should remove “change format or templ…
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+
+**Files touched:**
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+- `src/lib/recipes/types.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/components/creation/StepHeader.tsx`
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/components/.../StepHeader.tsx`
+
+**Next steps:**
+- do the same for consistency.
+- attribute themselves on their own book.
+- remove “change format or template” since we have the top bar now. 2. current ste
+- branch on outputFormat:
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+
+---
+
+## June 7, 2026
+
+Discussed: > ``` PROMPT — Recipe Book v1.2: comments per recipe Working…; what’s the next prompt?; yes draft; two issues: i think we should remove “change format or templ…; dd50c54 — feat: wizard step headers — kicker matches indicat…
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+
+**Files touched:**
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+- `src/lib/recipes/types.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/components/creation/StepHeader.tsx`
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/components/.../StepHeader.tsx`
+
+**Next steps:**
+- do the same for consistency.
+- attribute themselves on their own book.
+- remove “change format or template” since we have the top bar now. 2. current ste
+- branch on outputFormat:
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+
+---
+
+## June 7, 2026
+
+Discussed: > ``` PROMPT — Recipe Book v1.2: comments per recipe Working…; what’s the next prompt?; yes draft; two issues: i think we should remove “change format or templ…; dd50c54 — feat: wizard step headers — kicker matches indicat…
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+
+**Files touched:**
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/queries.ts`
+- `src/lib/recipes/types.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/components/creation/StepHeader.tsx`
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/components/.../StepHeader.tsx`
+
+**Next steps:**
+- do the same for consistency.
+- attribute themselves on their own book.
+- remove “change format or template” since we have the top bar now. 2. current ste
+- branch on outputFormat:
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+
+---
+
+## June 7, 2026
+
+Discussed: two issues: i think we should remove “change format or templ…; dd50c54 — feat: wizard step headers — kicker matches indicat…; Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…
+
+**Decisions:**
+- remove “change format or template” since we have the top bar now. 2. current ste
+
+**Files touched:**
+- `src/lib/recipes/queries.ts`
+- `src/lib/recipes/comments.ts`
+- `src/lib/recipes/types.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/creation/CustomizeStep.tsx`
+- `src/components/creation/StepHeader.tsx`
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/components/.../StepHeader.tsx`
+
+**Next steps:**
+- do the same for consistency.
+- attribute themselves on their own book.
+- remove “change format or template” since we have the top bar now. 2. current ste
+- branch on outputFormat:
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+
+---
+
+## June 8, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 8, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 8, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 8, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 8, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 8, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 8, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…; i like the "create your own gift on Chere" prompt in the ren…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 8, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…; i like the "create your own gift on Chere" prompt in the ren…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 9, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…; i like the "create your own gift on Chere" prompt in the ren…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 9, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…; i like the "create your own gift on Chere" prompt in the ren…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---
+
+## June 9, 2026
+
+Discussed: Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…; i like the "create your own gift on Chere" prompt in the ren…
+
+**Decisions:**
+- ship when you push
+
+**Files touched:**
+- `src/app/api/recipes/claim/route.ts`
+- `src/lib/supabase/client.ts`
+- `src/lib/supabase/server.ts`
+- `src/lib/recipes/types.ts`
+- `src/lib/recipes/queries.ts`
+- `src/components/tribute/RecipeBookRenderer.tsx`
+- `src/components/.../StepHeader.tsx`
+- `src/app/(protected)/create/page.tsx`
+- `src/hooks/useAutoSave.ts`
+- `src/middleware.ts`
+
+**Next steps:**
+- we make the gifted site only accessible to the directly shared recipient? otherw
+- comments be visible to anyone with the link, or only signed-in users? My lean is
+- feel like a gentle sign-off, not an ad
+- send to sonnet to execute?
+- run anything. If you're starting fresh on another machine or want to re-run it c
+- become a soft acquisition surface —
+- read as a gentle sign-off, not a mid-content
+- cover that too.
+- add the gate.
+- exist. The one catch: `server.ts`'s `createClient()` uses `next/headers cookies(
+
+---

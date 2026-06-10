@@ -350,3 +350,10 @@
 **Decisions:** keep them somewhere safe."
 
 ---
+## 2026-06-10T02:45:40.312Z — claude
+**Summary:** Discussed: Recipe template is pretty basic right now. can you add a pla…; 1. add place for users to add header and sub header texts th…; > ⏺ Three threads here — let me take each.   1. Homepage ban…; ⏺ Three threads here — let me take each.   1. Homepage banne…; i like the "create your own gift on Chere" prompt in the ren…
+**Duration:** 5 min
+**Files Changed:** src/app/api/recipes/claim/route.ts, src/lib/supabase/client.ts, src/lib/supabase/server.ts, src/lib/recipes/types.ts, src/lib/recipes/queries.ts, src/components/tribute/RecipeBookRenderer.tsx, src/components/.../StepHeader.tsx, src/app/(protected)/create/page.tsx, src/hooks/useAutoSave.ts, src/middleware.ts, src/app/(auth)/login/page.tsx, src/proxy.ts, src/lib/mock/tribute-data.ts, route.ts, Next.js
+**Decisions:** ship when you push
+
+---
