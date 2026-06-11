@@ -286,32 +286,18 @@ export default function PreviewStep() {
           >
             This is perfect
           </button>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={() => setStep("customize")}
-              className="flex-1 text-left rounded-xl p-4 transition-all duration-200 hover:shadow-md"
-              style={{ backgroundColor: "#F5F0EB", border: "1px solid #D4B896" }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C4A97D"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#D4B896"; }}
-            >
-              <p className="font-serif text-espresso text-base mb-1">✎ Edit writing</p>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--color-stone)" }}>
-                Change the tone, wording, or add your own edits
-              </p>
-            </button>
-            <button
-              onClick={() => setStep("format")}
-              className="flex-1 text-left rounded-xl p-4 transition-all duration-200 hover:shadow-md"
-              style={{ backgroundColor: "#F5F0EB", border: "1px solid #D4B896" }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C4A97D"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#D4B896"; }}
-            >
-              <p className="font-serif text-espresso text-base mb-1">◐ Change style</p>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--color-stone)" }}>
-                Try a different format or template
-              </p>
-            </button>
-          </div>
+          <button
+            onClick={() => setStep("customize")}
+            className="w-full text-left rounded-xl p-4 transition-all duration-200 hover:shadow-md"
+            style={{ backgroundColor: "#F5F0EB", border: "1px solid #D4B896" }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C4A97D"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#D4B896"; }}
+          >
+            <p className="font-serif text-espresso text-base mb-1">✎ Edit writing</p>
+            <p className="text-sm leading-relaxed" style={{ color: "var(--color-stone)" }}>
+              Change the tone, wording, or add your own edits
+            </p>
+          </button>
         </motion.div>
       </div>
       {showWalkthroughModal && (

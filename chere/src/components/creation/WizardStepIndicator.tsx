@@ -45,46 +45,65 @@ export default function WizardStepIndicator({ flow, currentStep, onJump }: Wizar
                       type="button"
                       aria-label={`Go back to ${label}`}
                       onClick={() => onJump(step)}
-                      className="rounded-full"
-                      style={{
-                        width: "8px",
-                        height: "8px",
-                        backgroundColor: "var(--color-muted-gold)",
-                        cursor: "pointer",
-                        transition: "all 0.25s ease",
-                      }}
-                    />
+                      className="flex flex-col items-center group"
+                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+                    >
+                      <div
+                        className="rounded-full group-hover:scale-125"
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          backgroundColor: "var(--color-muted-gold)",
+                          transition: "all 0.25s ease",
+                        }}
+                      />
+                      <p
+                        className="mt-2 text-center font-serif text-[11px] leading-tight group-hover:underline"
+                        style={{ color: "var(--color-muted-gold)", transition: "color 0.2s ease" }}
+                      >
+                        {label}
+                      </p>
+                    </button>
                   ) : isCurrent ? (
-                    <div
-                      aria-current="step"
-                      className="rounded-full"
-                      style={{
-                        width: "12px",
-                        height: "12px",
-                        backgroundColor: "var(--color-muted-gold)",
-                        boxShadow: "0 0 0 3px rgba(196,169,125,0.18)",
-                        transition: "all 0.25s ease",
-                      }}
-                    />
+                    <>
+                      <div
+                        aria-current="step"
+                        className="rounded-full"
+                        style={{
+                          width: "12px",
+                          height: "12px",
+                          backgroundColor: "var(--color-muted-gold)",
+                          boxShadow: "0 0 0 3px rgba(196,169,125,0.18)",
+                          transition: "all 0.25s ease",
+                        }}
+                      />
+                      <p
+                        className="mt-2 text-center font-serif text-[11px] leading-tight"
+                        style={{ color: "#2A2420" }}
+                      >
+                        {label}
+                      </p>
+                    </>
                   ) : (
-                    <div
-                      className="rounded-full"
-                      style={{
-                        width: "8px",
-                        height: "8px",
-                        border: "1px solid var(--color-stone)",
-                        backgroundColor: "transparent",
-                        transition: "all 0.25s ease",
-                      }}
-                    />
+                    <>
+                      <div
+                        className="rounded-full"
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          border: "1px solid var(--color-stone)",
+                          backgroundColor: "transparent",
+                          transition: "all 0.25s ease",
+                        }}
+                      />
+                      <p
+                        className="mt-2 text-center font-serif text-[11px] leading-tight"
+                        style={{ color: "var(--color-stone)" }}
+                      >
+                        {label}
+                      </p>
+                    </>
                   )}
-
-                  <p
-                    className="mt-2 text-center font-serif text-[11px] leading-tight"
-                    style={{ color: isCurrent ? "#2A2420" : "var(--color-stone)" }}
-                  >
-                    {label}
-                  </p>
                 </div>
 
                 {index < flow.length - 1 && (
